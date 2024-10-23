@@ -29,4 +29,3 @@ main steps:
 ====
 The steps assume you are using the *Red Hat Demo Platform (RHDP)*
 ====
-podman run --rm --name antora -v $PWD:/antora -p 8081:8080 -i -t ghcr.io/juliaaano/antora-viewer

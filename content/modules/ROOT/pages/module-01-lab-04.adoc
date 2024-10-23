@@ -1,0 +1,191 @@
+# NGINX Ingress Controller Examples - HTTPS with Active Monitors
+
+*Covered in the this exercise*
+
+* **HTTPS with Active Monitors**: HTTPS routing with Active Health Monitors 
+  to Pods.
+* **HTTPS with Active Monitors, Caching**: Combines HTTPS, Active Health Monitors, 
+  and caching for site content.
+* **HTTPS with Active Monitors, Caching, mTLS**: Integrates HTTPS, Active Health 
+  Monitors, caching, and mTLS for client certificate authentication.
+
+
+## HTTPS with Active Monitors
+
+NGINX Plus can periodically check the health of upstream servers by
+sending special health-check requests to each server and verifying the
+correct response.
+
+Create NGINX Ingress Controller with HTTPS with Active Monitors:
+
+In the terminal window, copy the below text and paste+enter:
+
+Example:
+
+image:image35.png[image35]
+
+NGINX Dashboard should be updated reflecting the active monitors
+
+NGINX Dashboard URL (replace with the dashboard-nginx-ingress
+EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html#upstreams`
+
+Example:
+
+image:image36.png[image36]
+
+Arcadia application is now exposed through the NGINX Ingress Controller
+only on HTTP with monitors!
+
+NGINX Ingress Controller URL (replace with the nginx-ingress
+EXTERNAL-IP): `https://EXTERNAL-IP/`
+
+## HTTPS with Active Monitors, Caching
+
+A content cache sits in between a client and an *origin server*, and
+saves copies of all the content it sees. If a client requests content
+that the cache has stored, it returns the content directly without
+contacting the origin server. This improves performance as the content
+cache is closer to the client and more efficiently uses the application
+servers because they do not have to generate pages from scratch each
+time.
+
+=== Step 1. Create NGINX Ingress Controller Caching Path:
+
+From OpenShift Console, Click Operators -> Installed Operator in the
+left navigation column. On the page that opens, click the Nginx Ingress
+Controller link in the Provided APIs column. Select "my-nginx-ingress",
+and then click YAML to include the following ConfigMap under Spec:
+
+[source,yaml]
+----
+config:
+  annotations: {}
+  entries:
+    http-snippets: >
+      proxy_cache_path /var/tmp/a levels=1:2 keys_zone=my_cache:10m
+      max_size=100m inactive=60m use_temp_path=off;
+    proxy-protocol: 'True'
+    real-ip-header: proxy_protocol
+    set-real-ip-from: 0.0.0.0/0
+----
+
+Example:
+
+[NOTE]
+.Note
+====
+Please be aware that the line numbers mentioned in this guide may have
+changed due to updates or revisions in the code.
+====
+
+image:image52.png[image52]
+
+In the same yaml file, we also need to add two annotations to the AWS
+LoadBalancer service. The annonations specify TCP layer 4 proxying: the
+ELB forwards traffic without modifying the headers.
+
+[source,yaml]
+----
+service:
+  externalIPs: []
+  customPorts: []
+  loadBalancerIP: ''
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+----
+
+Example:
+
+image:image53.png[image53]
+
+Click Save, and Reload
+
+=== Step 2. NGINX Dashboard should be updated with the cache location
+
+Example:
+
+image:image38.png[image38]
+ 
+=== Step 3 Create NGINX Ingress Controller with HTTPS with Active Monitors,
+Caching:
+
+In the terminal window, copy the below text and paste+enter:
+
+Example:
+
+image:image39.png[image39]
+
+Arcadia application is now exposed through the NGINX Ingress Controller
+only on HTTP with monitors and caching!
+
+NGINX Ingress Controller URL (replace with the nginx-ingress
+EXTERNAL-IP): `https://EXTERNAL-IP/`
+
+== HTTPS with Active Monitors, Caching, mTLS
+
+The NGINX Ingress Controller can participate in mutual TLS (*mTLS*) certificate exchange with services.
+
+By default, the TLS protocol only proves the identity of the server to the client using X.509 certificates, leaving client-to-server authentication to the application layer. However, TLS also supports client-side X.509 authentication, which is commonly used in business-to-business (B2B) applications due to the limited number of homogeneous clients and higher security requirements.
+
+== Step-by-Step Guide
+
+=== **Step 1 Create the Arcadia mTLS Secret in OpenShift**
+  
+
+In the terminal window, run the following command
+  
+[source,sh,role=execute]
+----
+Insert command to create mTLS secret here
+----
+
+=== **Step 2 Create the Custom Resource Policy for mTLS**
+   
+In the terminal window, run:
+
+[source,sh,role=execute]
+----
+Insert command to create custom resource policy here
+----
+
+=== **Step 3 Create NGINX Ingress Controller with HTTPS, Active Monitors, and Caching**
+
+Use the following command to set up the Ingress Controller:
+
+[source,sh,role=execute]
+----
+Insert command to configure NGINX Ingress Controller with mTLS
+----
+
+image::image42.png[image42]
+
+The Arcadia application is now accessible through the NGINX Ingress Controller with mTLS enabled!
+
+**NGINX Ingress Controller URL** (replace with your nginx-ingress EXTERNAL-IP): 
+   `https://EXTERNAL-IP/`
+
+image::image43.png[image43]
+
+=== Step 4 Present a Certificate to NGINX Ingress Controller**
+
+After enabling mTLS, present a certificate that NGINX Ingress Controller can validate against its CA. Use the following commands:
+
+[source,sh,role=execute]
+----
+ wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
+ wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem
+ curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
+----
+
+
+.Example
+image::image44.png[image44]
+
+
+=== Additional Resources
+
+You can explore more examples of using NGINX VirtualServers, Ingress, and ConfigMaps in the 
+https://github.com/nginxinc/kubernetes-ingress/tree/main/examples/custom-resources[NGINX GitHub repository], which are also compatible with this environment.
+
+

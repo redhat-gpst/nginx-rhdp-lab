@@ -1,4 +1,4 @@
-== NGINX Kubernetes Ingress Controller Deployment
+== NGINX Ingress Controller Deployment
 
 image:image00.png[image00,scaledwidth=75.0%]
 
@@ -36,7 +36,6 @@ file. When executed, Kubernetes will build all the resources.
 
 Kubernetes resources types created:
 
-----
 * Kubernetes namespace
 * Kubernetes service account
 * Kubernetes cluster role
@@ -47,7 +46,7 @@ Kubernetes resources types created:
 * Kubernetes customresourcedefinitions
 * NGINX Ingress Controller deployment
 * NGINX Ingress Controller service
-----
+
 
 *NGINX Ingress Operator* A Kubernetes Operator is a method of packaging,
 deploying, and managing a Kubernetes-native application. The NGINX
@@ -67,70 +66,71 @@ deployment.
 [arabic]
 . In the terminal window copy the below text and paste+enter, to verify
 that the Operator is running
-+
-[source,bash]
+
+
+[source,sh,role=execute]
 ----
 oc get pods -n nginx-ingress -o wide
 ----
-+
+
 image:image24.png[image24]
-. From OpenShift Console, Click Operators -> Installed Operator in the
+
+From OpenShift Console, Click Operators -> Installed Operator in the
 left navigation column. On the page that opens, click the Nginx Ingress
 Controller link in the Provided APIs column. NginxIngressController is a
 custom resource which the Operator uses to deploy the NGINX Plus Ingress
 Controller on the OpenShift cluster.
-+
+
 image:image24-2.png[image24-2]
-. Validate that the NGINX Ingress Controller is running
-+
+
+Validate that the NGINX Ingress Controller is running
+
 [NOTE]
 .Note
 ====
 If the NGINX Ingress Controller Pod is not in a *running* state, verify
 the *image:tag* value is correct from deployment manifest
 ====
-+
+
 Run this command in a terminal, to verify that the NGINX Ingress
 Controller is running:
-+
-[source,bash]
+
+[source,sh,role=execute]
 ----
 oc -n nginx-ingress get pods -o wide
 ----
-+
+
 Example:
-+
+
 image:image24-3.png[image24-3]
-. Expose the NGINX Ingress Controller Dashboard
-+
+
+Expose the NGINX Ingress Controller Dashboard
+
 NGINX Ingress Controller (all purchased editions) has an internal
 dashboard that can be exposed. The Dashboard provides analytic stats of
 services deployed on NGINX. These stats can also be exposed to
 collection systems like Prometheus.
-+
+
 Use wget to download the dashboard yaml.
-+
-----
-[source,bash]
+
+[source,sh,role=execute]
 ----
 wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml
 ----
-----
-+
+
 Next, we have to change the app selector in the yaml file. We can do
 this with the _sed_ command.
-+
-----
-[source,bash]
+
+
+[source,sh,role=execute]
 ----
 sed -i 's/app\:\ nginx-ingress/app.kubernetes.io\/name\:\ nginx-ingress/' nginx-ingress-dashboard.yml
 ----
-----
-+
+
+
 The yaml should now look like this:
-+
-----
-[source,yaml]
+
+[source,sh,role=execute]
 ----
 apiVersion: v1
 kind: Service
@@ -149,19 +149,19 @@ spec:
   selector:
     app.kubernetes.io/name: nginx-ingress
 ----
-----
-+
+
+
 Expose the Dashboard. In the terminal window copy the below text and
 paste+enter:
-+
-----
-[source,bash]
+
+
+[source,sh,role=execute]
 ----
 oc apply -f nginx-ingress-dashboard.yml
 ----
-----
-. See the NGINX Ingress Controller services
-+
+
+See the NGINX Ingress Controller services
+
 [WARNING]
 .Warning
 ====
@@ -169,38 +169,40 @@ The *EXTERNAL-IP* values will be used during several parts of the lab.
 In AWS, this is an FQDN. It is recommended to copy these to an easily
 referenceable location like a clipboard/digital notepad
 ====
-+
+
 The deployment of NGINX Controller Ingress contains two Kubernetes
 services: Ingress and the other for Dashboard.
-+
+
 In the terminal window, copy the below text and paste+enter:
-+
-[source,bash]
+
+[source,sh,role=execute]
 ----
 oc get svc --namespace=nginx-ingress
 ----
-+
+
 Example:
-+
+
 image:image27.png[image27]
-. Export the NGINX Ingress Controller services
-+
+
+Export the NGINX Ingress Controller services
+
 Interacting with the NGINX Ingress Controller is more comfortable with
 exporting the service External IPs into system variables. This allows
 for templating to take place when we expose our applications.
-+
+
 In the terminal window copy the below text and paste+enter:
-+
-[source,bash]
+
+[source,sh,role=execute]
 ----
 export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 ----
-+
-[source,bash]
+
+[source,sh,role=execute]
 ----
 export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 ----
-. Browse to the exposed NGINX Ingress Controller services
+
+Browse to the exposed NGINX Ingress Controller services
 
 [NOTE]
 .Note
@@ -230,9 +232,9 @@ Example:
 image:image29.png[image29]
 
 [arabic, start=12]
-. The NGINX Ingress Controller services have been created and exposed
-+
+
+The NGINX Ingress Controller services have been created and exposed
+
 At this point, we can deploy our applications, and provide access
 through NGINX!
-+
-Proceed to link:lab02.html[Arcadia Application | Deployment]
+

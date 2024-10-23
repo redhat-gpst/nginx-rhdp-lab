@@ -45,34 +45,37 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-01-intro.html">1. Module 01 Introduction</a>
+    <a class="nav-link" href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-00.html">Lab 00</a>
+    <a class="nav-link" href="module-01-lab-00.html">Getting Started wtih OpenShift</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="module-01-lab-01.html">Lab 01</a>
+    <a class="nav-link" href="module-01-lab-01.html">NGINX Ingress Controller Deployment</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-02.html">Lab 02</a>
+    <a class="nav-link" href="module-01-lab-02.html">Arcadia Application Deployment</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-03.html">Lab 03</a>
+    <a class="nav-link" href="module-01-lab-03.html">NGINX Ingress Controller Examples - Part 1</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-04.html">NGINX Ingress Controller Examples - Part 2</a>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-02-intro.html">2. Module 02 Introduction</a>
+    <a class="nav-link" href="module-02-intro.html">Module 2 - Securing Applications with NGINX App Protect</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-00.html">Lab 00</a>
+    <a class="nav-link" href="module-02-lab-00.html">Access Arcadia App without NGINX App Protect</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-01.html">Lab 01</a>
+    <a class="nav-link" href="module-02-lab-01.html">Deploy NGINX Plus Ingress Controller with NAP</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-02.html">Lab 02</a>
+    <a class="nav-link" href="module-02-lab-02.html">Test the NGINX App Protect WAF </a>
   </li>
 </ul>
   </li>
@@ -113,15 +116,15 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Default Title</a></li>
-    <li><a href="module-01-intro.html">1. Module 01 Introduction</a></li>
-    <li><a href="module-01-lab-01.html">Lab 01</a></li>
+    <li><a href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a></li>
+    <li><a href="module-01-lab-01.html">NGINX Ingress Controller Deployment</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
 <div class="sect1">
-<h2 id="_nginx_kubernetes_ingress_controller_deployment"><a class="anchor" href="#_nginx_kubernetes_ingress_controller_deployment"></a>NGINX Kubernetes Ingress Controller Deployment</h2>
+<h2 id="_nginx_ingress_controller_deployment"><a class="anchor" href="#_nginx_ingress_controller_deployment"></a>NGINX Ingress Controller Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><img src="_images/image00.png" alt="image00"></span></p>
@@ -175,19 +178,39 @@ file. When executed, Kubernetes will build all the resources.</p>
 <div class="paragraph">
 <p>Kubernetes resources types created:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>* Kubernetes namespace
-* Kubernetes service account
-* Kubernetes cluster role
-* Kubernetes clusterrolebinding
-* Kubernetes secret
-* Kubernetes configmap
-* Kubernetes ingressclass
-* Kubernetes customresourcedefinitions
-* NGINX Ingress Controller deployment
-* NGINX Ingress Controller service</pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Kubernetes namespace</p>
+</li>
+<li>
+<p>Kubernetes service account</p>
+</li>
+<li>
+<p>Kubernetes cluster role</p>
+</li>
+<li>
+<p>Kubernetes clusterrolebinding</p>
+</li>
+<li>
+<p>Kubernetes secret</p>
+</li>
+<li>
+<p>Kubernetes configmap</p>
+</li>
+<li>
+<p>Kubernetes ingressclass</p>
+</li>
+<li>
+<p>Kubernetes customresourcedefinitions</p>
+</li>
+<li>
+<p>NGINX Ingress Controller deployment</p>
+</li>
+<li>
+<p>NGINX Ingress Controller service</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><strong>NGINX Ingress Operator</strong> A Kubernetes Operator is a method of packaging,
@@ -213,27 +236,30 @@ deployment.</p>
 <li>
 <p>In the terminal window copy the below text and paste+enter, to verify
 that the Operator is running</p>
-<div class="listingblock">
+</li>
+</ol>
+</div>
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n nginx-ingress -o wide</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -n nginx-ingress -o wide</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image24.png" alt="image24"></span></p>
 </div>
-</li>
-<li>
+<div class="paragraph">
 <p>From OpenShift Console, Click Operators &#8594; Installed Operator in the
 left navigation column. On the page that opens, click the Nginx Ingress
 Controller link in the Provided APIs column. NginxIngressController is a
 custom resource which the Operator uses to deploy the NGINX Plus Ingress
 Controller on the OpenShift cluster.</p>
+</div>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image24-2.png" alt="image24-2"></span></p>
 </div>
-</li>
-<li>
+<div class="paragraph">
 <p>Validate that the NGINX Ingress Controller is running</p>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -254,9 +280,9 @@ the <strong>image:tag</strong> value is correct from deployment manifest</p>
 <p>Run this command in a terminal, to verify that the NGINX Ingress
 Controller is running:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc -n nginx-ingress get pods -o wide</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc -n nginx-ingress get pods -o wide</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -265,9 +291,9 @@ Controller is running:</p>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image24-3.png" alt="image24-3"></span></p>
 </div>
-</li>
-<li>
+<div class="paragraph">
 <p>Expose the NGINX Ingress Controller Dashboard</p>
+</div>
 <div class="paragraph">
 <p>NGINX Ingress Controller (all purchased editions) has an internal
 dashboard that can be exposed. The Dashboard provides analytic stats of
@@ -277,57 +303,26 @@ collection systems like Prometheus.</p>
 <div class="paragraph">
 <p>Use wget to download the dashboard yaml.</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre>[source,bash]</pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>wget <a href="https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml" class="bare">https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml</a></p>
-</div>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>+
-Next, we have to change the app selector in the yaml file. We can do
+<p>Next, we have to change the app selector in the yaml file. We can do
 this with the <em>sed</em> command.</p>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre>[source,bash]</pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sed -i 's/app\:\ nginx-ingress/app.kubernetes.io\/name\:\ nginx-ingress/' nginx-ingress-dashboard.yml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>sed -i 's/app\:\ nginx-ingress/app.kubernetes.io\/name\:\ nginx-ingress/' nginx-ingress-dashboard.yml</p>
+<p>The yaml should now look like this:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>+
-The yaml should now look like this:</p>
-</div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>[source,yaml]</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>apiVersion: v1
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: v1
 kind: Service
 metadata:
   name: dashboard-nginx-ingress
@@ -342,38 +337,21 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app.kubernetes.io/name: nginx-ingress</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre></pre>
+    app.kubernetes.io/name: nginx-ingress</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>+
-Expose the Dashboard. In the terminal window copy the below text and
+<p>Expose the Dashboard. In the terminal window copy the below text and
 paste+enter:</p>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre>[source,bash]</pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f nginx-ingress-dashboard.yml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>oc apply -f nginx-ingress-dashboard.yml</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre></pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
 <p>See the NGINX Ingress Controller services</p>
+</div>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -398,9 +376,9 @@ services: Ingress and the other for Dashboard.</p>
 <div class="paragraph">
 <p>In the terminal window, copy the below text and paste+enter:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get svc --namespace=nginx-ingress</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get svc --namespace=nginx-ingress</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -409,9 +387,9 @@ services: Ingress and the other for Dashboard.</p>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image27.png" alt="image27"></span></p>
 </div>
-</li>
-<li>
+<div class="paragraph">
 <p>Export the NGINX Ingress Controller services</p>
+</div>
 <div class="paragraph">
 <p>Interacting with the NGINX Ingress Controller is more comfortable with
 exporting the service External IPs into system variables. This allows
@@ -420,21 +398,18 @@ for templating to take place when we expose our applications.</p>
 <div class="paragraph">
 <p>In the terminal window copy the below text and paste+enter:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")</code></pre>
 </div>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")</code></pre>
 </div>
 </div>
-</li>
-<li>
+<div class="paragraph">
 <p>Browse to the exposed NGINX Ingress Controller services</p>
-</li>
-</ol>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -479,26 +454,19 @@ EXTERNAL-IP): <code><a href="http://EXTERNAL-IP/" class="bare">http://EXTERNAL-I
 <div class="paragraph">
 <p><span class="image"><img src="_images/image29.png" alt="image29"></span></p>
 </div>
-<div class="olist arabic">
-<ol class="arabic" start="12">
-<li>
+<div class="paragraph">
 <p>The NGINX Ingress Controller services have been created and exposed</p>
+</div>
 <div class="paragraph">
 <p>At this point, we can deploy our applications, and provide access
 through NGINX!</p>
-</div>
-<div class="paragraph">
-<p>Proceed to <a href="lab02.html">Arcadia Application | Deployment</a></p>
-</div>
-</li>
-</ol>
 </div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01-lab-00.html" class="query-params-link">Lab 00</a></span>
-  <span class="next"><a href="module-01-lab-02.html" class="query-params-link">Lab 02</a></span>
+  <span class="prev"><a href="module-01-lab-00.html" class="query-params-link">Getting Started wtih OpenShift</a></span>
+  <span class="next"><a href="module-01-lab-02.html" class="query-params-link">Arcadia Application Deployment</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

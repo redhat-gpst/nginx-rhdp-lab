@@ -45,34 +45,37 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-01-intro.html">1. Module 01 Introduction</a>
+    <a class="nav-link" href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-00.html">Lab 00</a>
+    <a class="nav-link" href="module-01-lab-00.html">Getting Started wtih OpenShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-01.html">Lab 01</a>
+    <a class="nav-link" href="module-01-lab-01.html">NGINX Ingress Controller Deployment</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="module-01-lab-02.html">Lab 02</a>
+    <a class="nav-link" href="module-01-lab-02.html">Arcadia Application Deployment</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-03.html">Lab 03</a>
+    <a class="nav-link" href="module-01-lab-03.html">NGINX Ingress Controller Examples - Part 1</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-04.html">NGINX Ingress Controller Examples - Part 2</a>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-02-intro.html">2. Module 02 Introduction</a>
+    <a class="nav-link" href="module-02-intro.html">Module 2 - Securing Applications with NGINX App Protect</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-00.html">Lab 00</a>
+    <a class="nav-link" href="module-02-lab-00.html">Access Arcadia App without NGINX App Protect</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-01.html">Lab 01</a>
+    <a class="nav-link" href="module-02-lab-01.html">Deploy NGINX Plus Ingress Controller with NAP</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02-lab-02.html">Lab 02</a>
+    <a class="nav-link" href="module-02-lab-02.html">Test the NGINX App Protect WAF </a>
   </li>
 </ul>
   </li>
@@ -113,8 +116,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Default Title</a></li>
-    <li><a href="module-01-intro.html">1. Module 01 Introduction</a></li>
-    <li><a href="module-01-lab-02.html">Lab 02</a></li>
+    <li><a href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a></li>
+    <li><a href="module-01-lab-02.html">Arcadia Application Deployment</a></li>
   </ul>
 </nav>
 </div>
@@ -164,10 +167,9 @@ foundation for service mesh.</p>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image50.png" alt="image50"></span></p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
+<div class="paragraph">
 <p>Deploy the Arcadia Application into Kubernetes</p>
+</div>
 <div class="paragraph">
 <p>The Arcadia Application deployment is a single manifest file containing
 the resources needed to build:
@@ -175,43 +177,29 @@ the resources needed to build:
 * Kubernetes services for the four Docker containers</p>
 </div>
 <div class="paragraph">
-<p>+
-Get the YAML file. In the terminal window, copy the below text and
+<p>Get the YAML file. In the terminal window, copy the below text and
 paste+enter:</p>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/arcadia.yml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/arcadia.yml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>+
-For this lab, we saved the container images to <em>quay.io</em>, a Red Hat
+<p>For this lab, we saved the container images to <em>quay.io</em>, a Red Hat
 hosted container image registry. We need to modify the YAML file to use
-the <em>quay.io</em> registry:</p>
+the <em>quay.io</em> registry:
+* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-main
+* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-backend
+* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app2
+* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app3</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-main</p>
-</li>
-<li>
-<p>quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-backend</p>
-</li>
-<li>
-<p>quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app2</p>
-</li>
-<li>
-<p>quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app3</p>
 <div class="paragraph">
 <p>Alternatively, you can copy the below text and paste+enter:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sed -i -e "s/tonymarfil\/arcadia-main:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-main/" arcadia.yml
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sed -i -e "s/tonymarfil\/arcadia-main:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-main/" arcadia.yml
 sed -i -e "s/tonymarfil\/arcadia-backend:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-backend/" arcadia.yml
 sed -i -e "s/tonymarfil\/arcadia-app2:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-app2/" arcadia.yml
 sed -i -e "s/tonymarfil\/arcadia-app3:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-app3/" arcadia.yml</code></pre>
@@ -221,9 +209,9 @@ sed -i -e "s/tonymarfil\/arcadia-app3:unit/quay.io\/redhat-gpst\/rhpds-nginxplus
 <p>Apply the updated YAML file. In the terminal window, copy the below text
 and paste+enter:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f ./arcadia.yml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f ./arcadia.yml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -232,18 +220,15 @@ and paste+enter:</p>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image25.png" alt="image25"></span></p>
 </div>
-</li>
-</ul>
-</div>
-</li>
-<li>
+<div class="paragraph">
 <p>Arcadia application Kubernetes objects</p>
+</div>
 <div class="paragraph">
 <p>In the terminal window, copy the below text and paste+enter:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get services</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get services</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -252,20 +237,14 @@ and paste+enter:</p>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image30.png" alt="image30"></span></p>
 </div>
-</li>
-<li>
-<p>Arcadia application has been deployed and started</p>
 <div class="paragraph">
-<p>Proceed to <a href="lab03.html">NGINX Ingress Controller | Examples</a></p>
-</div>
-</li>
-</ol>
+<p>Arcadia application has been deployed and started</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01-lab-01.html" class="query-params-link">Lab 01</a></span>
-  <span class="next"><a href="module-01-lab-03.html" class="query-params-link">Lab 03</a></span>
+  <span class="prev"><a href="module-01-lab-01.html" class="query-params-link">NGINX Ingress Controller Deployment</a></span>
+  <span class="next"><a href="module-01-lab-03.html" class="query-params-link">NGINX Ingress Controller Examples - Part 1</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

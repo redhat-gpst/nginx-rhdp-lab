@@ -5,7 +5,7 @@ This lab, *NGINX Kubernetes Ingress Controller For OpenShift*, demonstrates how 
 
 == Lab Structure
 
-The lab is organized into three modules, with each module building on the previous one:
+The lab is organized into two modules, with each module building on the previous one:
 
 * **Module 1: Deploying NGINX Kubernetes Ingress Controller**
   - Learn to deploy and configure the NGINX Kubernetes Ingress Controller within OpenShift.
@@ -13,7 +13,6 @@ The lab is organized into three modules, with each module building on the previo
 * **Module 2: Securing Applications with NGINX App Protect WAF**
   - Enable and configure NGINX App Protect WAF to provide Layer 7 protection for applications running in OpenShift.
   - Apply WAF policies and test their effectiveness against common web application attacks.
-* **Module 3: Testing and Validating NGINX App Protect WAF**
   - Simulate real-world Layer 7 attacks to evaluate the NGINX App Protect WAF.
   - Validate the security configurations and review logs for insights.
 

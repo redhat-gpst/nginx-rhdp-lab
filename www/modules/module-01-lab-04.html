@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: Showroom Template Demo</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-01-lab-00.html">
-    <link rel="prev" href="module-01-intro.html">
-    <link rel="next" href="module-01-lab-01.html">
+    <title>NGINX Ingress Controller Examples - HTTPS with Active Monitors :: Showroom Template Demo</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-01-lab-04.html">
+    <link rel="prev" href="module-01-lab-03.html">
+    <link rel="next" href="module-02-intro.html">
     <meta name="generator" content="Antora 3.1.9">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -47,7 +47,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="module-01-lab-00.html">Getting Started wtih OpenShift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -59,7 +59,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="module-01-lab-03.html">NGINX Ingress Controller Examples - Part 1</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="module-01-lab-04.html">NGINX Ingress Controller Examples - Part 2</a>
   </li>
 </ul>
@@ -117,115 +117,289 @@
   <ul>
     <li><a href="index.html">Default Title</a></li>
     <li><a href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a></li>
-    <li><a href="module-01-lab-00.html">Getting Started wtih OpenShift</a></li>
+    <li><a href="module-01-lab-04.html">NGINX Ingress Controller Examples - Part 2</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<div class="sect1">
-<h2 id="_getting_started_with_openshift"><a class="anchor" href="#_getting_started_with_openshift"></a>Getting Started With OpenShift</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_command_line_interface"><a class="anchor" href="#_command_line_interface"></a>Command Line Interface</h2>
+<h1 class="page">NGINX Ingress Controller Examples - HTTPS with Active Monitors</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift includes a feature-rich web console with both an Administrator
-perspective and a Developer perspective. In addition to the web console,
-OpenShift includes command line tools to provide users with a nice
-interface to work with applications deployed to the platform. The <em>oc</em>
-command line tool is an executable written in the Go programming
-language and is available for the following operating systems:</p>
+<p><strong>Covered in the this exercise</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Microsoft Windows</p>
+<p><strong>HTTPS with Active Monitors</strong>: HTTPS routing with Active Health Monitors
+to Pods.</p>
 </li>
 <li>
-<p>macOS 10</p>
+<p><strong>HTTPS with Active Monitors, Caching</strong>: Combines HTTPS, Active Health Monitors,
+and caching for site content.</p>
 </li>
 <li>
-<p>Linux</p>
+<p><strong>HTTPS with Active Monitors, Caching, mTLS</strong>: Integrates HTTPS, Active Health
+Monitors, caching, and mTLS for client certificate authentication.</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_https_with_active_monitors"><a class="anchor" href="#_https_with_active_monitors"></a>HTTPS with Active Monitors</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>This lab environment already has the <em>oc</em> command line tool installed on
-the Bastion so you won’t need to install it on your local machine if you
-do not want to.</p>
+<p>NGINX Plus can periodically check the health of upstream servers by
+sending special health-check requests to each server and verifying the
+correct response.</p>
+</div>
+<div class="paragraph">
+<p>Create NGINX Ingress Controller with HTTPS with Active Monitors:</p>
+</div>
+<div class="paragraph">
+<p>In the terminal window, copy the below text and paste+enter:</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image35.png" alt="image35"></span></p>
+</div>
+<div class="paragraph">
+<p>NGINX Dashboard should be updated reflecting the active monitors</p>
+</div>
+<div class="paragraph">
+<p>NGINX Dashboard URL (replace with the dashboard-nginx-ingress
+EXTERNAL-IP): <code><a href="http://EXTERNAL-IP/dashboard.html#upstreams" class="bare">http://EXTERNAL-IP/dashboard.html#upstreams</a></code></p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image36.png" alt="image36"></span></p>
+</div>
+<div class="paragraph">
+<p>Arcadia application is now exposed through the NGINX Ingress Controller
+only on HTTP with monitors!</p>
+</div>
+<div class="paragraph">
+<p>NGINX Ingress Controller URL (replace with the nginx-ingress
+EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_a_project"><a class="anchor" href="#_using_a_project"></a>Using a Project</h2>
+<h2 id="_https_with_active_monitors_caching"><a class="anchor" href="#_https_with_active_monitors_caching"></a>HTTPS with Active Monitors, Caching</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Projects are a top-level concept to help you organize your deployments.
-An OpenShift project allows a community of users (or a user) to organize
-and manage their content in isolation from other communities. Each
-project has its own resources, policies (who can or cannot perform
-actions), and constraints (quotas and limits on resources, etc).
-Projects act as a "wrapper" around all the application services and
-endpoints you (or your teams) are using for your work.</p>
+<p>A content cache sits in between a client and an <strong>origin server</strong>, and
+saves copies of all the content it sees. If a client requests content
+that the cache has stored, it returns the content directly without
+contacting the origin server. This improves performance as the content
+cache is closer to the client and more efficiently uses the application
+servers because they do not have to generate pages from scratch each
+time.</p>
+</div>
+<div class="sect2">
+<h3 id="_step_1_create_nginx_ingress_controller_caching_path"><a class="anchor" href="#_step_1_create_nginx_ingress_controller_caching_path"></a>Step 1. Create NGINX Ingress Controller Caching Path:</h3>
+<div class="paragraph">
+<p>From OpenShift Console, Click Operators &#8594; Installed Operator in the
+left navigation column. On the page that opens, click the Nginx Ingress
+Controller link in the Provided APIs column. Select "my-nginx-ingress",
+and then click YAML to include the following ConfigMap under Spec:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">config:
+  annotations: {}
+  entries:
+    http-snippets: &gt;
+      proxy_cache_path /var/tmp/a levels=1:2 keys_zone=my_cache:10m
+      max_size=100m inactive=60m use_temp_path=off;
+    proxy-protocol: 'True'
+    real-ip-header: proxy_protocol
+    set-real-ip-from: 0.0.0.0/0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Note</div>
+<div class="paragraph">
+<p>Please be aware that the line numbers mentioned in this guide may have
+changed due to updates or revisions in the code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image52.png" alt="image52"></span></p>
+</div>
+<div class="paragraph">
+<p>In the same yaml file, we also need to add two annotations to the AWS
+LoadBalancer service. The annonations specify TCP layer 4 proxying: the
+ELB forwards traffic without modifying the headers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">service:
+  externalIPs: []
+  customPorts: []
+  loadBalancerIP: ''
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image53.png" alt="image53"></span></p>
+</div>
+<div class="paragraph">
+<p>Click Save, and Reload</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_nginx_dashboard_should_be_updated_with_the_cache_location"><a class="anchor" href="#_step_2_nginx_dashboard_should_be_updated_with_the_cache_location"></a>Step 2. NGINX Dashboard should be updated with the cache location</h3>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image38.png" alt="image38"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_create_nginx_ingress_controller_with_https_with_active_monitors"><a class="anchor" href="#_step_3_create_nginx_ingress_controller_with_https_with_active_monitors"></a>Step 3 Create NGINX Ingress Controller with HTTPS with Active Monitors,</h3>
+<div class="paragraph">
+<p>Caching:</p>
+</div>
+<div class="paragraph">
+<p>In the terminal window, copy the below text and paste+enter:</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image39.png" alt="image39"></span></p>
+</div>
+<div class="paragraph">
+<p>Arcadia application is now exposed through the NGINX Ingress Controller
+only on HTTP with monitors and caching!</p>
+</div>
+<div class="paragraph">
+<p>NGINX Ingress Controller URL (replace with the nginx-ingress
+EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_web_console"><a class="anchor" href="#_the_web_console"></a>The Web Console</h2>
+<h2 id="_https_with_active_monitors_caching_mtls"><a class="anchor" href="#_https_with_active_monitors_caching_mtls"></a>HTTPS with Active Monitors, Caching, mTLS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift ships with a web-based console that will allow users to
-perform various tasks via a browser. The first time you access the web
-console, you will most likely be in the Administrator perspective. You
-will be presented with the list of Projects that you can access, and you
-will see something that looks like the following image:</p>
+<p>The NGINX Ingress Controller can participate in mutual TLS (<strong>mTLS</strong>) certificate exchange with services.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="_images/image001.png" alt="image001"></span></p>
+<p>By default, the TLS protocol only proves the identity of the server to the client using X.509 certificates, leaving client-to-server authentication to the application layer. However, TLS also supports client-side X.509 authentication, which is commonly used in business-to-business (B2B) applications due to the limited number of homogeneous clients and higher security requirements.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_by_step_guide"><a class="anchor" href="#_step_by_step_guide"></a>Step-by-Step Guide</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_create_the_arcadia_mtls_secret_in_kubernetes"><a class="anchor" href="#_step_1_create_the_arcadia_mtls_secret_in_kubernetes"></a><strong>Step 1 Create the Arcadia mTLS Secret in Kubernetes</strong></h3>
+<div class="paragraph">
+<p>In the terminal window, run the following command</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to create mTLS secret here</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_create_the_custom_resource_policy_for_mtls"><a class="anchor" href="#_step_2_create_the_custom_resource_policy_for_mtls"></a><strong>Step 2 Create the Custom Resource Policy for mTLS</strong></h3>
+<div class="paragraph">
+<p>In the terminal window, run:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to create custom resource policy here</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_create_nginx_ingress_controller_with_https_active_monitors_and_caching"><a class="anchor" href="#_step_3_create_nginx_ingress_controller_with_https_active_monitors_and_caching"></a><strong>Step 3 Create NGINX Ingress Controller with HTTPS, Active Monitors, and Caching</strong></h3>
+<div class="paragraph">
+<p>Use the following command to set up the Ingress Controller:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to configure NGINX Ingress Controller with mTLS</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/image42.png" alt="image42">
+</div>
 </div>
 <div class="paragraph">
-<p>Click on a project link. When you click on the project, you will be
-taken to the project details page, which will list some metrics and
-details about your project.</p>
+<p>The Arcadia application is now accessible through the NGINX Ingress Controller with mTLS enabled!</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="_images/image002.png" alt="image002"></span></p>
+<p><strong>NGINX Ingress Controller URL</strong> (replace with your nginx-ingress EXTERNAL-IP):
+   <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
 </div>
-<div class="paragraph">
-<p>At the top of the left navigation menu, you can toggle between the
-Administrator perspective and the Developer perspective.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/image43.png" alt="image43">
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image003.png" alt="image003"></span></p>
 </div>
-<div class="paragraph">
-<p>Select Developer to switch to the Developer perspective. Once the
-Developer perspective loads, you should be in the Topology view.</p>
 </div>
+<div class="sect2">
+<h3 id="_step_4_present_a_certificate_to_nginx_ingress_controller"><a class="anchor" href="#_step_4_present_a_certificate_to_nginx_ingress_controller"></a>Step 4 Present a Certificate to NGINX Ingress Controller**</h3>
 <div class="paragraph">
-<p><span class="image"><img src="_images/image004.png" alt="image004"></span></p>
+<p>After enabling mTLS, present a certificate that NGINX Ingress Controller can validate against its CA. Use the following commands:</p>
 </div>
-<div class="paragraph">
-<p>Select Administrator to switch back to the Administrator perspective.
-Once the Administrator perspective loads, you should be in the Overview
-view.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh"> wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
+ wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem
+ curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem</code></pre>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image001.png" alt="image001"></span></p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/image44.png" alt="image44">
+</div>
+<div class="title">Figure 1. Example</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h3>
 <div class="paragraph">
-<p>We will be using a mix of command line tooling and the web console for
-the labs. Get ready!</p>
+<p>You can explore more examples of using NGINX VirtualServers, Ingress, and ConfigMaps in the
+<a href="https://github.com/nginxinc/kubernetes-ingress/tree/main/examples/custom-resources">NGINX GitHub repository</a>, which are also compatible with this environment.</p>
+</div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01-intro.html" class="query-params-link">Module 1 - Deploying NGINX Ingress Controller</a></span>
-  <span class="next"><a href="module-01-lab-01.html" class="query-params-link">NGINX Ingress Controller Deployment</a></span>
+  <span class="prev"><a href="module-01-lab-03.html" class="query-params-link">NGINX Ingress Controller Examples - Part 1</a></span>
+  <span class="next"><a href="module-02-intro.html" class="query-params-link">Module 2 - Securing Applications with NGINX App Protect</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
