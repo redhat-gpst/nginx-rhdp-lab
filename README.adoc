@@ -1,109 +1,62 @@
-=== Getting Started
+= NGINX Kubernetes Ingress Controller For OpenShift Lab Guide
+:toc: macro
+:toclevels: 2
+:icons: font
 
-This template is designed to be used as a base for your showroom lab guides.
+Welcome to the NGINX Kubernetes Ingress Controller For OpenShift Lab Guide! This repository provides a hands-on experience with deploying and securing applications in an OpenShift environment using the NGINX Kubernetes Ingress Controller (KIC).
 
-The content is built using Antora, a static site generator for creating documentation sites from AsciiDoc documents.
+== Lab Purpose
 
-This git repo template was created to make it easy for you to start developing your lab instructions.
+The primary goal of this lab is to demonstrate how to deploy, configure, and manage the NGINX Kubernetes Ingress Controller in an OpenShift environment. It aims to showcase:
 
-Features:
+* **Application Delivery**: How to use the NGINX Ingress Controller to manage traffic, load balancing, and routing for applications within OpenShift.
+* **Security**: How to leverage NGINX App Protect WAF to provide Layer 7 protection for applications running in Kubernetes.
 
-. 0% cruft
-. Red Hat Demo Platform UI Bundle default
-. Dev Mode extension that displays the asciidoc attributes you have to work with
-. Content is generated using Antora, a static site generator for creating documentation sites from AsciiDoc documents.
+The lab uses the Arcadia Financial application as an example app to demonstrate the features of NGINX KIC. However, the principles and techniques can be applied to other applications as well.
 
-== Getting Started
+== Target Audience
 
-=== Using Containers (Recommended)
+This lab is designed for:
 
-In order to test and develop on your local machine, you can use a specially built container with Podman or Docker as follows.
+* OpenShift Administrators and Developers
+* Kubernetes Operators
+* DevOps and Security Engineers
+* Anyone interested in learning how to deliver and secure applications using NGINX in OpenShift
 
-. Create a git repo from this template
-.. Suggested naming: `showroom_<lab-name>`
-. Clone your new repo and `cd` into it
-. When you make changes to the content, all you need is to kill the container and run it again.
-+
-[source,sh]
-----
-podman run --rm --name antora -v $PWD:/antora -p 8080:8080 -i -t ghcr.io/juliaaano/antora-viewer
-----
+== Prerequisites
 
-For SELinux environments, `:z` may need to be appended to the volume mount:
+Participants should have:
 
-----
-podman run --rm --name antora -v $PWD:/antora:z -p 8080:8080 -i -t ghcr.io/juliaaano/antora-viewer
-----
+* Basic knowledge of Kubernetes, containers, and OpenShift
+* An OpenShift cluster (local or remote) with access to OpenShift CLI (`oc`)
+* Familiarity with NGINX, Ingress concepts, and Kubernetes security features
 
-Live-reload is not supported.
+== What You Will Learn
 
-=== Using Local Files (Less Recommended)
+By the end of this lab, participants will understand:
 
-. Create a git repo from this template
-. Clone the repo and `cd` into it
-. Run ./utilities/lab-serve
-. Open http://localhost:8080 in your browser
-. Run ./utilities/lab-build to build your html
+* How to deploy the NGINX Kubernetes Ingress Controller in OpenShift
+* How to configure routing, load balancing, and advanced features using NGINX Custom Resources
+* How to enable NGINX App Protect WAF to secure applications against Layer 7 attacks
+* How to observe, test, and validate application security using real-world attack simulations
 
-To rebuild your html, run `./utilites/build`.
+== Lab Structure
 
-== Editing Files
+The lab is structured into three modules:
 
-Now you are ready to go!
-You can start editing the files in the `content/modules/ROOT/pages/` directory.
+* **Module 1**: Deploying the NGINX Kubernetes Ingress Controller in OpenShift and setting up basic routing.
+* **Module 2**: Enabling and configuring NGINX App Protect WAF for application security.
+* **Module 3**: Testing and validating the NGINX App Protect WAF setup to ensure proper protection of applications.
 
-Many modern editors such as Visual Studio Code offer live Asciidoc Preview extensions.
+== Disclaimer
 
-=== Understanding the Basic Template Directory Structure
+This lab is intended for educational purposes only. It demonstrates security techniques and configurations within a controlled environment. Exercise caution when implementing similar configurations in production environments.
 
-[source,sh]
-----
-./content/modules/ROOT/
-├── assets
-│   └── images                       # Images used in your content
-│       └── example-image.png
-├── examples                         # You can add downloadable assets here
-│   └── example-bash-script.sh       # e.g. an example bash script
-├── nav.adoc                         # Navigation for your lab
-├── pages                            # Your content goes here
-│   ├── index.adoc                   # First page of your lab, e.g. overview etc
-│   ├── module-01.adoc
-│   └── module-02.adoc               # Sample lab has 2 modules including index.adoc
-└── partials                         # You can add partials here, reusable content inserted inline into your modules
-    └── example_partial.adoc
-----
+== Additional Resources
 
-== Adding Additional Links
+For more information on NGINX and OpenShift, refer to the official documentation:
 
-You can add links to external content in the convenient "Links" drop-down on the upper-right of the Showroom Summit 2024 UI.
+* https://docs.nginx.com/nginx-ingress-controller/[NGINX Kubernetes Ingress Controller Documentation]
+* https://docs.openshift.com/[OpenShift Documentation]
 
-../content/antora.yml
-[source,yaml]
-----
-asciidoc:
-  attributes:
-    page-links:
-    - url: https://redhat.com
-      text: Red Hat
-----
-
-image::ui-links.png[]
-
-== Dev Mode
-
-As a convenience to developers, the Dev Mode Extention (disabled by default) displays the asciidoc attributes you have to work with while writing your lab instructions.
-
-. Disable/Enable Dev Mode by changing `enabled: true` or `enabled: false`
-+
-.default-site.yml
-[source,yaml]
-----
-extensions:
-  - id: dev-mode
-    require: ./content/lib/dev-mode.js
-    enabled: false
-----
-
-. Produces
-+
-image::dev-mode.png[]
+Feel free to explore the contents of this repository and adapt the lab exercises to your own environments and use cases. Enjoy learning how to deliver and secure applications with NGINX Kubernetes Ingress Controller on OpenShift!

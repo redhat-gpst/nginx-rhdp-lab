@@ -1,6 +1,6 @@
 == NGINX Kubernetes Ingress Controller Deployment
 
-image:images/image00.png[image00,scaledwidth=75.0%]
+image:image00.png[image00,scaledwidth=75.0%]
 
 === Introduction
 
@@ -12,22 +12,20 @@ _What is NGINX Ingress Controller?_
 NGINX Ingress Controller provides a robust feature set to secure,
 strengthen, and scale containerized apps, including:
 
-* Advanced app centric configuration - Use role-based access control
-(RBAC) and self service to set up security guardrails (not gates), so
-teams can manage their apps securely and with agility. Enable multi
+* Advanced app-centric configuration - Use role-based access control
+(RBAC) and self-service to set up security guardrails (not gates), so
+teams can manage their apps securely and with agility. Enable multi-
 tenancy, reusability, simpler configs, and more.
 * Visibility and performance monitoring - Pinpoint undesirable behaviors
 and performance bottlenecks to simplify troubleshooting and make fixes
 faster.
 
-NGNIX Ingress Controller has two offerings, an open-source edition and a
+NGINX Ingress Controller has two offerings, an open-source edition and a
 purchased supported solution. Both solutions come from NGINX; however,
 there are features and performance differences between the two
 offerings. Below are popular features and use cases.
 
-____
-image:images/image49.png[image49,scaledwidth=50.0%]
-____
+image:image49.png[image49,scaledwidth=50.0%]
 
 This solution uses the purchased NGINX Ingress Controller.
 
@@ -38,7 +36,7 @@ file. When executed, Kubernetes will build all the resources.
 
 Kubernetes resources types created:
 
-____
+----
 * Kubernetes namespace
 * Kubernetes service account
 * Kubernetes cluster role
@@ -49,10 +47,10 @@ ____
 * Kubernetes customresourcedefinitions
 * NGINX Ingress Controller deployment
 * NGINX Ingress Controller service
-____
+----
 
 *NGINX Ingress Operator* A Kubernetes Operator is a method of packaging,
-deploying and managing a Kubernetes-native application. The NGINX
+deploying, and managing a Kubernetes-native application. The NGINX
 Ingress Operator for OpenShift is a supported and certified mechanism
 for deploying NGINX Plus Ingress Controller for Kubernetes alongside the
 default router in an OpenShift environment, with point-and-click
@@ -60,10 +58,10 @@ installation and automatic upgrades.
 
 === Validate the NGINX Ingress Controller
 
-In this Lab, we already installed the NGINX Ingress Operator from the
+In this lab, we already installed the NGINX Ingress Operator from the
 OpenShift console.
 
-we also deployed the NGINX Plus Ingress Controller for Kubernetes
+We also deployed the NGINX Plus Ingress Controller for Kubernetes
 deployment.
 
 [arabic]
@@ -75,14 +73,14 @@ that the Operator is running
 oc get pods -n nginx-ingress -o wide
 ----
 +
-image:images/image24.png[image24]
+image:image24.png[image24]
 . From OpenShift Console, Click Operators -> Installed Operator in the
 left navigation column. On the page that opens, click the Nginx Ingress
 Controller link in the Provided APIs column. NginxIngressController is a
 custom resource which the Operator uses to deploy the NGINX Plus Ingress
 Controller on the OpenShift cluster.
 +
-image:images/image24-2.png[image24-2]
+image:image24-2.png[image24-2]
 . Validate that the NGINX Ingress Controller is running
 +
 [NOTE]
@@ -92,7 +90,7 @@ If the NGINX Ingress Controller Pod is not in a *running* state, verify
 the *image:tag* value is correct from deployment manifest
 ====
 +
-run this command in a terminal, to verify that the NGINX Ingress
+Run this command in a terminal, to verify that the NGINX Ingress
 Controller is running:
 +
 [source,bash]
@@ -102,36 +100,36 @@ oc -n nginx-ingress get pods -o wide
 +
 Example:
 +
-image:images/image24-3.png[image24-3]
+image:image24-3.png[image24-3]
 . Expose the NGINX Ingress Controller Dashboard
 +
-NGINX Ingress Controller (all purchased editions) have an internal
-dashboard that can be exposed. The Dashboard provids analytic stats of
+NGINX Ingress Controller (all purchased editions) has an internal
+dashboard that can be exposed. The Dashboard provides analytic stats of
 services deployed on NGINX. These stats can also be exposed to
 collection systems like Prometheus.
 +
 Use wget to download the dashboard yaml.
 +
-____
+----
 [source,bash]
 ----
 wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml
 ----
-____
+----
 +
 Next, we have to change the app selector in the yaml file. We can do
 this with the _sed_ command.
 +
-____
+----
 [source,bash]
 ----
 sed -i 's/app\:\ nginx-ingress/app.kubernetes.io\/name\:\ nginx-ingress/' nginx-ingress-dashboard.yml
 ----
-____
+----
 +
 The yaml should now look like this:
 +
-____
+----
 [source,yaml]
 ----
 apiVersion: v1
@@ -151,24 +149,24 @@ spec:
   selector:
     app.kubernetes.io/name: nginx-ingress
 ----
-____
+----
 +
 Expose the Dashboard. In the terminal window copy the below text and
 paste+enter:
 +
-____
+----
 [source,bash]
 ----
 oc apply -f nginx-ingress-dashboard.yml
 ----
-____
+----
 . See the NGINX Ingress Controller services
 +
 [WARNING]
 .Warning
 ====
-The *EXTERNAL-IP* values will be used during several parts of the lab,
-in AWS this is an FQDN. It is recommended to copy these to an easily
+The *EXTERNAL-IP* values will be used during several parts of the lab.
+In AWS, this is an FQDN. It is recommended to copy these to an easily
 referenceable location like a clipboard/digital notepad
 ====
 +
@@ -184,7 +182,7 @@ oc get svc --namespace=nginx-ingress
 +
 Example:
 +
-image:images/image27.png[image27]
+image:image27.png[image27]
 . Export the NGINX Ingress Controller services
 +
 Interacting with the NGINX Ingress Controller is more comfortable with
@@ -204,7 +202,6 @@ export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-
 ----
 . Browse to the exposed NGINX Ingress Controller services
 
-____
 [NOTE]
 .Note
 ====
@@ -223,15 +220,14 @@ EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html`
 
 Example:
 
-image:images/image28.png[image28]
+image:image28.png[image28]
 
 NGINX Ingress Controller URL (replace with the nginx-ingress
 EXTERNAL-IP): `http://EXTERNAL-IP/`
 
 Example:
 
-image:images/image29.png[image29]
-____
+image:image29.png[image29]
 
 [arabic, start=12]
 . The NGINX Ingress Controller services have been created and exposed

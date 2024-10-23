@@ -1,7 +1,6 @@
-Module 1 - NGINX Kubernetes Ingress Controller For OpenShift
----------------------------------------------------------
+ = Module 1 - NGINX Kubernetes Ingress Controller For OpenShift
 
-image:images/image00.png[image00,scaledwidth=75.0%]
+image:image00.png[image00,scaledwidth=75.0%]
 
 Welcome to Module 1 of our lab guide, where we will be exploring the
 deployment of a modern application using the NGINX Ingress Controller
@@ -21,10 +20,13 @@ application using the NGINX Ingress Controller. The Module is expected
 to take around *1 hour* to complete, and it consists of the following
 main steps:
 
-lab*
+* Step 1: Setup
+* Step 2: Configuration
+* Step 3: Deployment
+* Step 4: Testing
 
-[WARNING]
-.Warning
+[NOTE]
 ====
 The steps assume you are using the *Red Hat Demo Platform (RHDP)*
 ====
+podman run --rm --name antora -v $PWD:/antora -p 8081:8080 -i -t ghcr.io/juliaaano/antora-viewer

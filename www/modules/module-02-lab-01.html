@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Showroom Template Demo</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-02-lab-01.html">
+    <link rel="prev" href="module-02-lab-00.html">
+    <link rel="next" href="module-02-lab-02.html">
+    <meta name="generator" content="Antora 3.1.9">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://demo.redhat.com" target="_blank" style="margin-left: 5%;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739" style="width: 278px;"><g fill="#fff"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#fff"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#fff" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg>
+      </a>
+      <a class="navbar-item site-title" target="__blank" style="color: #fff !important;" href="https://redhat-scholars.github.io/course-template">Showroom Template Demo</a>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item navbar-item-right-dropdown has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Links</a>
+          <div class="navbar-dropdown navbar-dropdown-right">
+            <a class="navbar-item navbar-item-right-content" href="https://redhat.com" target="_blank">Red Hat</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Default Title</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-01-intro.html">1. Module 01 Introduction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-00.html">Lab 00</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-01.html">Lab 01</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-02.html">Lab 02</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-01-lab-03.html">Lab 03</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-02-intro.html">2. Module 02 Introduction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-02-lab-00.html">Lab 00</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="module-02-lab-01.html">Lab 01</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-02-lab-02.html">Lab 02</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Dev Mode</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="attrs-page.html">Attributes Page</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Default Title</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Default Title</a></li>
+    <li><a href="module-02-intro.html">2. Module 02 Introduction</a></li>
+    <li><a href="module-02-lab-01.html">Lab 01</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="paragraph">
+<p>Deploy NGINX Plus Ingress Controller with NAP to provide security for
+the Arcadia application</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>== Deployment Overview
+
+In Module 1, we have already deployed the NGINX Ingress Controller, so
+we will focus on configuring NGINX App Protect in this module. For the
+complete installation of the NGINX Plus Ingress Controller, refer to the
+official documentation
+https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/[Installation
+with Manifests]
+
+At a high level, we will:
+
+____
+. Configure role-based access control (RBAC)
+. Create the common Kubernetes resources
+. Install the Ingress Controller with NGINX App Protect WAF
+. Configure the NGINX App Protect WAF module
+. Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
+____
+
+Clone the Ingress Controller repository and navigate to the deployments
+folder by running the following commands:
+
+____
+[source,]
+----
+git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.0.1
+cd kubernetes-ingress/deployments
+----
+____
+
+== Configure role-based access control (RBAC)
+
+In Module 1, we created a namespace and a service account for the
+Ingress Controller, as well as a cluster role and a cluster role binding
+for the service account. To use the App Protect WAF module, we need to
+create the App Protect role and role binding by running the following
+command:
+
+____
+[source,]
+----
+oc apply -f rbac/ap-rbac.yaml
+----
+____
+
+== Create the common Kubernetes resources
+
+In Module 1, we created:
+
+* a secret with a TLS certificate and a key for the default server in
+NGINX:
+* a config map for customizing NGINX configuration
+* an IngressClass resource
+
+No additional common resource is needed for the App Protect WAF module.
+
+== Create Custom Resources
+
+In Module 1, we created custom resource definitions for VirtualServer
+and VirtualServerRoute, TransportServer, and Policy resources. To use
+the App Protect WAF module, we need to create custom resource
+definitions for APPolicy, APLogConf, and APUserSig. Run the following
+commands to create these resources:
+
+____
+[source,bash]
+----
+oc apply -f common/crds/appprotect.f5.com_aplogconfs.yaml
+oc apply -f common/crds/appprotect.f5.com_appolicies.yaml
+oc apply -f common/crds/appprotect.f5.com_apusersigs.yaml
+----
+____
+
+== Update the Ingress Controller with NGINX App Protect WAF
+
+*Steps*
+
+____
+. Enable the App Protect module in the Ingress Controller.
++
+Enable the App Protect module in the Ingress Controller by clicking on
+"Operators" and then "Installed Operators" in the OpenShift Console's
+left navigation column. On the page that opens, click the Nginx Ingress
+Controller link in the "Provided APIs" column, select
+"my-nginx-ingress-controller," and then click YAML to change the
+apppotect 'enable' field to true under spec: controller:
++
+____
+[source,yaml]
+----
+apiVersion: charts.nginx.org/v1alpha1
+kind: NginxIngress
+
+spec:
+controller:
+    appprotect:
+    enable: True
+----
+____
++
+Example:
++
+[NOTE]
+.Note
+====
+Please be aware that the line numbers mentioned in this guide may have
+changed due to updates or revisions in the code.
+====
++
+image:./pictures/ingress-controller-nap.png[image]
++
+Click Save, and Reload
++
+[NOTE]
+.Note
+====
+Make sure that you have pulled the Ingress Controller image with App
+Protect. In this lab, we have already loaded the NGINX Plus image with
+App Protect to a local registry.
+====
+. After reloading, wait for the KIC pod to become available by running
+the command:
++
+[source,BASH]
+----
+oc get pod -n nginx-ingress --watch
+----
+. When it's ready, press `ctrl-c` to stop the watch.
++
+image:./pictures/ingress-ready.png[image]
+____
+
+== Configure the NGINX App Protect WAF module
+
+Now, it is time to configure the Ingress Controller with CRD ressources
+(WAF policy, Log profile, Ingress routing ...)
+
+*Steps*
+
+Execute the following commands to deploy the different resources. In the
+terminal window, copy the below text and paste+enter:
+
+____
+--
+[source,bash]
+----
+cd /home/lab-user/kubernetes-ingress/examples/custom-resources/app-protect-waf
+
+oc apply -f syslog.yaml
+oc apply -f ap-apple-uds.yaml
+oc apply -f ap-dataguard-alarm-policy.yaml
+oc apply -f ap-logconf.yaml
+oc apply -f waf.yaml
+----
+
+Out of above commands, we focus on the following files:
+
+[arabic]
+. The `ap-dataguard-alarm-policy.yaml` file creates the WAF policy that
+specifies the rules for protecting the application from layer 7 attacks.
+It is recommended to customize this policy according to the specific
+application requirements.
+
+In this lab, we will proceed by disregarding the "apple_sigs" signature
+set. Kindly remove the subsequent lines from
+`ap-dataguard-alarm-policy.yaml`:
+
+____
+[source,yaml]
+----
+signature-requirements:
+- tag: Fruits
+signature-sets:
+- name: apple_sigs
+  block: true
+  signatureSet:
+    filter:
+      tagValue: Fruits
+      tagFilter: eq
+----
+____
+
+If preferred, you can also accomplish this using the 'sed' command as
+follows:
+
+____
+[source,bash]
+----
+sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
+----
+____
+
+Once modified, your `ap-dataguard-alarm-policy.yaml` should resemble
+this:
+
+____
+____
+
+In the terminal window, copy the below text and paste+enter, to reapply
+the `ap-dataguard-alarm-policy.yaml`:
+
+[source,bash]
+----
+oc apply -f ap-dataguard-alarm-policy.yaml
+----
+
+[arabic, start=2]
+. The `ap-logconf.yaml` file creates the Log Profile that specifies the
+format of the logs to be generated when the policy detects an attack.
+
+____
+____
+
+{empty}3. The `waf.yaml` file creates the WAF configuration that links
+the WAF policy and Log Profile to the NGINX Ingress Controller. ..
+literalinclude :: ./templates/waf.yaml :language: yaml
+
+--
+____
+
+== Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
+
+It is important that the application always has a WAF protecting it.
+
+To enable NAP for an application, a Virtual Server in NGINX Ingress
+Controller requires both a Policy and an APPolicy custom resource to be
+attached to it. You simply need to add the reference to the Virtual
+Server.
+
+*Steps*
+
+. Examine the contents of the *VirtualServer* resource
+`oc get virtualserver arcadia`.
++
+____
+[source,bash]
+----
+oc get virtualserver arcadia
+----
+____
+. update VirtualServer `oc edit virtualserver arcadia`
++
+____
+[source,bash]
+----
+oc edit virtualserver arcadia
+----
+____
+. Add the following content to the lines immediately following
+[.title-ref]#host: $nginx_ingress#, at the same indentation level:
++
+____
+[source,yaml]
+----
+policies:
+- name: waf-policy
+----
+
+Once modified, your `virtualserver` yaml should resemble this:
+
+[source,yaml]
+----
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  policies:
+  - name: waf-policy
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+----
+
+The waf-policy should match the name of the WAF policy created in step
+2.6.
+____
+. Save the file and exit the editor.</pre>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="module-02-lab-00.html" class="query-params-link">Lab 00</a></span>
+  <span class="next"><a href="module-02-lab-02.html" class="query-params-link">Lab 02</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>  </div>
+</main>
+</div>
+<footer class="footer">
+  <a href="https://demo.redhat.com" target="_blank" class="poweredBy"><p>Powered by</p><div class="labInfo_poweredBy" style="display: block; width: 260px;"><svg class="labInfo_poweredByLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739"><g fill="#111"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#111"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#111" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg></div></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

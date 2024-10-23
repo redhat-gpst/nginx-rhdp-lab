@@ -1,5 +1,4 @@
-Deploy NGINX Plus Ingress Controller with NAP to provide security for
-the Arcadia application
+== Deploy NGINX Plus Ingress Controller with NAP to provide security for the Arcadia application
 -----------------------------------------------------------
 
 == Deployment Overview
@@ -13,24 +12,23 @@ with Manifests]
 
 At a high level, we will:
 
-____
+----
 . Configure role-based access control (RBAC)
 . Create the common Kubernetes resources
 . Install the Ingress Controller with NGINX App Protect WAF
 . Configure the NGINX App Protect WAF module
 . Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
-____
+----
 
 Clone the Ingress Controller repository and navigate to the deployments
 folder by running the following commands:
 
-____
-[source,]
+----
+[source,bash]
 ----
 git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.0.1
 cd kubernetes-ingress/deployments
 ----
-____
 
 == Configure role-based access control (RBAC)
 
@@ -40,19 +38,18 @@ for the service account. To use the App Protect WAF module, we need to
 create the App Protect role and role binding by running the following
 command:
 
-____
-[source,]
+----
+[source,bash]
 ----
 oc apply -f rbac/ap-rbac.yaml
 ----
-____
 
 == Create the common Kubernetes resources
 
 In Module 1, we created:
 
 * a secret with a TLS certificate and a key for the default server in
-NGINX:
+NGINX
 * a config map for customizing NGINX configuration
 * an IngressClass resource
 
@@ -60,26 +57,25 @@ No additional common resource is needed for the App Protect WAF module.
 
 == Create Custom Resources
 
-In Module 1, we created custom resource definitions for VirtualServer
-and VirtualServerRoute, TransportServer, and Policy resources. To use
-the App Protect WAF module, we need to create custom resource
-definitions for APPolicy, APLogConf, and APUserSig. Run the following
-commands to create these resources:
+In Module 1, we created custom resource definitions for VirtualServer,
+VirtualServerRoute, TransportServer, and Policy resources. To use the
+App Protect WAF module, we need to create custom resource definitions
+for APPolicy, APLogConf, and APUserSig. Run the following commands to
+create these resources:
 
-____
+----
 [source,bash]
 ----
 oc apply -f common/crds/appprotect.f5.com_aplogconfs.yaml
 oc apply -f common/crds/appprotect.f5.com_appolicies.yaml
 oc apply -f common/crds/appprotect.f5.com_apusersigs.yaml
 ----
-____
 
 == Update the Ingress Controller with NGINX App Protect WAF
 
 *Steps*
 
-____
+----
 . Enable the App Protect module in the Ingress Controller.
 +
 Enable the App Protect module in the Ingress Controller by clicking on
@@ -89,18 +85,17 @@ Controller link in the "Provided APIs" column, select
 "my-nginx-ingress-controller," and then click YAML to change the
 apppotect 'enable' field to true under spec: controller:
 +
-____
+----
 [source,yaml]
 ----
 apiVersion: charts.nginx.org/v1alpha1
 kind: NginxIngress
 
 spec:
-controller:
+  controller:
     appprotect:
-    enable: True
+      enable: True
 ----
-____
 +
 Example:
 +
@@ -125,18 +120,17 @@ App Protect to a local registry.
 . After reloading, wait for the KIC pod to become available by running
 the command:
 +
-[source,BASH]
+[source,bash]
 ----
 oc get pod -n nginx-ingress --watch
 ----
 . When it's ready, press `ctrl-c` to stop the watch.
 +
 image:./pictures/ingress-ready.png[image]
-____
 
 == Configure the NGINX App Protect WAF module
 
-Now, it is time to configure the Ingress Controller with CRD ressources
+Now, it is time to configure the Ingress Controller with CRD resources
 (WAF policy, Log profile, Ingress routing ...)
 
 *Steps*
@@ -144,8 +138,7 @@ Now, it is time to configure the Ingress Controller with CRD ressources
 Execute the following commands to deploy the different resources. In the
 terminal window, copy the below text and paste+enter:
 
-____
---
+----
 [source,bash]
 ----
 cd /home/lab-user/kubernetes-ingress/examples/custom-resources/app-protect-waf
@@ -157,7 +150,7 @@ oc apply -f ap-logconf.yaml
 oc apply -f waf.yaml
 ----
 
-Out of above commands, we focus on the following files:
+Of the above commands, we focus on the following files:
 
 [arabic]
 . The `ap-dataguard-alarm-policy.yaml` file creates the WAF policy that
@@ -169,7 +162,7 @@ In this lab, we will proceed by disregarding the "apple_sigs" signature
 set. Kindly remove the subsequent lines from
 `ap-dataguard-alarm-policy.yaml`:
 
-____
+----
 [source,yaml]
 ----
 signature-requirements:
@@ -182,23 +175,18 @@ signature-sets:
       tagValue: Fruits
       tagFilter: eq
 ----
-____
 
 If preferred, you can also accomplish this using the 'sed' command as
 follows:
 
-____
+----
 [source,bash]
 ----
 sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
 ----
-____
 
 Once modified, your `ap-dataguard-alarm-policy.yaml` should resemble
 this:
-
-____
-____
 
 In the terminal window, copy the below text and paste+enter, to reapply
 the `ap-dataguard-alarm-policy.yaml`:
@@ -212,15 +200,8 @@ oc apply -f ap-dataguard-alarm-policy.yaml
 . The `ap-logconf.yaml` file creates the Log Profile that specifies the
 format of the logs to be generated when the policy detects an attack.
 
-____
-____
-
 {empty}3. The `waf.yaml` file creates the WAF configuration that links
-the WAF policy and Log Profile to the NGINX Ingress Controller. ..
-literalinclude :: ./templates/waf.yaml :language: yaml
-
---
-____
+the WAF policy and Log Profile to the NGINX Ingress Controller.
 
 == Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
 
@@ -236,24 +217,22 @@ Server.
 . Examine the contents of the *VirtualServer* resource
 `oc get virtualserver arcadia`.
 +
-____
+----
 [source,bash]
 ----
 oc get virtualserver arcadia
 ----
-____
-. update VirtualServer `oc edit virtualserver arcadia`
+. Update VirtualServer `oc edit virtualserver arcadia`
 +
-____
+----
 [source,bash]
 ----
 oc edit virtualserver arcadia
 ----
-____
 . Add the following content to the lines immediately following
 [.title-ref]#host: $nginx_ingress#, at the same indentation level:
 +
-____
+----
 [source,yaml]
 ----
 policies:
@@ -286,5 +265,5 @@ spec:
 
 The waf-policy should match the name of the WAF policy created in step
 2.6.
-____
+
 . Save the file and exit the editor.

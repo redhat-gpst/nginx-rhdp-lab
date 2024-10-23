@@ -5,7 +5,7 @@ deployments. It is recommended that you progress through building on top
 of each other. Going this way highlights the lifecycle of
 container-based services that will evolve.
 
-image:images/image51.png[image51]
+image:image51.png[image51]
 
 The VirtualServer and VirtualServerRoute resources are new
 load-balancing configurations introduced in release 1.5 as an
@@ -48,7 +48,7 @@ In the terminal window, copy the below text and paste+enter:
 +
 Example:
 +
-image:images/image31.png[image31]
+image:image31.png[image31]
 +
 NGINX Dashboard should be updated reflecting the new services discovered
 +
@@ -57,7 +57,7 @@ EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html`
 +
 Example:
 +
-image:images/image32.png[image32]
+image:image32.png[image32]
 +
 Arcadia application is now exposed through the NGINX Ingress Controller
 on HTTP!
@@ -67,7 +67,7 @@ EXTERNAL-IP): `http://EXTERNAL-IP/`
 +
 Example:
 +
-image:images/image33.png[image33]
+image:image33.png[image33]
 . HTTPS
 +
 [NOTE]
@@ -105,7 +105,7 @@ In the terminal window, copy the below text and paste+enter:
 +
 Example:
 +
-image:images/image35.png[image35]
+image:image35.png[image35]
 +
 NGINX Dashboard should be updated reflecting the active monitors
 +
@@ -114,7 +114,7 @@ EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html#upstreams`
 +
 Example:
 +
-image:images/image36.png[image36]
+image:image36.png[image36]
 +
 Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors!
@@ -160,10 +160,10 @@ Please be aware that the line numbers mentioned in this guide may have
 changed due to updates or revisions in the code.
 ====
 +
-image:images/image52.png[image52]
+image:image52.png[image52]
 +
 In the same yaml file, we also need to add two annotations to the AWS
-LoadBalancer service. The annonations specify TCP layer 4 proxying: the
+LoadBalancer service. The annotations specify TCP layer 4 proxying: the
 ELB forwards traffic without modifying the headers.
 +
 [source,yaml]
@@ -179,7 +179,7 @@ service:
 +
 Example:
 +
-image:images/image53.png[image53]
+image:image53.png[image53]
 +
 Click Save, and Reload
 +
@@ -187,7 +187,7 @@ Step 2. NGINX Dashboard should be updated with the cache location
 +
 Example:
 +
-image:images/image38.png[image38]
+image:image38.png[image38]
 +
 Step 3. Create NGINX Ingress Controller with HTTPS with Active Monitors,
 Caching:
@@ -196,7 +196,7 @@ In the terminal window, copy the below text and paste+enter:
 +
 Example:
 +
-image:images/image39.png[image39]
+image:image39.png[image39]
 +
 Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors and caching!
@@ -237,7 +237,7 @@ In the terminal window, copy the below text and paste+enter:
 +
 Example:
 +
-image:images/image42.png[image42]
+image:image42.png[image42]
 +
 Arcadia application is now exposed through the NGINX Ingress Controller
 with mTLS!
@@ -245,7 +245,7 @@ with mTLS!
 NGINX Ingress Controller URL (replace with your nginx-ingress
 EXTERNAL-IP): `https://EXTERNAL-IP/`
 +
-image:images/image43.png[image43]
+image:image43.png[image43]
 +
 Step 4. After mTLS is enabled, you will need to present a certificate
 that NGINX Ingress Controller can validate against its CA
@@ -262,11 +262,8 @@ curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.
 +
 Example:
 +
-image:images/image44.png[image44]
+image:image44.png[image44]
 . The fun does not need to stop yet!
 +
 The NGINX product team creates several examples of using NGINX
-VirtualServers, Ingress, and Configmaps, all of the examples in the
-https://github.com/nginxinc/kubernetes-ingress/tree/main/examples/custom-resources[nginxinc
-GitHub repository] will also work in this environment.
-. NGINX Examples have all been completed
+VirtualServers, Ingress, and Configmaps

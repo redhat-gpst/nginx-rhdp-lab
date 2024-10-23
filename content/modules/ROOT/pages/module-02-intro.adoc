@@ -26,6 +26,8 @@ release and go-to-market velocity
 The lab is expected to take around *30 minutes* to complete, and it
 consists of three main steps:
 
-lab*
+* Step 1: Deploy NGINX App Protect on NGINX KIC
+* Step 2: Create and Apply Security Policies
+* Step 3: Validate Security Policies
 
 Let's get started!
