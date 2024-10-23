@@ -1,9 +1,9 @@
-= NGINX Kubernetes Ingress Controller For OpenShift Lab Guide
+= NGINX Ingress Controller For OpenShift Lab Guide
 :toc: macro
 :toclevels: 2
 :icons: font
 
-Welcome to the NGINX Kubernetes Ingress Controller For OpenShift Lab Guide! This repository provides a hands-on experience with deploying and securing applications in an OpenShift environment using the NGINX Kubernetes Ingress Controller (KIC).
+Welcome to the NGINX Ingress Controller For OpenShift Lab Guide! This repository provides a hands-on experience with deploying and securing applications in an OpenShift environment using the NGINX Kubernetes Ingress Controller (KIC).
 
 == Lab Purpose
 

