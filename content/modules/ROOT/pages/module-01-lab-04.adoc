@@ -10,6 +10,7 @@
   Monitors, caching, and mTLS for client certificate authentication.
 
 
+
 ## HTTPS with Active Monitors
 
 NGINX Plus can periodically check the health of upstream servers by
@@ -18,16 +19,51 @@ correct response.
 
 Create NGINX Ingress Controller with HTTPS with Active Monitors:
 
-In the terminal window, copy the below text and paste+enter:
+In the terminal window, copy the below text and paste enter:
 
-Example:
+[source,sh,role=execute]
+----
+cat << EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: arcadia-main
+  - path: /app2
+    action:
+      proxy:
+        upstream: arcadia-app2
+        rewritePath: /
+  - path: /app3
+    action:
+      proxy:
+        upstream: arcadia-app3
+        rewritePath: /
+EOF
+----
+
 
 image:image35.png[image35]
 
 NGINX Dashboard should be updated reflecting the active monitors
 
-NGINX Dashboard URL (replace with the dashboard-nginx-ingress
-EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html#upstreams`
+NGINX Dashboard URL: `http://EXTERNAL-IP/dashboard.html#upstreams`
+
 
 Example:
 
@@ -36,8 +72,7 @@ image:image36.png[image36]
 Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors!
 
-NGINX Ingress Controller URL (replace with the nginx-ingress
-EXTERNAL-IP): `https://EXTERNAL-IP/`
+NGINX Ingress Controller URL: `https://EXTERNAL-IP/`
 
 ## HTTPS with Active Monitors, Caching
 
@@ -110,17 +145,80 @@ image:image38.png[image38]
 === Step 3 Create NGINX Ingress Controller with HTTPS with Active Monitors,
 Caching:
 
-In the terminal window, copy the below text and paste+enter:
+In the terminal window, copy the below text and paste into the terminal.
+[source,sh,role=execute]
+----
+cat << EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  server-snippets: |
+    proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    proxy_cache_valid any 30s;
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+    redirect:
+      enable: true
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  routes:
+  - path: /
+    location-snippets: |
+      proxy_cache my_cache;
+      add_header X-Cache-Status \$upstream_cache_status;
+    action:
+      pass: arcadia-main
+  - path: /api/
+    action:
+      pass: arcadia-app2
+  - path: /app3/
+    action:
+      pass: arcadia-app3
+EOF
+----
 
-Example:
 
 image:image39.png[image39]
 
-Arcadia application is now exposed through the NGINX Ingress Controller
+The Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors and caching!
 
-NGINX Ingress Controller URL (replace with the nginx-ingress
-EXTERNAL-IP): `https://EXTERNAL-IP/`
+NGINX Ingress Controller URL: `https://EXTERNAL-IP/`
 
 == HTTPS with Active Monitors, Caching, mTLS
 
@@ -137,7 +235,15 @@ In the terminal window, run the following command
   
 [source,sh,role=execute]
 ----
-Insert command to create mTLS secret here
+cat << EOF | oc apply -f -
+kind: Secret
+metadata:
+  name: arcadia-mtls-secret
+apiVersion: v1
+type: nginx.org/ca
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQvVENDQXVXZ0F3SUJBZ0lVSzdhbU14OFlLWG1BVG51SkZETDlWS2ZUR2ZNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2dZMHhDekFKQmdOVkJBWVRBbFZUTVFzd0NRWURWUVFJREFKRFFURVdNQlFHQTFVRUJ3d05VMkZ1SUVaeQpZVzVqYVhOamJ6RU9NQXdHQTFVRUNnd0ZUa2RKVGxneEREQUtCZ05WQkFzTUEwdEpRekVXTUJRR0ExVUVBd3dOCmEybGpMbTVuYVc1NExtTnZiVEVqTUNFR0NTcUdTSWIzRFFFSkFSWVVhM1ZpWlhKdVpYUmxjMEJ1WjJsdWVDNWoKYjIwd0hoY05NakF3T1RFNE1qQXlOVEkyV2hjTk16QXdPVEUyTWpBeU5USTJXakNCalRFTE1Ba0dBMVVFQmhNQwpWVk14Q3pBSkJnTlZCQWdNQWtOQk1SWXdGQVlEVlFRSERBMVRZVzRnUm5KaGJtTnBjMk52TVE0d0RBWURWUVFLCkRBVk9SMGxPV0RFTU1Bb0dBMVVFQ3d3RFMwbERNUll3RkFZRFZRUUREQTFyYVdNdWJtZHBibmd1WTI5dE1TTXcKSVFZSktvWklodmNOQVFrQkZoUnJkV0psY201bGRHVnpRRzVuYVc1NExtTnZiVENDQVNJd0RRWUpLb1pJaHZjTgpBUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTmFINVRzaTZzaUFsU085dEJnYmY3VVRwcWowMUhRTlQ2UjhtQy9pCjhLYXFaSW9XSUdvN2xhTW9xTDYydTc4ay9WOHM2Z0FJaU1DSzBjekFvTFhNSnlJQkxQeTg4Yzdtc2xwZXgxTkEKVmRtMkVTVkN6bVlERE1TT3FpVmszWmpYeC9URmo2QzhNRFhhRkZUWFg1dWdtbWdscnFCWlh0OVI5VVBwVTJMNwo1bEZ0NlJ2R3VGczgvbVZORVR5c1A0SFhCWlh2ZE9mdG1YWUkvK01hOW5CMzIzNjdmcTI0L0RKZ2YvK2xRbUsxCkJLR3poSTZSc1pSSmdWOXdpK1VuZTBYNjlaS2lLOFdXU3lZS252YnRrcHZuTDA2dGNJaXJZNi80UzZ4Sm1HRVQKZEJUNmVxc0NoSUpQUStWSEp5dTROdnV6WmVCUXpGdmMwNytnUGZkVWZra1FXODhDQXdFQUFhTlRNRkV3SFFZRApWUjBPQkJZRUZKUGdhcnFYa00rdEJ0djVhdndTUWhUQmpTU2VNQjhHQTFVZEl3UVlNQmFBRkpQZ2FycVhrTSt0CkJ0djVhdndTUWhUQmpTU2VNQThHQTFVZEV3RUIvd1FGTUFNQkFmOHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUIKQUl3WXpoY0s4OWtRL0xGWjZFRHgrQWp2bnJTVSs1cmdwQkgrRjVTNUUyY3pXOE5rNXhySnl0Y0ZUbUtlKzZScwpENHlxeTZSVVFEeWNYaDlPelBjbzgzYTBoeFlCZ1M5MWtJa25wYWF4dndLRDJleWc3UGNnK1lkS1FhZFlMcUY0CmI3cWVtc1FVVkpOWHdkZS9VanRBejlEOTh4dngwM2hQY2Qwb2dzUUhWZ21BZVpFd2l3UzFmTy9WNUE4dTl3MEkKcHlJRTVReXlHcHNpS2dpalpiMmhrS05RVHVJcEhiVnFydVA4eEV6TlFnamhkdS9uUW5OYy9lRUltVUlrQkFUVQpiSHdQc2xwYzVhdVV1TXJxR3lEQ0p2QUJpV3J2SmE3Yi9XcmtDT3FUWVhtR2NGM0w1ZU9FeTBhYkp0M2NNcSs5CnJLTUNVQWlkNG0yNEthWnc3OUk2anNBPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+EOF
 ----
 
 === **Step 2 Create the Custom Resource Policy for mTLS**
@@ -146,41 +252,157 @@ In the terminal window, run:
 
 [source,sh,role=execute]
 ----
-Insert command to create custom resource policy here
+cat << EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: arcadia-mtls-policy
+spec:
+  ingressMTLS:
+    clientCertSecret: arcadia-mtls-secret
+    verifyClient: "on"
+    verifyDepth: 1
+EOF
 ----
 
 === **Step 3 Create NGINX Ingress Controller with HTTPS, Active Monitors, and Caching**
 
-Use the following command to set up the Ingress Controller:
+Use the following command to set up the Ingress Controller
+
+[NOTE]
+Take note of policies section as it attaches the mTLS policy
+
 
 [source,sh,role=execute]
 ----
-Insert command to configure NGINX Ingress Controller with mTLS
+cat << EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  server-snippets: |
+    proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    proxy_cache_valid any 30s;
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+    redirect:
+      enable: true
+  policies:
+  - name: arcadia-mtls-policy
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  routes:
+  - path: /
+    location-snippets: |
+      proxy_cache my_cache;
+      add_header X-Cache-Status \$upstream_cache_status;
+    action:
+      pass: arcadia-main
+  - path: /api/
+    action:
+      pass: arcadia-app2
+  - path: /app3/
+    action:
+      pass: arcadia-app3
+EOF
 ----
 
-image::image42.png[image42]
+The Arcadia application is now secured and accessible via the NGINX Ingress Controller with mTLS enabled.
 
-The Arcadia application is now accessible through the NGINX Ingress Controller with mTLS enabled!
+[IMPORTANT]
+.NGINX Ingress Controller Access
+====
+To access the Arcadia application, replace `EXTERNAL-IP` with the external IP address of your nginx-ingress:
 
-**NGINX Ingress Controller URL** (replace with your nginx-ingress EXTERNAL-IP): 
-   `https://EXTERNAL-IP/`
+`https://EXTERNAL-IP/`
+====
 
-image::image43.png[image43]
+=== Step 4: Download the Client Certificate and Key
 
-=== Step 4 Present a Certificate to NGINX Ingress Controller**
+To initiate mTLS, you need to download the client certificate and key, which will be used to authenticate against the NGINX Ingress Controller's Certificate Authority (CA).
 
-After enabling mTLS, present a certificate that NGINX Ingress Controller can validate against its CA. Use the following commands:
+**Download the Client Certificate and Key**
 
-[source,sh,role=execute]
+In the terminal, run the following commands to download the necessary certificate and key:
+
+[source,shell,role="execute"]
 ----
- wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
- wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem
- curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
+wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
+wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem
 ----
 
+These files represent the client-side X.509 certificate and private key needed to establish an mTLS connection.
 
-.Example
-image::image44.png[image44]
+**Attempt to Connect Using the Certificate**
+
+Now, try to access the Arcadia application using the `curl` command:
+
+[source,shell,role="execute"]
+----
+curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
+----
+
+This command attempts to establish a secure connection to the NGINX Ingress Controller using mTLS.
+
+**Understanding the Connection Failure**
+
+If the initial `curl` command fails, it's most likely due to the delay in propagating the new mTLS configuration across the NGINX Ingress Controller. The controller needs some time to fully activate mTLS, which can cause the first connection attempt to be rejected.
+
+The failure may produce an error message similar to:
+
+  curl: (35) error:14094410
+  routines:ssl3_read_bytes
+  alert handshake failure
+
+
+This indicates that the NGINX Ingress Controller has not fully registered the client certificate's CA.
+
+**Wait and Reattempt the Connection**
+
+Wait for a few moments, then try the `curl` command again:
+
+[source,shell,role="execute"]
+----
+curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
+----
+
+This time, the connection should succeed, allowing you to see the response from the Arcadia application.
+
+If successful, this confirms that the NGINX Ingress Controller is properly configured with mTLS and is validating the client certificate against its CA.
 
 
 === Additional Resources

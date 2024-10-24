@@ -1,12 +1,13 @@
-* xref:module-01-intro.adoc[Module 1 - Deploying NGINX Ingress Controller]
-*** xref:module-01-lab-00.adoc[Getting Started wtih OpenShift] 
+** xref:module-01-lab-00.adoc[Getting Started wtih OpenShift] 
+
+** xref:module-01-intro.adoc[Module 1 - Deploying NGINX Ingress Controller]
 *** xref:module-01-lab-01.adoc[NGINX Ingress Controller Deployment]
 *** xref:module-01-lab-02.adoc[Arcadia Application Deployment]
 *** xref:module-01-lab-03.adoc[NGINX Ingress Controller Examples - Part 1]
 *** xref:module-01-lab-04.adoc[NGINX Ingress Controller Examples - Part 2]
 
-* xref:module-02-intro.adoc[Module 2 - Securing Applications with NGINX App Protect]
-** xref:module-02-lab-00.adoc[Access Arcadia App without NGINX App Protect]
-** xref:module-02-lab-01.adoc[Deploy NGINX Plus Ingress Controller with NAP]
-** xref:module-02-lab-02.adoc[Test the NGINX App Protect WAF ]
+** xref:module-02-intro.adoc[Module 2 - Securing Applications with NGINX App Protect]
+*** xref:module-02-lab-00.adoc[Access Arcadia App without NGINX App Protect]
+*** xref:module-02-lab-01.adoc[Deploy NGINX Plus Ingress Controller with NAP]
+*** xref:module-02-lab-02.adoc[Test the NGINX App Protect WAF ]
 

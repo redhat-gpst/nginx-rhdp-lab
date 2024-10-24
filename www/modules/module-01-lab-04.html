@@ -44,12 +44,12 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="module-01-lab-00.html">Getting Started wtih OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-01-intro.html">Module 1 - Deploying NGINX Ingress Controller</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01-lab-00.html">Getting Started wtih OpenShift</a>
-  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="module-01-lab-01.html">NGINX Ingress Controller Deployment</a>
   </li>
@@ -159,10 +159,43 @@ correct response.</p>
 <p>Create NGINX Ingress Controller with HTTPS with Active Monitors:</p>
 </div>
 <div class="paragraph">
-<p>In the terminal window, copy the below text and paste+enter:</p>
+<p>In the terminal window, copy the below text and paste enter:</p>
 </div>
-<div class="paragraph">
-<p>Example:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat &lt;&lt; EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: arcadia-main
+  - path: /app2
+    action:
+      proxy:
+        upstream: arcadia-app2
+        rewritePath: /
+  - path: /app3
+    action:
+      proxy:
+        upstream: arcadia-app3
+        rewritePath: /
+EOF</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image35.png" alt="image35"></span></p>
@@ -171,8 +204,7 @@ correct response.</p>
 <p>NGINX Dashboard should be updated reflecting the active monitors</p>
 </div>
 <div class="paragraph">
-<p>NGINX Dashboard URL (replace with the dashboard-nginx-ingress
-EXTERNAL-IP): <code><a href="http://EXTERNAL-IP/dashboard.html#upstreams" class="bare">http://EXTERNAL-IP/dashboard.html#upstreams</a></code></p>
+<p>NGINX Dashboard URL: <code><a href="http://EXTERNAL-IP/dashboard.html#upstreams" class="bare">http://EXTERNAL-IP/dashboard.html#upstreams</a></code></p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -185,8 +217,7 @@ EXTERNAL-IP): <code><a href="http://EXTERNAL-IP/dashboard.html#upstreams" class=
 only on HTTP with monitors!</p>
 </div>
 <div class="paragraph">
-<p>NGINX Ingress Controller URL (replace with the nginx-ingress
-EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
+<p>NGINX Ingress Controller URL: <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
 </div>
 </div>
 </div>
@@ -286,21 +317,83 @@ ELB forwards traffic without modifying the headers.</p>
 <p>Caching:</p>
 </div>
 <div class="paragraph">
-<p>In the terminal window, copy the below text and paste+enter:</p>
+<p>In the terminal window, copy the below text and paste into the terminal.</p>
 </div>
-<div class="paragraph">
-<p>Example:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat &lt;&lt; EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  server-snippets: |
+    proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    proxy_cache_valid any 30s;
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+    redirect:
+      enable: true
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  routes:
+  - path: /
+    location-snippets: |
+      proxy_cache my_cache;
+      add_header X-Cache-Status \$upstream_cache_status;
+    action:
+      pass: arcadia-main
+  - path: /api/
+    action:
+      pass: arcadia-app2
+  - path: /app3/
+    action:
+      pass: arcadia-app3
+EOF</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="_images/image39.png" alt="image39"></span></p>
 </div>
 <div class="paragraph">
-<p>Arcadia application is now exposed through the NGINX Ingress Controller
+<p>The Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors and caching!</p>
 </div>
 <div class="paragraph">
-<p>NGINX Ingress Controller URL (replace with the nginx-ingress
-EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
+<p>NGINX Ingress Controller URL: <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
 </div>
 </div>
 </div>
@@ -320,13 +413,21 @@ EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL
 <h2 id="_step_by_step_guide"><a class="anchor" href="#_step_by_step_guide"></a>Step-by-Step Guide</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_step_1_create_the_arcadia_mtls_secret_in_kubernetes"><a class="anchor" href="#_step_1_create_the_arcadia_mtls_secret_in_kubernetes"></a><strong>Step 1 Create the Arcadia mTLS Secret in Kubernetes</strong></h3>
+<h3 id="_step_1_create_the_arcadia_mtls_secret_in_openshift"><a class="anchor" href="#_step_1_create_the_arcadia_mtls_secret_in_openshift"></a><strong>Step 1 Create the Arcadia mTLS Secret in OpenShift</strong></h3>
 <div class="paragraph">
 <p>In the terminal window, run the following command</p>
 </div>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to create mTLS secret here</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat &lt;&lt; EOF | oc apply -f -
+kind: Secret
+metadata:
+  name: arcadia-mtls-secret
+apiVersion: v1
+type: nginx.org/ca
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQvVENDQXVXZ0F3SUJBZ0lVSzdhbU14OFlLWG1BVG51SkZETDlWS2ZUR2ZNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2dZMHhDekFKQmdOVkJBWVRBbFZUTVFzd0NRWURWUVFJREFKRFFURVdNQlFHQTFVRUJ3d05VMkZ1SUVaeQpZVzVqYVhOamJ6RU9NQXdHQTFVRUNnd0ZUa2RKVGxneEREQUtCZ05WQkFzTUEwdEpRekVXTUJRR0ExVUVBd3dOCmEybGpMbTVuYVc1NExtTnZiVEVqTUNFR0NTcUdTSWIzRFFFSkFSWVVhM1ZpWlhKdVpYUmxjMEJ1WjJsdWVDNWoKYjIwd0hoY05NakF3T1RFNE1qQXlOVEkyV2hjTk16QXdPVEUyTWpBeU5USTJXakNCalRFTE1Ba0dBMVVFQmhNQwpWVk14Q3pBSkJnTlZCQWdNQWtOQk1SWXdGQVlEVlFRSERBMVRZVzRnUm5KaGJtTnBjMk52TVE0d0RBWURWUVFLCkRBVk9SMGxPV0RFTU1Bb0dBMVVFQ3d3RFMwbERNUll3RkFZRFZRUUREQTFyYVdNdWJtZHBibmd1WTI5dE1TTXcKSVFZSktvWklodmNOQVFrQkZoUnJkV0psY201bGRHVnpRRzVuYVc1NExtTnZiVENDQVNJd0RRWUpLb1pJaHZjTgpBUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTmFINVRzaTZzaUFsU085dEJnYmY3VVRwcWowMUhRTlQ2UjhtQy9pCjhLYXFaSW9XSUdvN2xhTW9xTDYydTc4ay9WOHM2Z0FJaU1DSzBjekFvTFhNSnlJQkxQeTg4Yzdtc2xwZXgxTkEKVmRtMkVTVkN6bVlERE1TT3FpVmszWmpYeC9URmo2QzhNRFhhRkZUWFg1dWdtbWdscnFCWlh0OVI5VVBwVTJMNwo1bEZ0NlJ2R3VGczgvbVZORVR5c1A0SFhCWlh2ZE9mdG1YWUkvK01hOW5CMzIzNjdmcTI0L0RKZ2YvK2xRbUsxCkJLR3poSTZSc1pSSmdWOXdpK1VuZTBYNjlaS2lLOFdXU3lZS252YnRrcHZuTDA2dGNJaXJZNi80UzZ4Sm1HRVQKZEJUNmVxc0NoSUpQUStWSEp5dTROdnV6WmVCUXpGdmMwNytnUGZkVWZra1FXODhDQXdFQUFhTlRNRkV3SFFZRApWUjBPQkJZRUZKUGdhcnFYa00rdEJ0djVhdndTUWhUQmpTU2VNQjhHQTFVZEl3UVlNQmFBRkpQZ2FycVhrTSt0CkJ0djVhdndTUWhUQmpTU2VNQThHQTFVZEV3RUIvd1FGTUFNQkFmOHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUIKQUl3WXpoY0s4OWtRL0xGWjZFRHgrQWp2bnJTVSs1cmdwQkgrRjVTNUUyY3pXOE5rNXhySnl0Y0ZUbUtlKzZScwpENHlxeTZSVVFEeWNYaDlPelBjbzgzYTBoeFlCZ1M5MWtJa25wYWF4dndLRDJleWc3UGNnK1lkS1FhZFlMcUY0CmI3cWVtc1FVVkpOWHdkZS9VanRBejlEOTh4dngwM2hQY2Qwb2dzUUhWZ21BZVpFd2l3UzFmTy9WNUE4dTl3MEkKcHlJRTVReXlHcHNpS2dpalpiMmhrS05RVHVJcEhiVnFydVA4eEV6TlFnamhkdS9uUW5OYy9lRUltVUlrQkFUVQpiSHdQc2xwYzVhdVV1TXJxR3lEQ0p2QUJpV3J2SmE3Yi9XcmtDT3FUWVhtR2NGM0w1ZU9FeTBhYkp0M2NNcSs5CnJLTUNVQWlkNG0yNEthWnc3OUk2anNBPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+EOF</code></pre>
 </div>
 </div>
 </div>
@@ -337,55 +438,196 @@ EXTERNAL-IP): <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL
 </div>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to create custom resource policy here</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat &lt;&lt; EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: arcadia-mtls-policy
+spec:
+  ingressMTLS:
+    clientCertSecret: arcadia-mtls-secret
+    verifyClient: "on"
+    verifyDepth: 1
+EOF</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_step_3_create_nginx_ingress_controller_with_https_active_monitors_and_caching"><a class="anchor" href="#_step_3_create_nginx_ingress_controller_with_https_active_monitors_and_caching"></a><strong>Step 3 Create NGINX Ingress Controller with HTTPS, Active Monitors, and Caching</strong></h3>
 <div class="paragraph">
-<p>Use the following command to set up the Ingress Controller:</p>
+<p>Use the following command to set up the Ingress Controller</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Take note of policies section as it attaches the mTLS policy
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">Insert command to configure NGINX Ingress Controller with mTLS</code></pre>
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/image42.png" alt="image42">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat &lt;&lt; EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  server-snippets: |
+    proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    proxy_cache_valid any 30s;
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+    redirect:
+      enable: true
+  policies:
+  - name: arcadia-mtls-policy
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  routes:
+  - path: /
+    location-snippets: |
+      proxy_cache my_cache;
+      add_header X-Cache-Status \$upstream_cache_status;
+    action:
+      pass: arcadia-main
+  - path: /api/
+    action:
+      pass: arcadia-app2
+  - path: /app3/
+    action:
+      pass: arcadia-app3
+EOF</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The Arcadia application is now accessible through the NGINX Ingress Controller with mTLS enabled!</p>
+<p>The Arcadia application is now secured and accessible via the NGINX Ingress Controller with mTLS enabled.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title">NGINX Ingress Controller Access</div>
+<div class="paragraph">
+<p>To access the Arcadia application, replace <code>EXTERNAL-IP</code> with the external IP address of your nginx-ingress:</p>
 </div>
 <div class="paragraph">
-<p><strong>NGINX Ingress Controller URL</strong> (replace with your nginx-ingress EXTERNAL-IP):
-   <code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
+<p><code><a href="https://EXTERNAL-IP/" class="bare">https://EXTERNAL-IP/</a></code></p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/image43.png" alt="image43">
-</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_step_4_present_a_certificate_to_nginx_ingress_controller"><a class="anchor" href="#_step_4_present_a_certificate_to_nginx_ingress_controller"></a>Step 4 Present a Certificate to NGINX Ingress Controller**</h3>
+<h3 id="_step_4_download_the_client_certificate_and_key"><a class="anchor" href="#_step_4_download_the_client_certificate_and_key"></a>Step 4: Download the Client Certificate and Key</h3>
 <div class="paragraph">
-<p>After enabling mTLS, present a certificate that NGINX Ingress Controller can validate against its CA. Use the following commands:</p>
+<p>To initiate mTLS, you need to download the client certificate and key, which will be used to authenticate against the NGINX Ingress Controller&#8217;s Certificate Authority (CA).</p>
+</div>
+<div class="paragraph">
+<p><strong>Download the Client Certificate and Key</strong></p>
+</div>
+<div class="paragraph">
+<p>In the terminal, run the following commands to download the necessary certificate and key:</p>
 </div>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh"> wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
- wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem
- curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-cert.pem
+wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/client-key.pem</code></pre>
 </div>
 </div>
-<div class="imageblock">
+<div class="paragraph">
+<p>These files represent the client-side X.509 certificate and private key needed to establish an mTLS connection.</p>
+</div>
+<div class="paragraph">
+<p><strong>Attempt to Connect Using the Certificate</strong></p>
+</div>
+<div class="paragraph">
+<p>Now, try to access the Arcadia application using the <code>curl</code> command:</p>
+</div>
+<div class="listingblock execute">
 <div class="content">
-<img src="_images/image44.png" alt="image44">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem</code></pre>
 </div>
-<div class="title">Figure 1. Example</div>
+</div>
+<div class="paragraph">
+<p>This command attempts to establish a secure connection to the NGINX Ingress Controller using mTLS.</p>
+</div>
+<div class="paragraph">
+<p><strong>Understanding the Connection Failure</strong></p>
+</div>
+<div class="paragraph">
+<p>If the initial <code>curl</code> command fails, it&#8217;s most likely due to the delay in propagating the new mTLS configuration across the NGINX Ingress Controller. The controller needs some time to fully activate mTLS, which can cause the first connection attempt to be rejected.</p>
+</div>
+<div class="paragraph">
+<p>The failure may produce an error message similar to:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl: (35) error:14094410
+routines:ssl3_read_bytes
+alert handshake failure</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This indicates that the NGINX Ingress Controller has not fully registered the client certificate&#8217;s CA.</p>
+</div>
+<div class="paragraph">
+<p><strong>Wait and Reattempt the Connection</strong></p>
+</div>
+<div class="paragraph">
+<p>Wait for a few moments, then try the <code>curl</code> command again:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This time, the connection should succeed, allowing you to see the response from the Arcadia application.</p>
+</div>
+<div class="paragraph">
+<p>If successful, this confirms that the NGINX Ingress Controller is properly configured with mTLS and is validating the client certificate against its CA.</p>
 </div>
 </div>
 <div class="sect2">

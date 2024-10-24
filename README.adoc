@@ -3,7 +3,8 @@
 :toclevels: 2
 :icons: font
 
-Welcome to the NGINX Ingress Controller For OpenShift Lab Guide! This repository provides a hands-on experience with deploying and securing applications in an OpenShift environment using the NGINX Kubernetes Ingress Controller (KIC).
+Welcome to the NGINX Ingress Controller For OpenShift Lab Guide! This lab guide is meant to by deployed in the Red Hat Demo Platform.  It is available here for informational purposes only.
+This lab is intended for educational purposes only. It demonstrates security techniques and configurations within a controlled environment. Exercise caution when implementing similar configurations in production environments.
 
 == Lab Purpose
 
@@ -23,14 +24,6 @@ This lab is designed for:
 * DevOps and Security Engineers
 * Anyone interested in learning how to deliver and secure applications using NGINX in OpenShift
 
-== Prerequisites
-
-Participants should have:
-
-* Basic knowledge of Kubernetes, containers, and OpenShift
-* An OpenShift cluster (local or remote) with access to OpenShift CLI (`oc`)
-* Familiarity with NGINX, Ingress concepts, and Kubernetes security features
-
 == What You Will Learn
 
 By the end of this lab, participants will understand:
@@ -40,17 +33,7 @@ By the end of this lab, participants will understand:
 * How to enable NGINX App Protect WAF to secure applications against Layer 7 attacks
 * How to observe, test, and validate application security using real-world attack simulations
 
-== Lab Structure
 
-The lab is structured into three modules:
-
-* **Module 1**: Deploying the NGINX Kubernetes Ingress Controller in OpenShift and setting up basic routing.
-* **Module 2**: Enabling and configuring NGINX App Protect WAF for application security.
-* **Module 3**: Testing and validating the NGINX App Protect WAF setup to ensure proper protection of applications.
-
-== Disclaimer
-
-This lab is intended for educational purposes only. It demonstrates security techniques and configurations within a controlled environment. Exercise caution when implementing similar configurations in production environments.
 
 == Additional Resources
 
