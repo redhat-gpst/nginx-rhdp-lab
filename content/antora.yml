@@ -1,5 +1,5 @@
 name: modules
-title: Default Title
+title: NGINX OCP Workshop
 version: master
 nav:
   - modules/ROOT/nav.adoc
