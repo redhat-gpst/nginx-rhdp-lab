@@ -63,8 +63,7 @@ OpenShift console.
 We also deployed the NGINX Plus Ingress Controller for Kubernetes
 deployment.
 
-[arabic]
-. In the terminal window copy the below text and paste+enter, to verify
+In the terminal window copy the below text and paste into the termmial to verify
 that the Operator is running
 
 

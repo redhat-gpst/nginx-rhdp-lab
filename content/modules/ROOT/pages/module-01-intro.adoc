@@ -1,8 +1,8 @@
- = Module 1 - NGINX Kubernetes Ingress Controller For OpenShift
+= Module 1 - NGINX Kubernetes Ingress Controller For OpenShift
 
 image:image00.png[image00,scaledwidth=75.0%]
 
-Welcome to Module 1 of our lab guide, where we will be exploring the
+In Module 1 of the lab we will be exploring the
 deployment of a modern application using the NGINX Ingress Controller
 for Red Hat OpenShift. This solution is designed to provide a
 comprehensive guide to successfully deploying an application with the
@@ -25,7 +25,3 @@ main steps:
 * Step 3: Deployment
 * Step 4: Testing
 
-[NOTE]
-====
-The steps assume you are using the *Red Hat Demo Platform (RHDP)*
-====

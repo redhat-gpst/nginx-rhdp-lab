@@ -1,7 +1,7 @@
 
 == Lab Overview
 
-This lab, *NGINX Kubernetes Ingress Controller For OpenShift*, demonstrates how to deploy, manage, and secure applications using NGINX Kubernetes Ingress Controller (KIC) in an OpenShift environment. The lab uses the Arcadia Financial application as an example app to illustrate NGINX KIC capabilities, including advanced routing, load balancing, and security with NGINX App Protect WAF.
+This lab demonstrates how to deploy, manage, and secure applications using NGINX Kubernetes Ingress Controller (KIC) in an OpenShift environment. The lab uses the Arcadia Financial application as an example app to illustrate NGINX KIC capabilities, including advanced routing, load balancing, and security with NGINX App Protect WAF.
 
 == Lab Structure
 
@@ -18,14 +18,18 @@ The lab is organized into two modules, with each module building on the previous
 
 == Lab Access
 
-The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
-All steps in this lab should be executed as the `{ssh_user}` user.
+The terminal window to your right is already logged into the lab environment.
 
 Follow the instructions in each module to complete the lab exercises. The terminal provides all necessary tools to interact with the OpenShift environment and the NGINX Kubernetes Ingress Controller.
 
+The Web Console can be accessed by opening this URL in a new tab.  {openshift_cluster_console_url}
+
+Username: {openshift_cluster_admin_username}
+Password: {openshift_cluster_admin_password}
+
 === Prerequisites
 
-Before starting, ensure that you have basic knowledge of Kubernetes, containers, and NGINX. Familiarity with OpenShift and Kubernetes CLI commands is recommended.
+While this lab is meant to be completed by anyone, it does help to have basic knowledge of Kubernetes, containers, and NGINX. Familiarity with OpenShift and Kubernetes CLI commands is recommended, but not required.
 
 === Sample Command
 
@@ -45,4 +49,4 @@ nginx-ingress-controller-6bdf59f99-2vh9q  1/1     Running   0          10m
 
 == Next Steps
 
-Proceed to Module 1 to begin deploying the NGINX Kubernetes Ingress Controller in OpenShift. Each module includes step-by-step instructions, explanations, and sample commands to help you understand the features of NGINX KIC and NGINX App Protect WAF.
+Proceed to *Getting Started with OpenShift* by clicking the link below.
