@@ -65,24 +65,59 @@ for templating to take place when we expose our applications.
 
 In the terminal window, copy the below text and paste+enter:
 
-[source,bash]
+[source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
+ export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP") && "http://$nginx_ingress/"
 ----
+
 
 == Publish Arcadia app with NGINX Plus Ingress Controller
 
-Now that we have our Arcadia application deployed in our Kubernetes
+Now that we have our Arcadia application deployed in our OpenShift
 cluster, we need to publish it using the NGINX Plus Ingress Controller.
 We'll do this by re-creating the NGINX Ingress Controller with Basic
 HTTP using the following command in our terminal window:
 
-This command creates a VirtualServer resource for our Arcadia
+This creates a VirtualServer resource for our Arcadia
 application, which includes the host for the NGINX Ingress Controller
 and the upstreams for the different microservices. We can now access our
 Arcadia application externally using the NGINX Ingress Controller URL,
 which can be found by running the following command in our terminal
 window:
+
+[source,sh,role=execute]
+----
+cat << EOF | oc apply -f -
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  upstreams:
+  - name: main
+    service: main
+    port: 80
+  - name: app2
+    service: app2
+    port: 80
+  - name: app3
+    service: app3
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: main
+  - path: /api
+    action:
+      proxy:
+        upstream: app2
+  - path: /app3
+    action:
+      proxy:
+        upstream: app3
+EOF
+----
 
 [source,bash]
 ----
