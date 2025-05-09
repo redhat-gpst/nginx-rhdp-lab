@@ -426,14 +426,9 @@ The failure may produce an error message similar to:
 
 This indicates that the NGINX Ingress Controller has not fully registered the client certificate's CA.
 
-**Wait and Reattempt the Connection**
+Wait and Reattempt the Connection
 
 Wait for a few moments, then try the `curl` command again:
-
-[source,shell,role="execute"]
-----
-curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
-----
 
 This time, the connection should succeed, allowing you to see the response from the Arcadia application.
 
