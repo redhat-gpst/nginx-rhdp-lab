@@ -160,8 +160,6 @@ changed due to updates or revisions in the code.
 
 image:image52.png[image52]
 
-[source,yaml]
-----
 
 Example:
 
