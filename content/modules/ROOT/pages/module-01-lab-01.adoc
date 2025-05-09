@@ -131,22 +131,27 @@ The yaml should now look like this:
 
 [source,sh,role=execute]
 ----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dashboard-nginx-ingress
-  namespace: nginx-ingress
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
-    name: http
-  selector:
-    app.kubernetes.io/name: nginx-ingress
+cat -n nginx-ingress-dashboard.yml
+----
+
+[source,sh,role=execute]
+----
+1  apiVersion: v1
+2  kind: Service
+3  metadata:
+4    name: dashboard-nginx-ingress
+5    namespace: nginx-ingress
+6    annotations:
+7      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+8  spec:
+9    type: LoadBalancer
+10    ports:
+11    - port: 80
+12      targetPort: 8080
+13      protocol: TCP
+14      name: http
+15    selector:
+16      app.kubernetes.io/name: nginx-ingress
 ----
 
 
@@ -216,10 +221,14 @@ Kubernetes, Kubernetes created an AWS ELB. These ELBs allow for access
 to the services, and if the NGINX services ever scale, they will
 dynamically be added.
 
-NGINX Dashboard URL (replace with the dashboard-nginx-ingress
-EXTERNAL-IP): `http://EXTERNAL-IP/dashboard.html`
 
-Example:
+This command will expose the URL for the dashboard.
+
+[source,sh,role=execute]
+----
+echo "http://$dashboard_nginx_ingress/dashboard.html"
+----
+
 
 image:image28.png[image28]
 
