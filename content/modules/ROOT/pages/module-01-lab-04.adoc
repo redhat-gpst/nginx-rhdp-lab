@@ -62,17 +62,25 @@ image:image35.png[image35]
 
 NGINX Dashboard should be updated reflecting the active monitors
 
-NGINX Dashboard URL: `http://EXTERNAL-IP/dashboard.html#upstreams`
+[source,sh,role=execute]
+----
+export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
+echo "http://$dashboard_nginx_ingress/dashboard.html#upstreams"
+----
 
 
 Example:
 
 image:image36.png[image36]
 
-Arcadia application is now exposed through the NGINX Ingress Controller
+The Arcadia application is now exposed through the NGINX Ingress Controller
 only on HTTP with monitors!
 
-NGINX Ingress Controller URL: `https://EXTERNAL-IP/`
+[source,sh,role=execute]
+----
+export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
+echo "http://$nginx_ingress/"
+----
 
 ## HTTPS with Active Monitors, Caching
 
@@ -86,23 +94,60 @@ time.
 
 === Step 1. Create NGINX Ingress Controller Caching Path:
 
-From OpenShift Console, Click Operators -> Installed Operator in the
-left navigation column. On the page that opens, click the Nginx Ingress
-Controller link in the Provided APIs column. Select "my-nginx-ingress",
-and then click YAML to include the following ConfigMap under Spec:
+Paste the following patch into the terminal and press enter to create the caching path.
 
 [source,yaml]
 ----
-config:
-  annotations: {}
-  entries:
-    http-snippets: >
-      proxy_cache_path /var/tmp/a levels=1:2 keys_zone=my_cache:10m
-      max_size=100m inactive=60m use_temp_path=off;
-    proxy-protocol: 'True'
-    real-ip-header: proxy_protocol
-    set-real-ip-from: 0.0.0.0/0
+oc patch nginxingress my-nginx-ingress \
+  -n nginx-ingress \
+  --type merge \
+  -p '{
+    "spec": {
+      "controller": {
+        "config": {
+          "entries": {
+            "http-snippets": "proxy_cache_path /var/tmp/a levels=1:2 keys_zone=my_cache:10m max_size=100m inactive=60m use_temp_path=off;",
+            "proxy-protocol": "True",
+            "real-ip-header": "proxy_protocol",
+            "set-real-ip-from": "0.0.0.0/0"
+          }
+        }
+      }
+    }
+  }'
+
 ----
+
+We also need to add two annotations to the AWS LoadBalancer service. The annonations specify TCP layer 4 proxying: the ELB forwards traffic without modifying the headers
+
+[source,yaml]
+----
+oc patch nginxingress my-nginx-ingress \
+  -n nginx-ingress \
+  --type merge \
+  -p '{
+    "spec": {
+      "controller": {
+        "service": {
+          "annotations": {
+            "service.beta.kubernetes.io/aws-load-balancer-backend-protocol": "tcp",
+            "service.beta.kubernetes.io/aws-load-balancer-proxy-protocol": "*"
+          }
+        }
+      }
+    }
+  }'
+----
+
+Once the  patch is in, we can navigate to the OpenShift Console to verify the chagnes.
+
+From the OpenShift Console, go to *Operators* → *Installed Operators*.  
+Select the *NGINX Ingress Controller* from the list of installed operators.  
+Under the *Provided APIs* section on the right, click on the *NginxIngress* resource.  
+Choose the instance named `my-nginx-ingress`, then click the *YAML* tab.  
+In the editor, verify the changes have been applied.
+
+
 
 Example:
 
@@ -115,26 +160,13 @@ changed due to updates or revisions in the code.
 
 image:image52.png[image52]
 
-In the same yaml file, we also need to add two annotations to the AWS
-LoadBalancer service. The annonations specify TCP layer 4 proxying: the
-ELB forwards traffic without modifying the headers.
-
 [source,yaml]
-----
-service:
-  externalIPs: []
-  customPorts: []
-  loadBalancerIP: ''
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
 ----
 
 Example:
 
 image:image53.png[image53]
 
-Click Save, and Reload
 
 === Step 2. NGINX Dashboard should be updated with the cache location
 
