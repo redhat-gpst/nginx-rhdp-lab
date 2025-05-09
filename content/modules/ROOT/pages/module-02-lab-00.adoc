@@ -7,13 +7,12 @@ environment. Please follow the steps mentioned below.
 
 Execute the following commands in the bash terminal:
 
-----
-[source,bash]
+[source,sh,role=execute]
 ----
 oc delete virtualserver arcadia
 oc delete -f arcadia.yml 
 ----
-----
+
 
 == Deploy the Arcadia Application into Kubernetes
 
@@ -26,7 +25,7 @@ be used for our security lab exercises.
 ====
 
 Before we can access the Arcadia application, we need to deploy it into
-our Kubernetes cluster. To do this, we'll use a single manifest file
+our OpenShift cluster. To do this, we'll use a single manifest file
 that contains the necessary resources, such as Kubernetes deployments
 for the four Docker containers and Kubernetes services for the four
 Docker containers.
@@ -34,7 +33,7 @@ Docker containers.
 To get the YAML file, we'll use the following command in our terminal
 window:
 
-[source,bash]
+[source,sh,role=execute]
 ----
 wget https://raw.githubusercontent.com/ericzji/nginx-openshift-lab/main/docs/class1/module2/templates/arcadia-all.yaml
 ----
@@ -42,7 +41,7 @@ wget https://raw.githubusercontent.com/ericzji/nginx-openshift-lab/main/docs/cla
 Once we have the YAML file, we can apply it to our Kubernetes cluster
 with the following command:
 
-[source,bash]
+[source,sh,role=execute]
 ----
 oc apply -f ./arcadia-all.yaml
 ----
@@ -50,7 +49,7 @@ oc apply -f ./arcadia-all.yaml
 We can check that our Arcadia application is running by using the
 following command in our terminal window:
 
-[source,bash]
+[source,sh,role=execute]
 ----
 oc get services
 ----
