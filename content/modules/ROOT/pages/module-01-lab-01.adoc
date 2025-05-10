@@ -221,8 +221,7 @@ available (1-3 Minutes)
 ====
 
 There is nothing yet deployed on NGINX Ingress Controller. However, the
-Dashboard and the Ingress are active. When the services were created in
-Kubernetes, Kubernetes created an AWS ELB. These ELBs allow for access
+Dashboard and the Ingress are active. When the services were created, OpenShift created an AWS ELB. These ELBs allow for access
 to the services, and if the NGINX services ever scale, they will
 dynamically be added.
 

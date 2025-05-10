@@ -43,14 +43,11 @@ wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engageme
 ----
 
 For this lab, we saved the container images to _quay.io_, a Red Hat
-hosted container image registry. We need to modify the YAML file to use
-the _quay.io_ registry:
-* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-main
-* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-backend
-* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app2
-* quay.io/repository/redhat-gpst/rhpds-nginxplus-arcadia-app3
+hosted container image registry. 
 
-Alternatively, you can copy the below text and paste+enter:
+We need to modify the YAML file to usethe _quay.io_ registry:+
+
+Paste the following into the terminal to modify the file. 
 
 [source,sh,role=execute]
 ----
@@ -60,29 +57,40 @@ sed -i -e "s/tonymarfil\/arcadia-app2:unit/quay.io\/redhat-gpst\/rhpds-nginxplus
 sed -i -e "s/tonymarfil\/arcadia-app3:unit/quay.io\/redhat-gpst\/rhpds-nginxplus-arcadia-app3/" arcadia.yml
 ----
 
-Apply the updated YAML file. In the terminal window, copy the below text
-and paste+enter:
+Apply the updated YAML file. 
 
 [source,sh,role=execute]
 ----
 oc apply -f ./arcadia.yml
 ----
 
-Example:
+[source,texinfo,subs="attributes"]
+----
+$ oc apply -f ./arcadia.yml
+deployment.apps/arcadia-main created
+deployment.apps/arcadia-backend created
+deployment.apps/arcadia-app2 created
+deployment.apps/arcadia-app3 created
+service/arcadia-main created
+service/backend created
+service/arcadia-app2 created
+service/arcadia-app3 created
+----
 
-image:image25.png[image25]
+Next, let's verify the Arcadia application  objects were created.
 
-Arcadia application Kubernetes objects
-
-In the terminal window, copy the below text and paste+enter:
 
 [source,sh,role=execute]
 ----
-oc get services
+oc get services | grep arcadia
 ----
 
-Example:
-
-image:image30.png[image30]
+[source,texinfo,subs="attributes"]
+----
+$ oc get services | grep arcadia
+arcadia-app2   ClusterIP      172.30.218.148   <none>                                 80/TCP    3m37s
+arcadia-app3   ClusterIP      172.30.197.247   <none>                                 80/TCP    3m37s
+arcadia-main   ClusterIP      172.30.187.71    <none>                                 80/TCP    3m37s
+----
 
 Arcadia application has been deployed and started
