@@ -45,7 +45,7 @@ wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engageme
 For this lab, we saved the container images to _quay.io_, a Red Hat
 hosted container image registry. 
 
-We need to modify the YAML file to usethe _quay.io_ registry:+
+We need to modify the YAML file to use the _quay.io_ registry:
 
 Paste the following into the terminal to modify the file. 
 

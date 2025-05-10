@@ -22,10 +22,10 @@ The terminal window to your right is already logged into the lab environment.
 
 Follow the instructions in each module to complete the lab exercises. The terminal provides all necessary tools to interact with the OpenShift environment and the NGINX Kubernetes Ingress Controller.
 
-The Web Console can be accessed by opening this URL in a new tab:+
+The Web Console can be accessed by opening this URL in a new tab: +
 {openshift_cluster_console_url} +
 Username: {openshift_cluster_admin_username} +
-Password: {openshift_cluster_admin_password}
+Password: {openshift_cluster_admin_password} 
 
 === Prerequisites
 

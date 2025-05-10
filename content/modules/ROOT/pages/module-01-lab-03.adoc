@@ -49,7 +49,7 @@ as they do for built-in resources like Pods.
 
 Create NGINX Ingress Controller with Basic HTTP:
 
-In the terminal window, copy the below text and paste enter:
+In the terminal window, paste the following and press enter:
 
 [source,sh,role=execute]
 ----
@@ -98,7 +98,6 @@ If you have closed the tab, you can run the `echo` command again to get the URL
 
 [source,sh,role=execute]
 ----
-export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress -n nginx-ingress --no-headers | awk '{print $4}' | grep -v "EXTERNAL-IP")
 echo "http://$dashboard_nginx_ingress/dashboard.html"
 ----
 
@@ -111,7 +110,6 @@ on HTTP!
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 echo "http://$nginx_ingress/"
 ----
 
@@ -195,7 +193,6 @@ on HTTPS!
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 echo "https://$nginx_ingress/"
 ----
 

@@ -64,7 +64,6 @@ NGINX Dashboard should be updated reflecting the active monitors
 
 [source,sh,role=execute]
 ----
-export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 echo "http://$dashboard_nginx_ingress/dashboard.html#upstreams"
 ----
 
@@ -78,7 +77,6 @@ only on HTTP with monitors!
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
 echo "http://$nginx_ingress/"
 ----
 
@@ -96,7 +94,7 @@ time.
 
 Paste the following patch into the terminal and press enter to create the caching path.
 
-[source,yaml]
+[source,sh,role=execute]
 ----
 oc patch nginxingress my-nginx-ingress \
   -n nginx-ingress \
@@ -120,7 +118,7 @@ oc patch nginxingress my-nginx-ingress \
 
 We also need to add two annotations to the AWS LoadBalancer service. The annonations specify TCP layer 4 proxying: the ELB forwards traffic without modifying the headers
 
-[source,yaml]
+[source,sh,role=execute]
 ----
 oc patch nginxingress my-nginx-ingress \
   -n nginx-ingress \
@@ -171,7 +169,8 @@ image:image38.png[image38]
  
 === Step 3 Create NGINX Ingress Controller with HTTPS with Active Monitors and Caching:
 
-In the terminal window, copy the below text and paste into the terminal.
+Ccopy the below text into the terminal and press enter.
+
 [source,sh,role=execute]
 ----
 cat << EOF | oc apply -f -
@@ -246,7 +245,7 @@ only on HTTP with monitors and caching!
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | awk '{print $4}' | grep -v "EXTERNAL-IP") && echo "http://$nginx_ingress/"
+echo "http://$nginx_ingress/"
 ----
 
 == HTTPS with Active Monitors, Caching, mTLS
@@ -382,9 +381,20 @@ This is expected behavior and confirms that mTLS is active.
 
 [source,shell,role="execute"]
 ----
-curl --insecure "https://$nginx_ingress/" --cert client-cert.pem --key client-key.pem
+curl --insecure "https://$nginx_ingress/" 
 ----
 
+[source,texinfo,subs="attributes"]
+ $ curl --insecure "https://$nginx_ingress/" 
+<html>
+<head><title>400 No required SSL certificate was sent</title></head>
+<body>
+<center><h1>400 Bad Request</h1></center>
+<center>No required SSL certificate was sent</center>
+<hr><center>nginx/1.27.2</center>
+</body>
+</html>
+----
 
 === Step 4: Download the Client Certificate and Key
 
