@@ -22,7 +22,7 @@ Clone the Ingress Controller repository and navigate to the deployments
 folder by running the following commands:
 
 
-[source,bash]
+[source,sh,role=execute]
 ----
 git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.0.1
 cd kubernetes-ingress/deployments
@@ -36,8 +36,8 @@ for the service account. To use the App Protect WAF module, we need to
 create the App Protect role and role binding by running the following
 command:
 
-----
-[source,bash]
+
+[source,sh,role=execute]
 ----
 oc apply -f rbac/ap-rbac.yaml
 ----
@@ -60,7 +60,7 @@ App Protect WAF module, we need to create custom resource definitions
 for APPolicy, APLogConf, and APUserSig. Run the following commands to
 create these resources:
 
-[source,bash]
+[source,sh,role=execute]
 ----
 oc apply -f common/crds/appprotect.f5.com_aplogconfs.yaml
 oc apply -f common/crds/appprotect.f5.com_appolicies.yaml
@@ -80,8 +80,8 @@ Controller link in the "Provided APIs" column, select
 "my-nginx-ingress-controller," and then click YAML to change the
 apppotect 'enable' field to true under spec: controller:
 +
-----
-[source,yaml]
+
+[source,sh,role=execute]
 ----
 apiVersion: charts.nginx.org/v1alpha1
 kind: NginxIngress
@@ -115,7 +115,7 @@ App Protect to a local registry.
 . After reloading, wait for the KIC pod to become available by running
 the command:
 +
-[source,bash]
+[source,sh,role=execute]
 ----
 oc get pod -n nginx-ingress --watch
 ----
@@ -133,8 +133,8 @@ Now, it is time to configure the Ingress Controller with CRD resources
 Execute the following commands to deploy the different resources. In the
 terminal window, copy the below text and paste+enter:
 
-----
-[source,bash]
+
+[source,sh,role=execute]
 ----
 cd /home/lab-user/kubernetes-ingress/examples/custom-resources/app-protect-waf
 
@@ -157,8 +157,8 @@ In this lab, we will proceed by disregarding the "apple_sigs" signature
 set. Kindly remove the subsequent lines from
 `ap-dataguard-alarm-policy.yaml`:
 
-----
-[source,yaml]
+
+[source,sh,role=execute]
 ----
 signature-requirements:
 - tag: Fruits
@@ -174,8 +174,8 @@ signature-sets:
 If preferred, you can also accomplish this using the 'sed' command as
 follows:
 
-----
-[source,bash]
+
+[source,sh,role=execute]
 ----
 sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
 ----
@@ -186,7 +186,7 @@ this:
 In the terminal window, copy the below text and paste+enter, to reapply
 the `ap-dataguard-alarm-policy.yaml`:
 
-[source,bash]
+[source,sh,role=execute]
 ----
 oc apply -f ap-dataguard-alarm-policy.yaml
 ----
@@ -213,22 +213,22 @@ Server.
 `oc get virtualserver arcadia`.
 
 
-[source,bash]
+[source,sh,role=execute]
 ----
 oc get virtualserver arcadia
 ----
 . Update VirtualServer `oc edit virtualserver arcadia`
 +
-----
-[source,bash]
+
+[source,sh,role=execute]
 ----
 oc edit virtualserver arcadia
 ----
 . Add the following content to the lines immediately following
 [.title-ref]#host: $nginx_ingress#, at the same indentation level:
 +
-----
-[source,yaml]
+
+[source,sh,role=execute]
 ----
 policies:
 - name: waf-policy
@@ -236,7 +236,7 @@ policies:
 
 Once modified, your `virtualserver` yaml should resemble this:
 
-[source,yaml]
+[source,sh,role=execute]
 ----
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
