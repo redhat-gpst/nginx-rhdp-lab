@@ -192,6 +192,7 @@ oc get svc -n nginx-ingress -o custom-columns=NAME:.metadata.name,EXTERNAL-IP:.s
 ----
 
 [source,texinfo,subs="attributes"]
+----
 NAME                                                        EXTERNAL-IP                                                               PORTS
 dashboard-nginx-ingress                                     a73b56ff0acff424d95622b8186fa437-1674271925.us-east-2.elb.amazonaws.com   80
 my-nginx-ingress-controller                                 a4b838e53c44941c596202a9b1485afe-1780657549.us-east-2.elb.amazonaws.com   80,443
@@ -205,15 +206,10 @@ This enables simple templating when exposing applications.
 
 Paste the following into the terminal and press enter.
 
-[source,sh,role=execute]
-----
-echo 'export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
-----
 
 [source,sh,role=execute]
 ----
-echo 'export nginx_ingress=$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
-
+echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s ' ' | cut -d' ' -f4)\"\n" >> ~/.bashrc && source ~/.bashrc
 ----
 
 Browse to the exposed NGINX Ingress Controller services
@@ -248,7 +244,6 @@ Simmilarly, we can view the NGINX Ingress Controller URL, but since we don't hav
 echo "http://$nginx_ingress"
 ----
 
-Example:
 
 image:image29.png[image29]
 
@@ -256,6 +251,5 @@ image:image29.png[image29]
 
 The NGINX Ingress Controller services have been created and exposed
 
-At this point, we can deploy our applications, and provide access
-through NGINX!
+At this point, we can deploy our applications, and provide access through NGINX!
 

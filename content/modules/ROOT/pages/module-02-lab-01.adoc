@@ -5,19 +5,18 @@
 In Module 1, we have already deployed the NGINX Ingress Controller, so
 we will focus on configuring NGINX App Protect in this module. For the
 complete installation of the NGINX Plus Ingress Controller, refer to the
-official documentation
-https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/[Installation
-with Manifests]
+link:https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/[Installation[official documentation]
+with Manifests
 
 At a high level, we will:
 
-----
-. Configure role-based access control (RBAC)
-. Create the common Kubernetes resources
-. Install the Ingress Controller with NGINX App Protect WAF
-. Configure the NGINX App Protect WAF module
-. Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
-----
+
+* Configure role-based access control (RBAC)
+* Create the common Kubernetes resources
+* Install the Ingress Controller with NGINX App Protect WAF
+* Configure the NGINX App Protect WAF module
+.*Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
+
 
 Clone the Ingress Controller repository and navigate to the deployments
 folder by running the following commands:
@@ -47,10 +46,9 @@ oc apply -f rbac/ap-rbac.yaml
 
 In Module 1, we created:
 
-* a secret with a TLS certificate and a key for the default server in
-NGINX
-* a config map for customizing NGINX configuration
-* an IngressClass resource
+* a secret with a TLS certificate and a key for the default server in NGINX
+* A config map for customizing NGINX configuration
+* An IngressClass resource
 
 No additional common resource is needed for the App Protect WAF module.
 
@@ -62,7 +60,6 @@ App Protect WAF module, we need to create custom resource definitions
 for APPolicy, APLogConf, and APUserSig. Run the following commands to
 create these resources:
 
-----
 [source,bash]
 ----
 oc apply -f common/crds/appprotect.f5.com_aplogconfs.yaml
@@ -74,9 +71,8 @@ oc apply -f common/crds/appprotect.f5.com_apusersigs.yaml
 
 *Steps*
 
-----
-. Enable the App Protect module in the Ingress Controller.
-+
+
+* Enable the App Protect module in the Ingress Controller. +
 Enable the App Protect module in the Ingress Controller by clicking on
 "Operators" and then "Installed Operators" in the OpenShift Console's
 left navigation column. On the page that opens, click the Nginx Ingress

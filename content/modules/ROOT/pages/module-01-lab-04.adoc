@@ -385,7 +385,9 @@ curl --insecure "https://$nginx_ingress/"
 ----
 
 [source,texinfo,subs="attributes"]
+----
  $ curl --insecure "https://$nginx_ingress/" 
+ 
 <html>
 <head><title>400 No required SSL certificate was sent</title></head>
 <body>

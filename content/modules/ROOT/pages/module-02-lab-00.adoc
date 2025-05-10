@@ -51,24 +51,43 @@ following command in our terminal window:
 
 [source,sh,role=execute]
 ----
-oc get services
+oc get svc
 ----
 
 This will show us the services running in our Kubernetes cluster,
 including those related to the Arcadia application.
 
+[source,texinfo,subs="attributes"]
+----
+$ oc get svc
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP                            PORT(S)        AGE
+app2         NodePort       172.30.134.98   <none>                                 80:30362/TCP   3m13s
+app3         NodePort       172.30.45.51    <none>                                 80:31662/TCP   3m13s
+backend      NodePort       172.30.83.103   <none>                                 80:31584/TCP   3m13s
+kubernetes   ClusterIP      172.30.0.1      <none>                                 443/TCP        3h41m
+main         NodePort       172.30.25.227   <none>                                 80:30511/TCP   3m13s
+openshift    ExternalName   <none>          kubernetes.default.svc.cluster.local   <none>         3h31m
+----
+
 == Export the NGINX Ingress Controller services
 
-Interacting with the NGINX Ingress Controller is more comfortable with
-exporting the service External IPs into system variables. This allows
-for templating to take place when we expose our applications.
+Interacting with the NGINX Ingress Controller is  easier if we expoort the service External IPs into system variables. 
+This allows for templating to take place when we expose our applications.
 
-In the terminal window, copy the below text and paste+enter:
+Paste the below into the terminal and press enter:
 
 [source,sh,role=execute]
 ----
- export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP") && "http://$nginx_ingress/"
+export nginx_ingress=$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
 ----
+
+You can check the domain name with the `echo` command
+
+[source,sh,role=execute]
+----
+ echo "$nginx_ingress/"
+----
+
 
 
 == Publish Arcadia app with NGINX Plus Ingress Controller
@@ -87,7 +106,7 @@ window:
 
 [source,sh,role=execute]
 ----
-cat << EOF | oc apply -f -
+cat << EOF | envsubst > arcadia-virtualserver.yml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
@@ -119,13 +138,22 @@ spec:
 EOF
 ----
 
-[source,bash]
+Use the `cat` command to view the contents of the file and verify the `host` line matches your nginx_ingress external domain name
+
+[source,sh,role=execute]
 ----
-echo "NGINX Ingress Controller URL: http://$nginx_ingress/"
+cat arcadia-virtualserver.yml
 ----
 
-Once we have the URL, we can access our Arcadia application by opening
-it in a web browser.
+
+
+We can know go to the URL and  access our Arcadia application by opening it in a web browser.
+
+[source,sh,role=execute]
+----
+ echo "http://$nginx_ingress/"
+----
+
 
 You should be presented with the Main page, click on Login and enter the
 credentials as below.
