@@ -69,12 +69,16 @@ that the Operator is running
 
 [source,sh,role=execute]
 ----
-oc get pods -n nginx-ingress -o wide
+oc get csv -n nginx-ingress -o wide
 ----
 
-image:image24.png[image24]
+[source,texinfo,subs="attributes"]
+----
+NAME                            DISPLAY                  VERSION   REPLACES   PHASE
+nginx-ingress-operator.v3.1.0   Nginx Ingress Operator   3.1.0                Succeeded
+----
 
-From OpenShift Console, Click Operators -> Installed Operator in the
+From the OpenShift Console, Click Operators -> Installed Operator in the
 left navigation column. On the page that opens, click the Nginx Ingress
 Controller link in the Provided APIs column. NginxIngressController is a
 custom resource which the Operator uses to deploy the NGINX Plus Ingress
@@ -96,7 +100,7 @@ Controller is running:
 
 [source,sh,role=execute]
 ----
-oc -n nginx-ingress get pods -o wide
+oc -n nginx-ingress get pods
 ----
 
 Example:
@@ -181,7 +185,7 @@ In the terminal window, copy the below text and paste+enter:
 
 [source,sh,role=execute]
 ----
-oc get svc --namespace=nginx-ingress
+oc get svc -n nginx-ingress
 ----
 
 Example:
@@ -198,12 +202,13 @@ In the terminal window copy the below text and paste+enter:
 
 [source,sh,role=execute]
 ----
-export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
+echo 'export dashboard_nginx_ingress=$(oc get svc dashboard-nginx-ingress -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
 ----
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller --namespace=nginx-ingress | tr -s " " | cut -d' ' -f4 | grep -v "EXTERNAL-IP")
+echo 'export nginx_ingress=$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
+
 ----
 
 Browse to the exposed NGINX Ingress Controller services
@@ -229,11 +234,16 @@ This command will expose the URL for the dashboard.
 echo "http://$dashboard_nginx_ingress/dashboard.html"
 ----
 
+Open the dashboard and save it for later use.  We will be referincing it several times in the lab.
 
 image:image28.png[image28]
 
-NGINX Ingress Controller URL (replace with the nginx-ingress
-EXTERNAL-IP): `http://EXTERNAL-IP/`
+Simmilarly, we can open the NGINX Ingress Controller URL, but since we don't have a web application installed yet, you will see a 404 message.
+
+[source,sh,role=execute]
+----
+echo "http://$nginx_ingress"
+----
 
 Example:
 
