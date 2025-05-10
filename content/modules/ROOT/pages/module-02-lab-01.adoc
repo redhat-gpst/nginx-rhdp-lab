@@ -15,13 +15,13 @@ At a high level, we will:
 * Create the common Kubernetes resources
 * Install the Ingress Controller with NGINX App Protect WAF
 * Configure the NGINX App Protect WAF module
-.*Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
+* Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
 
 
 Clone the Ingress Controller repository and navigate to the deployments
 folder by running the following commands:
 
-----
+
 [source,bash]
 ----
 git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.0.1

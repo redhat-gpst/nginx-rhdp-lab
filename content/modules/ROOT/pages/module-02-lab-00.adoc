@@ -145,6 +145,12 @@ Use the `cat` command to view the contents of the file and verify the `host` lin
 cat arcadia-virtualserver.yml
 ----
 
+Next, apply the yaml config
+
+[source,sh,role=execute]
+----
+oc apply -f arcadia-virtualserver.yml
+----
 
 
 We can know go to the URL and  access our Arcadia application by opening it in a web browser.
