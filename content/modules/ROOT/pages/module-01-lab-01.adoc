@@ -96,23 +96,26 @@ the *image:tag* value is correct from deployment manifest
 ====
 
 Run this command in a terminal, to verify that the NGINX Ingress
-Controller is running:
+Controller pod is running:
 
 [source,sh,role=execute]
 ----
 oc -n nginx-ingress get pods
 ----
 
-Example:
+[source,texinfo,subs="attributes"]
+----
+$ oc -n nginx-ingress get pods
+NAME                                                         READY   STATUS    RESTARTS   AGE
+my-nginx-ingress-controller-574b87bf46-p4857                 1/1     Running   0          103m
+nginx-ingress-operator-controller-manager-7d894775dc-vm65c   2/2     Running   0          105m
+----
 
-image:image24-3.png[image24-3]
 
-Expose the NGINX Ingress Controller Dashboard
+### Expose the NGINX Ingress Controller Dashboard
 
-NGINX Ingress Controller (all purchased editions) has an internal
-dashboard that can be exposed. The Dashboard provides analytic stats of
-services deployed on NGINX. These stats can also be exposed to
-collection systems like Prometheus.
+Enterprise editions of the NGINX Ingress Controller include a web dashboard that provides analytics and traffic statistics for services running on NGINX. 
+These metrics can also be exported to monitoring systems such as Prometheus.
 
 Use wget to download the dashboard yaml.
 
@@ -121,8 +124,8 @@ Use wget to download the dashboard yaml.
 wget https://raw.githubusercontent.com/f5devcentral/f5-digital-customer-engagement-center/main/solutions/delivery/application_delivery_controller/nginx/kic/templates/nginx-ingress-dashboard.yml
 ----
 
-Next, we have to change the app selector in the yaml file. We can do
-this with the _sed_ command.
+Next, we have to change the app selector in the yaml file. +
+We can do this with the `sed` command.
 
 
 [source,sh,role=execute]
@@ -138,7 +141,7 @@ The yaml should now look like this:
 cat -n nginx-ingress-dashboard.yml
 ----
 
-[source,sh,role=execute]
+[source,texinfo,subs="attributes"]
 ----
 1  apiVersion: v1
 2  kind: Service
@@ -159,9 +162,9 @@ cat -n nginx-ingress-dashboard.yml
 ----
 
 
-Expose the Dashboard. In the terminal window copy the below text and
-paste+enter:
+### Expose the Dashboard. 
 
+Paste the following into the terminal and press enter.
 
 [source,sh,role=execute]
 ----
@@ -178,27 +181,29 @@ In AWS, this is an FQDN. It is recommended to copy these to an easily
 referenceable location like a clipboard/digital notepad
 ====
 
-The deployment of NGINX Controller Ingress contains two Kubernetes
-services: Ingress and the other for Dashboard.
+The NGINX Ingress Controller deployment includes two Kubernetes services.
+One for handling ingress traffic and another for accessing the web dashboard.
 
-In the terminal window, copy the below text and paste+enter:
+Paste the following into the termianl to view the two services.
 
 [source,sh,role=execute]
 ----
-oc get svc -n nginx-ingress
+oc get svc -n nginx-ingress -o custom-columns=NAME:.metadata.name,EXTERNAL-IP:.status.loadBalancer.ingress[0].hostname,PORTS:.spec.ports[*].port --no-headers | grep -v operator
 ----
 
-Example:
+[source,texinfo,subs="attributes"]
+NAME                                                        EXTERNAL-IP                                                               PORTS
+dashboard-nginx-ingress                                     a73b56ff0acff424d95622b8186fa437-1674271925.us-east-2.elb.amazonaws.com   80
+my-nginx-ingress-controller                                 a4b838e53c44941c596202a9b1485afe-1780657549.us-east-2.elb.amazonaws.com   80,443
+----
 
-image:image27.png[image27]
 
 Export the NGINX Ingress Controller services
 
-Interacting with the NGINX Ingress Controller is more comfortable with
-exporting the service External IPs into system variables. This allows
-for templating to take place when we expose our applications.
+Interacting with the NGINX Ingress Controller is easier when you export the services’ External IPs as environment variables. 
+This enables simple templating when exposing applications.
 
-In the terminal window copy the below text and paste+enter:
+Paste the following into the terminal and press enter.
 
 [source,sh,role=execute]
 ----
@@ -220,13 +225,12 @@ The Dashboard and the Ingress websites will take a few minutes to become
 available (1-3 Minutes)
 ====
 
-There is nothing yet deployed on NGINX Ingress Controller. However, the
-Dashboard and the Ingress are active. When the services were created, OpenShift created an AWS ELB. These ELBs allow for access
-to the services, and if the NGINX services ever scale, they will
+There is nothing yet deployed on NGINX Ingress Controller. However, the Dashboard and the Ingress are active. 
+When the services were created, OpenShift created an AWS ELB. These ELBs allow for access to the services, and if the NGINX services ever scale, they will
 dynamically be added.
 
 
-This command will expose the URL for the dashboard.
+This command will show the URL for the dashboard.
 
 [source,sh,role=execute]
 ----
@@ -237,7 +241,7 @@ Open the dashboard and save it for later use.  We will be referincing it several
 
 image:image28.png[image28]
 
-Simmilarly, we can open the NGINX Ingress Controller URL, but since we don't have a web application installed yet, you will see a 404 message.
+Simmilarly, we can view the NGINX Ingress Controller URL, but since we don't have a web application installed yet, you will see a 404 message.
 
 [source,sh,role=execute]
 ----
