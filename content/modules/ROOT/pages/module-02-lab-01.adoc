@@ -210,14 +210,12 @@ Server.
 *Steps*
 
 . Examine the contents of the *VirtualServer* resource
-`oc get virtualserver arcadia`.
-
 
 [source,sh,role=execute]
 ----
 oc get virtualserver arcadia
 ----
-. Update VirtualServer `oc edit virtualserver arcadia`
+. Update VirtualServer resource
 +
 
 [source,sh,role=execute]
@@ -234,7 +232,7 @@ policies:
 - name: waf-policy
 ----
 
-Once modified, your `virtualserver` yaml should resemble this:
+Once modified, your `virtualserver` yml should resemble this:
 
 [source,sh,role=execute]
 ----

