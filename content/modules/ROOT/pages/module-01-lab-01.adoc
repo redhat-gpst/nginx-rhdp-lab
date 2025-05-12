@@ -105,7 +105,7 @@ oc get pods -n nginx-ingress
 
 [source,texinfo,subs="attributes"]
 ----
-$ oc -n nginx-ingress get pods
+$ oc get pods -n nginx-ingress
 NAME                                                         READY   STATUS    RESTARTS   AGE
 my-nginx-ingress-controller-574b87bf46-p4857                 1/1     Running   0          103m
 nginx-ingress-operator-controller-manager-7d894775dc-vm65c   2/2     Running   0          105m
