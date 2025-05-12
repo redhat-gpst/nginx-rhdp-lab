@@ -18,11 +18,16 @@ app (replace with the nginx-ingress EXTERNAL-IP): `http://EXTERNAL-IP/`
 `?a=<script>` to the end of the application URL. Observe that the attack
 is now blocked and the user is provided with a support ID.
 
-
-<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.
-<br><br>Your support ID is: 2246109708976899297<br><br><a href='javascript:history.back();'>
-[Go Back]</a></body></html>
-
+ ++++
+<html>
+  <head><title>Request Rejected</title></head>
+  <body>
+    The requested URL was rejected. Please consult with your administrator.<br><br>
+    Your support ID is: 2246109708976899297<br><br>
+    <a href='javascript:history.back();'>[Go Back]</a>
+  </body>
+</html>
+++++
 
 [NOTE]
 .Note
