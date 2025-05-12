@@ -100,7 +100,7 @@ Controller pod is running:
 
 [source,sh,role=execute]
 ----
-oc -n nginx-ingress get pods
+oc get pods -n nginx-ingress
 ----
 
 [source,texinfo,subs="attributes"]
@@ -164,22 +164,13 @@ cat -n nginx-ingress-dashboard.yml
 
 ### Expose the Dashboard. 
 
-Paste the following into the terminal and press enter.
+Paste the following into the terminal and press enter to create the NGINX Ingress Dashboard.
 
 [source,sh,role=execute]
 ----
 oc apply -f nginx-ingress-dashboard.yml
 ----
 
-See the NGINX Ingress Controller services
-
-[WARNING]
-.Warning
-====
-The *EXTERNAL-IP* values will be used during several parts of the lab.
-In AWS, this is an FQDN. It is recommended to copy these to an easily
-referenceable location like a clipboard/digital notepad
-====
 
 The NGINX Ingress Controller deployment includes two Kubernetes services.
 One for handling ingress traffic and another for accessing the web dashboard.
@@ -188,7 +179,7 @@ Paste the following into the termianl to view the two services.
 
 [source,sh,role=execute]
 ----
-oc get svc -n nginx-ingress -o custom-columns=NAME:.metadata.name,EXTERNAL-IP:.status.loadBalancer.ingress[0].hostname,PORTS:.spec.ports[*].port --no-headers | grep -v operator
+oc get svc -n nginx-ingress
 ----
 
 [source,texinfo,subs="attributes"]
@@ -209,8 +200,12 @@ Paste the following into the terminal and press enter.
 
 [source,sh,role=execute]
 ----
-echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s ' ' | cut -d' ' -f4)\"\n" >> ~/.bashrc && source ~/.bashrc
+echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"\n" >> ~/.bashrc && 
+echo -e "\nexport dashboard_nginx_ingress=\"$(oc get svc dashboard-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"\n" >> ~/.bashrc && source ~/.bashrc
+
 ----
+
+
 
 Browse to the exposed NGINX Ingress Controller services
 
