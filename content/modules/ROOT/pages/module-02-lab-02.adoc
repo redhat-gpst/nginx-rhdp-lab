@@ -3,14 +3,12 @@
 Now that NGINX App Protect WAF is enabled, let's test its ability to
 protect against Layer 7 attacks. Follow these steps:
 
-Launch the Firefox browser and open Arcadia Finance app:
+Open the Arcadia Financial webpage in your browser.
 
-[NOTE]
-.Note
-====
-Make sure you get the nginx-ingress EXTERNAL-IP with the command
-`oc get svc --namespace=nginx-ingress`
-====
+[source,sh,role=execute]
+----
+echo "http://$nginx_ingress"
+----
 
 . In the browser, open the NGINX Ingress Controller URL to access the Arcadia
 app (replace with the nginx-ingress EXTERNAL-IP): `http://EXTERNAL-IP/`
@@ -22,11 +20,9 @@ is now blocked and the user is provided with a support ID.
 
 [source,html]
 ----
-The requested URL was rejected. Please consult with your administrator.
-
-Your support ID is: 5374014569933997707
-
-[Go Back]
+<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.
+<br><br>Your support ID is: 2246109708976899297<br><br><a href='javascript:history.back();'>
+[Go Back]</a></body></html>
 ----
 
 [NOTE]
