@@ -220,7 +220,6 @@ the WAF policy and Log Profile to the NGINX Ingress Controller.
 
 == Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
 
-It is important that the application always has a WAF protecting it.
 
 To enable NAP for an application, a Virtual Server in NGINX Ingress
 Controller requires both a Policy and an APPolicy custom resource to be
@@ -228,16 +227,16 @@ attached to it. You simply need to add the reference to the Virtual
 Server.
 
 
-Let's examine the contents of the *VirtualServer* resource
+Let's examine the contents of the *VirtualServer* resource.
 
 [source,sh,role=execute]
 ----
 oc get virtualserver arcadia
 ----
 
-Next, we will Update the VirtualServer resource
-+
-When you run `oc edit`, OpenShift automatically detects the changes as soon as you save and exit the editor. It will validate and apply the updated resource immediately.
+Next, we will Update the VirtualServer resource by using the `oc edit` command.
+
+When you run `oc edit`, OpenShift automatically detects the changes as soon as you save and exit the editor. It will then validate and apply the updated resource immediately.
 
 You can use `vi` commands to make changes to the file
 
@@ -246,10 +245,10 @@ You can use `vi` commands to make changes to the file
 | Command | Description
 
 | i       | Enter insert mode
+| Esc     | Exit insert mode
 | dd      | Delete current line
 | :wq     | Save and quit
 | :q!     | Quit without saving
-| Esc     | Exit insert mode
 |===
 
 [source,sh,role=execute]
@@ -260,7 +259,7 @@ oc edit virtualserver arcadia
 Add the following content to the lines immediately following
 [.title-ref]#host: $nginx_ingress#, at the same indentation level. 
 
-+
+
 
 [source,sh,role=execute]
 ----
@@ -268,7 +267,9 @@ policies:
 - name: waf-policy
 ----
 
-Once modified, your `virtualserver` yml should resemble this:
+Once modified, your `virtualserver` yml should resemble this.
+
+Remember, your `$nginx_ingress` will be your ingress domain that we exported earlier in the lab.
 
 [source]
 ----
