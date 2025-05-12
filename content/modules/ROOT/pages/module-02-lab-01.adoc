@@ -99,7 +99,7 @@ oc get nginxingress my-nginx-ingress -n nginx-ingress -o yaml | grep -A5 appprot
       maxDaemons: 0
       maxWorkers: 0
       memory: 0
- ----
+----
 
 [NOTE]
 .Note
