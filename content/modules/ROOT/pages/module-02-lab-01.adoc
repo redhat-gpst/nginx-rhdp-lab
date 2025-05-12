@@ -88,7 +88,7 @@ To confirm the patch was applied correctly, run:
 oc get nginxingress my-nginx-ingress -n nginx-ingress -o yaml | grep -A5 appprotect
 ----
 
-[source]
+[source,texinfo,subs="attributes"]
 ----
  $ oc get nginxingress my-nginx-ingress -n nginx-ingress -o yaml | grep -A5 appprotect
     appprotect:
