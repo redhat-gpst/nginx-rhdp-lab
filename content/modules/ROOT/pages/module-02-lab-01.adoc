@@ -108,14 +108,15 @@ In your own deployments, make sure that you have pulled the Ingress Controller i
 Protect. In this lab, we have already loaded the NGINX Plus image with App Protect to a local registry.
 ====
 
-. After applying the patch, wait for the KIC pod to become available by running
+After applying the patch, wait for the KIC pod to become available by running
 the command:
 +
 [source,sh,role=execute]
 ----
 oc get pod -n nginx-ingress --watch
 ----
-. When it's ready, press `ctrl-c` to stop the watch.
+
+When it's ready, press `ctrl-c` to stop the watch.
 
 
 == Configure the NGINX App Protect WAF module
@@ -124,7 +125,7 @@ Now, it is time to configure the Ingress Controller with CRD resources
 (WAF policy, Log profile, Ingress routing ...)
 
 
-. Execute the following commands to deploy the different resources. 
+Execute the following commands to deploy the different resources. 
 
 [source,sh,role=execute]
 ----
@@ -137,16 +138,16 @@ oc apply -f ap-logconf.yaml
 oc apply -f waf.yaml
 ----
 
-Of the above commands, we focus on the following files:
-
-[arabic]
-. The `ap-dataguard-alarm-policy.yaml` file creates the WAF policy that
+The `ap-dataguard-alarm-policy.yaml` file creates the WAF policy that
 specifies the rules for protecting the application from layer 7 attacks.
+
 It is recommended to customize this policy according to the specific
 application requirements.
 
 In this lab, we will proceed by disregarding the "apple_sigs" signature
-set. Remove the subsequent lines from `ap-dataguard-alarm-policy.yaml`:
+set. 
+
+Remove these lines from `ap-dataguard-alarm-policy.yaml`
 
 
 [source,sh,role=execute]
@@ -171,8 +172,7 @@ follows:
 sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
 ----
 
-Once modified, your `ap-dataguard-alarm-policy.yaml` should resemble
-this:
+Once modified, your `ap-dataguard-alarm-policy.yaml` should look like this:
 
 [source,sh]
 ----
@@ -212,10 +212,10 @@ the `ap-dataguard-alarm-policy.yaml` config.
 oc apply -f ap-dataguard-alarm-policy.yaml
 ----
 
-. The `ap-logconf.yaml` file creates the Log Profile that specifies the
+The `ap-logconf.yaml` file creates the Log Profile that specifies the
 format of the logs to be generated when the policy detects an attack.
 
-. The `waf.yaml` file creates the WAF configuration that links
+The `waf.yaml` file creates the WAF configuration that links
 the WAF policy and Log Profile to the NGINX Ingress Controller.
 
 == Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
@@ -227,16 +227,15 @@ Controller requires both a Policy and an APPolicy custom resource to be
 attached to it. You simply need to add the reference to the Virtual
 Server.
 
-*Steps*
 
-. Examine the contents of the *VirtualServer* resource
+Let's examine the contents of the *VirtualServer* resource
 
 [source,sh,role=execute]
 ----
 oc get virtualserver arcadia
 ----
 
-. Update VirtualServer resource
+Next, we will Update the VirtualServer resource
 +
 When you run `oc edit`, OpenShift automatically detects the changes as soon as you save and exit the editor. It will validate and apply the updated resource immediately.
 
@@ -258,7 +257,7 @@ You can use `vi` commands to make changes to the file
 oc edit virtualserver arcadia
 ----
 
-. Add the following content to the lines immediately following
+Add the following content to the lines immediately following
 [.title-ref]#host: $nginx_ingress#, at the same indentation level. 
 
 +
