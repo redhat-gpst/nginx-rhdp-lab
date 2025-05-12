@@ -190,8 +190,6 @@ my-nginx-ingress-controller                                 a4b838e53c44941c5962
 ----
 
 
-Export the NGINX Ingress Controller services
-
 Interacting with the NGINX Ingress Controller is easier when you export the services’ External IPs as environment variables. 
 This enables simple templating when exposing applications.
 
@@ -200,9 +198,8 @@ Paste the following into the terminal and press enter.
 
 [source,sh,role=execute]
 ----
-echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"\n" >> ~/.bashrc && 
-echo -e "\nexport dashboard_nginx_ingress=\"$(oc get svc dashboard-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"\n" >> ~/.bashrc && source ~/.bashrc
-
+echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')\"\n" >> ~/.bashrc &&
+echo -e "\nexport dashboard_nginx_ingress=\"$(oc get svc dashboard-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')\"\n" >> ~/.bashrc && source ~/.bashrc
 ----
 
 

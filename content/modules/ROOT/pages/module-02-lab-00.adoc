@@ -73,11 +73,18 @@ openshift    ExternalName   <none>          kubernetes.default.svc.cluster.local
 Interacting with the NGINX Ingress Controller is  easier if we expoort the service External IPs into system variables. 
 This allows for templating to take place when we expose our applications.
 
+[NOTE]
+.Note
+====
+If you completed this step in Module 1, you can skip it here. You can `cat .bashrc` if you need to check it is still there.
+====
+
 Paste the below into the terminal and press enter:
 
 [source,sh,role=execute]
 ----
-export nginx_ingress=$(oc get svc my-nginx-ingress-controller -n nginx-ingress --no-headers | tr -s " " | cut -d" " -f4)' >> ~/.bashrc && source ~/.bashrc
+echo -e "\nexport nginx_ingress=\"$(oc get svc my-nginx-ingress-controller -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')\"\n" >> ~/.bashrc &&
+echo -e "\nexport dashboard_nginx_ingress=\"$(oc get svc dashboard-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')\"\n" >> ~/.bashrc && source ~/.bashrc
 ----
 
 You can check the domain name with the `echo` command
@@ -153,12 +160,19 @@ oc apply -f arcadia-virtualserver.yml
 
 
 We can know go to the URL and  access our Arcadia application by opening it in a web browser.
+Some browsers may try to redirect to https, so if you get a `404` error make sure you are using http
 
 [source,sh,role=execute]
 ----
  echo "http://$nginx_ingress/"
 ----
 
+You can also check with a curl command, but won't be able to complete the login below.
+
+[source,sh,role=execute]
+----
+curl -k http://$nginx_ingress
+----
 
 You should be presented with the Main page, click on Login and enter the
 credentials as below.

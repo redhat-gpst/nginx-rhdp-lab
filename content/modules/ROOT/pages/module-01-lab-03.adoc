@@ -196,3 +196,10 @@ on HTTPS!
 echo "https://$nginx_ingress/"
 ----
 
+If you are unable to open unsigned certs in your browser, you can also check the website with a `curl` command
+
+[source,sh,role=execute]
+----
+curl -k https://$nginx_ingress
+----
+

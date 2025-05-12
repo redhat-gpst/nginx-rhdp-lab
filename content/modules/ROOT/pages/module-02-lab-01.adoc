@@ -69,50 +69,46 @@ oc apply -f common/crds/appprotect.f5.com_apusersigs.yaml
 
 == Update the Ingress Controller with NGINX App Protect WAF
 
-*Steps*
+We need to enable the App Protect module in the Ingress Controller
 
-
-* Enable the App Protect module in the Ingress Controller. +
-Enable the App Protect module in the Ingress Controller by clicking on
-"Operators" and then "Installed Operators" in the OpenShift Console's
-left navigation column. On the page that opens, click the Nginx Ingress
-Controller link in the "Provided APIs" column, select
-"my-nginx-ingress-controller," and then click YAML to change the
-apppotect 'enable' field to true under spec: controller:
-+
+Paste the following into the ternminal
 
 [source,sh,role=execute]
 ----
-apiVersion: charts.nginx.org/v1alpha1
-kind: NginxIngress
-
-spec:
-  controller:
-    appprotect:
-      enable: True
+oc patch nginxingress my-nginx-ingress-controller \
+  -n nginx-ingress \
+  --type merge \
+  -p '{"spec":{"controller":{"appprotect":{"enable":true}}}}'
 ----
-+
-Example:
-+
+
+To confirm the patch was applied correctly, run:
+
+[source,sh,role=execute]
+----
+oc get nginxingress my-nginx-ingress -n nginx-ingress -o yaml | grep -A5 appprotect
+----
+
+[source]
+----
+ $ oc get nginxingress my-nginx-ingress -n nginx-ingress -o yaml | grep -A5 appprotect
+    appprotect:
+      enable: true
+    appprotectdos:
+      debug: false
+      enable: false
+      maxDaemons: 0
+      maxWorkers: 0
+      memory: 0
+ ----
+
 [NOTE]
 .Note
 ====
-Please be aware that the line numbers mentioned in this guide may have
-changed due to updates or revisions in the code.
+In your own deployments, make sure that you have pulled the Ingress Controller image with App
+Protect. In this lab, we have already loaded the NGINX Plus image with App Protect to a local registry.
 ====
-+
-image:ingress-controller-nap.png[image]
-+
-Click Save, and Reload
-+
-[NOTE]
-.Note
-====
-Make sure that you have pulled the Ingress Controller image with App
-Protect. In this lab, we have already loaded the NGINX Plus image with
-App Protect to a local registry.
-====
-. After reloading, wait for the KIC pod to become available by running
+
+. After applying the patch, wait for the KIC pod to become available by running
 the command:
 +
 [source,sh,role=execute]
@@ -120,19 +116,15 @@ the command:
 oc get pod -n nginx-ingress --watch
 ----
 . When it's ready, press `ctrl-c` to stop the watch.
-+
-image:/ingress-ready.png[image]
+
 
 == Configure the NGINX App Protect WAF module
 
 Now, it is time to configure the Ingress Controller with CRD resources
 (WAF policy, Log profile, Ingress routing ...)
 
-*Steps*
 
-Execute the following commands to deploy the different resources. In the
-terminal window, copy the below text and paste+enter:
-
+. Execute the following commands to deploy the different resources. 
 
 [source,sh,role=execute]
 ----
@@ -154,8 +146,7 @@ It is recommended to customize this policy according to the specific
 application requirements.
 
 In this lab, we will proceed by disregarding the "apple_sigs" signature
-set. Kindly remove the subsequent lines from
-`ap-dataguard-alarm-policy.yaml`:
+set. Remove the subsequent lines from `ap-dataguard-alarm-policy.yaml`:
 
 
 [source,sh,role=execute]
@@ -183,19 +174,48 @@ sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
 Once modified, your `ap-dataguard-alarm-policy.yaml` should resemble
 this:
 
-In the terminal window, copy the below text and paste+enter, to reapply
-the `ap-dataguard-alarm-policy.yaml`:
+[source,sh]
+----
+$ cat -n ap-dataguard-alarm-policy.yaml 
+     1  apiVersion: appprotect.f5.com/v1beta1
+     2  kind: APPolicy
+     3  metadata:
+     4    name: dataguard-alarm
+     5  spec:
+     6    policy:
+     7      applicationLanguage: utf-8
+     8      blocking-settings:
+     9        violations:
+    10        - alarm: true
+    11          block: false
+    12          name: VIOL_DATA_GUARD
+    13      data-guard:
+    14        creditCardNumbers: true
+    15        enabled: true
+    16        enforcementMode: ignore-urls-in-list
+    17        enforcementUrls: []
+    18        lastCcnDigitsToExpose: 4
+    19        lastSsnDigitsToExpose: 4
+    20        maskData: true
+    21        usSocialSecurityNumbers: true
+    22      enforcementMode: blocking
+    23      name: dataguard-alarm
+    24      template:
+    25        name: POLICY_TEMPLATE_NGINX_BASE
+----
+
+In the terminal window, paste the below, to reapply
+the `ap-dataguard-alarm-policy.yaml` config.
 
 [source,sh,role=execute]
 ----
 oc apply -f ap-dataguard-alarm-policy.yaml
 ----
 
-[arabic, start=2]
 . The `ap-logconf.yaml` file creates the Log Profile that specifies the
 format of the logs to be generated when the policy detects an attack.
 
-{empty}3. The `waf.yaml` file creates the WAF configuration that links
+. The `waf.yaml` file creates the WAF configuration that links
 the WAF policy and Log Profile to the NGINX Ingress Controller.
 
 == Attach NAP Policy to the NGINX Ingress Controller’s Virtual Server
@@ -215,15 +235,32 @@ Server.
 ----
 oc get virtualserver arcadia
 ----
+
 . Update VirtualServer resource
 +
+When you run `oc edit`, OpenShift automatically detects the changes as soon as you save and exit the editor. It will validate and apply the updated resource immediately.
+
+You can use `vi` commands to make changes to the file
+
+[cols="1,2", options="header"]
+|===
+| Command | Description
+
+| i       | Enter insert mode
+| dd      | Delete current line
+| :wq     | Save and quit
+| :q!     | Quit without saving
+| Esc     | Exit insert mode
+|===
 
 [source,sh,role=execute]
 ----
 oc edit virtualserver arcadia
 ----
+
 . Add the following content to the lines immediately following
-[.title-ref]#host: $nginx_ingress#, at the same indentation level:
+[.title-ref]#host: $nginx_ingress#, at the same indentation level. 
+
 +
 
 [source,sh,role=execute]
@@ -234,7 +271,7 @@ policies:
 
 Once modified, your `virtualserver` yml should resemble this:
 
-[source,sh,role=execute]
+[source]
 ----
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
@@ -256,7 +293,7 @@ spec:
     port: 80
 ----
 
-The waf-policy should match the name of the WAF policy created in step
-2.6.
 
 Save the file and exit the editor.
+
+We are now ready to test our WAF.

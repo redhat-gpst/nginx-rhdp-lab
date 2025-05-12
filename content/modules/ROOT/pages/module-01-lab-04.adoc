@@ -386,7 +386,7 @@ curl --insecure "https://$nginx_ingress/"
 
 [source,texinfo,subs="attributes"]
 ----
- $ curl --insecure "https://$nginx_ingress/" 
+ $ curl -k "https://$nginx_ingress/" 
  
 <html>
 <head><title>400 No required SSL certificate was sent</title></head>
@@ -420,7 +420,7 @@ Now, try to access the Arcadia application using the `curl` command:
 
 [source,shell,role="execute"]
 ----
-curl --insecure https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
+curl -k https://$nginx_ingress/ --cert client-cert.pem --key client-key.pem
 ----
 
 This command attempts to establish a secure connection to the NGINX Ingress Controller using mTLS.
