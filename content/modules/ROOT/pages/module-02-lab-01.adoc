@@ -110,7 +110,7 @@ Protect. In this lab, we have already loaded the NGINX Plus image with App Prote
 
 After applying the patch, wait for the KIC pod to become available by running
 the command:
-+
+
 [source,sh,role=execute]
 ----
 oc get pod -n nginx-ingress --watch
@@ -150,7 +150,7 @@ set.
 Remove these lines from `ap-dataguard-alarm-policy.yaml`
 
 
-[source,sh,role=execute]
+[source,sh]
 ----
 signature-requirements:
 - tag: Fruits
@@ -173,6 +173,11 @@ sed -i '/signature-requirements:/,/eq/d' ap-dataguard-alarm-policy.yaml
 ----
 
 Once modified, your `ap-dataguard-alarm-policy.yaml` should look like this:
+
+[source,sh,role=execute]
+----
+cat -n ap-dataguard-alarm-policy.yaml 
+----
 
 [source,sh]
 ----

